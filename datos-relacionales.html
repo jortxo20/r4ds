@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>13 Datos relacionales | R para Ciencia de Datos</title>
+  <meta name="description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="13 Datos relacionales | R para Ciencia de Datos" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://es.r4ds.hadley.nz/" />
+  <meta property="og:image" content="http://es.r4ds.hadley.nz/cover.png" />
+  <meta property="og:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="github-repo" content="cienciadedatos/r4ds" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="13 Datos relacionales | R para Ciencia de Datos" />
+  
+  <meta name="twitter:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="twitter:image" content="http://es.r4ds.hadley.nz/cover.png" />
+
+<meta name="author" content="Garrett Grolemund" />
+<meta name="author" content="Hadley Wickham" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="datos-ordenados.html"/>
+<link rel="next" href="cadenas-de-caracteres.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="r4ds.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">R para Ciencia de Datos</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenida</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-traducción"><i class="fa fa-check"></i>Sobre la traducción</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-versión-original-en-inglés"><i class="fa fa-check"></i>Sobre la versión original en inglés</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html#lo-que-aprenderás"><i class="fa fa-check"></i><b>1.1</b> Lo que aprenderás</a></li>
+<li class="chapter" data-level="1.2" data-path="introducción.html"><a href="introducción.html#cómo-está-organizado-este-libro"><i class="fa fa-check"></i><b>1.2</b> Cómo está organizado este libro</a></li>
+<li class="chapter" data-level="1.3" data-path="introducción.html"><a href="introducción.html#qué-no-vas-a-aprender"><i class="fa fa-check"></i><b>1.3</b> Qué no vas a aprender</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="introducción.html"><a href="introducción.html#big-data"><i class="fa fa-check"></i><b>1.3.1</b> Big data</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introducción.html"><a href="introducción.html#python-julia-y-amigos"><i class="fa fa-check"></i><b>1.3.2</b> Python, Julia y amigos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introducción.html"><a href="introducción.html#datos-no-rectangulares"><i class="fa fa-check"></i><b>1.3.3</b> Datos no rectangulares</a></li>
+<li class="chapter" data-level="1.3.4" data-path="introducción.html"><a href="introducción.html#confirmación-de-hipótesis"><i class="fa fa-check"></i><b>1.3.4</b> Confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introducción.html"><a href="introducción.html#prerrequisitos"><i class="fa fa-check"></i><b>1.4</b> Prerrequisitos</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introducción.html"><a href="introducción.html#r"><i class="fa fa-check"></i><b>1.4.1</b> R</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introducción.html"><a href="introducción.html#rstudio"><i class="fa fa-check"></i><b>1.4.2</b> RStudio</a></li>
+<li class="chapter" data-level="1.4.3" data-path="introducción.html"><a href="introducción.html#el-tidyverse"><i class="fa fa-check"></i><b>1.4.3</b> El Tidyverse</a></li>
+<li class="chapter" data-level="1.4.4" data-path="introducción.html"><a href="introducción.html#el-paquete-datos"><i class="fa fa-check"></i><b>1.4.4</b> El paquete <code>datos</code></a></li>
+<li class="chapter" data-level="1.4.5" data-path="introducción.html"><a href="introducción.html#otros-paquetes"><i class="fa fa-check"></i><b>1.4.5</b> Otros paquetes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introducción.html"><a href="introducción.html#ejecutar-código-en-r"><i class="fa fa-check"></i><b>1.5</b> Ejecutar código en R</a></li>
+<li class="chapter" data-level="1.6" data-path="introducción.html"><a href="introducción.html#pedir-ayuda-y-aprender-más"><i class="fa fa-check"></i><b>1.6</b> Pedir ayuda y aprender más</a></li>
+<li class="chapter" data-level="1.7" data-path="introducción.html"><a href="introducción.html#agradecimientos"><i class="fa fa-check"></i><b>1.7</b> Agradecimientos</a></li>
+<li class="chapter" data-level="1.8" data-path="introducción.html"><a href="introducción.html#colofón"><i class="fa fa-check"></i><b>1.8</b> Colofón</a></li>
+</ul></li>
+<li class="part"><span><b>I Explorar</b></span></li>
+<li class="chapter" data-level="2" data-path="explorar-introduccion.html"><a href="explorar-introduccion.html"><i class="fa fa-check"></i><b>2</b> Introducción</a></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#introducción-1"><i class="fa fa-check"></i><b>3.1</b> Introducción</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#prerrequisitos-1"><i class="fa fa-check"></i><b>3.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#primeros-pasos"><i class="fa fa-check"></i><b>3.2</b> Primeros pasos</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#el-data-frame-millas"><i class="fa fa-check"></i><b>3.2.1</b> El data frame <code>millas</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#creando-un-gráfico-con-ggplot"><i class="fa fa-check"></i><b>3.2.2</b> Creando un gráfico con ggplot</a></li>
+<li class="chapter" data-level="3.2.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#una-plantilla-de-gráficos"><i class="fa fa-check"></i><b>3.2.3</b> Una plantilla de gráficos</a></li>
+<li class="chapter" data-level="3.2.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios"><i class="fa fa-check"></i><b>3.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#mapeos-estéticos"><i class="fa fa-check"></i><b>3.3</b> Mapeos estéticos</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-1"><i class="fa fa-check"></i><b>3.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#problemas-comunes"><i class="fa fa-check"></i><b>3.4</b> Problemas comunes</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#separar-en-facetas"><i class="fa fa-check"></i><b>3.5</b> Separar en facetas</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-2"><i class="fa fa-check"></i><b>3.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#objetos-geométricos"><i class="fa fa-check"></i><b>3.6</b> Objetos geométricos</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-3"><i class="fa fa-check"></i><b>3.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#transformaciones-estadísticas"><i class="fa fa-check"></i><b>3.7</b> Transformaciones estadísticas</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-4"><i class="fa fa-check"></i><b>3.7.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ajustes-de-posición"><i class="fa fa-check"></i><b>3.8</b> Ajustes de posición</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-5"><i class="fa fa-check"></i><b>3.8.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#sistemas-de-coordenadas"><i class="fa fa-check"></i><b>3.9</b> Sistemas de coordenadas</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-6"><i class="fa fa-check"></i><b>3.9.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#la-gramática-de-gráficos-en-capas"><i class="fa fa-check"></i><b>3.10</b> La gramática de gráficos en capas</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html"><i class="fa fa-check"></i><b>4</b> Flujo de trabajo: conocimientos básicos</a><ul>
+<li class="chapter" data-level="4.1" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#conocimientos-básicos-de-programación"><i class="fa fa-check"></i><b>4.1</b> Conocimientos básicos de programación</a></li>
+<li class="chapter" data-level="4.2" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#la-importancia-de-los-nombres"><i class="fa fa-check"></i><b>4.2</b> La importancia de los nombres</a></li>
+<li class="chapter" data-level="4.3" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#usando-funciones"><i class="fa fa-check"></i><b>4.3</b> Usando funciones</a></li>
+<li class="chapter" data-level="4.4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#ejercicios-7"><i class="fa fa-check"></i><b>4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="transform.html"><a href="transform.html"><i class="fa fa-check"></i><b>5</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="5.1" data-path="transform.html"><a href="transform.html#introducción-2"><i class="fa fa-check"></i><b>5.1</b> Introducción</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="transform.html"><a href="transform.html#prerequisitos"><i class="fa fa-check"></i><b>5.1.1</b> Prerequisitos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="transform.html"><a href="transform.html#vuelos"><i class="fa fa-check"></i><b>5.1.2</b> vuelos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="transform.html"><a href="transform.html#lo-básico-de-dplyr"><i class="fa fa-check"></i><b>5.1.3</b> Lo básico de <strong>dplyr</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="transform.html"><a href="transform.html#filtrar-filas-con-filter"><i class="fa fa-check"></i><b>5.2</b> Filtrar filas con <code>filter()</code></a><ul>
+<li class="chapter" data-level="5.2.1" data-path="transform.html"><a href="transform.html#comparaciones"><i class="fa fa-check"></i><b>5.2.1</b> Comparaciones</a></li>
+<li class="chapter" data-level="5.2.2" data-path="transform.html"><a href="transform.html#operadores-lógicos"><i class="fa fa-check"></i><b>5.2.2</b> Operadores lógicos</a></li>
+<li class="chapter" data-level="5.2.3" data-path="transform.html"><a href="transform.html#valores-faltantes"><i class="fa fa-check"></i><b>5.2.3</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.2.4" data-path="transform.html"><a href="transform.html#ejercicios-8"><i class="fa fa-check"></i><b>5.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="transform.html"><a href="transform.html#reordenar-las-filas-con-arrange"><i class="fa fa-check"></i><b>5.3</b> Reordenar las filas con <code>arrange()</code></a><ul>
+<li class="chapter" data-level="5.3.1" data-path="transform.html"><a href="transform.html#ejercicios-9"><i class="fa fa-check"></i><b>5.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="transform.html"><a href="transform.html#select"><i class="fa fa-check"></i><b>5.4</b> Seleccionar columnas con <code>select()</code></a><ul>
+<li class="chapter" data-level="5.4.1" data-path="transform.html"><a href="transform.html#ejercicios-10"><i class="fa fa-check"></i><b>5.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="transform.html"><a href="transform.html#añadir-nuevas-variables-con-mutate"><i class="fa fa-check"></i><b>5.5</b> Añadir nuevas variables con <code>mutate()</code></a><ul>
+<li class="chapter" data-level="5.5.1" data-path="transform.html"><a href="transform.html#mutate-funs"><i class="fa fa-check"></i><b>5.5.1</b> Funciones de creación útiles</a></li>
+<li class="chapter" data-level="5.5.2" data-path="transform.html"><a href="transform.html#ejercicios-11"><i class="fa fa-check"></i><b>5.5.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="transform.html"><a href="transform.html#resúmenes-agrupados-con-summarise"><i class="fa fa-check"></i><b>5.6</b> Resúmenes agrupados con <code>summarise()</code></a><ul>
+<li class="chapter" data-level="5.6.1" data-path="transform.html"><a href="transform.html#combinación-de-múltiples-operaciones-con-el-pipe"><i class="fa fa-check"></i><b>5.6.1</b> Combinación de múltiples operaciones con el <em>pipe</em></a></li>
+<li class="chapter" data-level="5.6.2" data-path="transform.html"><a href="transform.html#valores-faltantes-1"><i class="fa fa-check"></i><b>5.6.2</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.6.3" data-path="transform.html"><a href="transform.html#conteos"><i class="fa fa-check"></i><b>5.6.3</b> Conteos</a></li>
+<li class="chapter" data-level="5.6.4" data-path="transform.html"><a href="transform.html#summarise-funs"><i class="fa fa-check"></i><b>5.6.4</b> Funciones de resumen útiles</a></li>
+<li class="chapter" data-level="5.6.5" data-path="transform.html"><a href="transform.html#agrupación-por-múltiples-variables"><i class="fa fa-check"></i><b>5.6.5</b> Agrupación por múltiples variables</a></li>
+<li class="chapter" data-level="5.6.6" data-path="transform.html"><a href="transform.html#desagrupar"><i class="fa fa-check"></i><b>5.6.6</b> Desagrupar</a></li>
+<li class="chapter" data-level="5.6.7" data-path="transform.html"><a href="transform.html#ejercicios-12"><i class="fa fa-check"></i><b>5.6.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="transform.html"><a href="transform.html#transformaciones-agrupadas-y-filtros"><i class="fa fa-check"></i><b>5.7</b> Transformaciones agrupadas (y filtros)</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="transform.html"><a href="transform.html#ejercicios-13"><i class="fa fa-check"></i><b>5.7.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html"><i class="fa fa-check"></i><b>6</b> Flujo de trabajo: <em>Scripts</em></a><ul>
+<li class="chapter" data-level="6.1" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejecutando-código"><i class="fa fa-check"></i><b>6.1</b> Ejecutando código</a></li>
+<li class="chapter" data-level="6.2" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#diagnósticos-de-rstudio"><i class="fa fa-check"></i><b>6.2</b> Diagnósticos de RStudio</a></li>
+<li class="chapter" data-level="6.3" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejercicios-14"><i class="fa fa-check"></i><b>6.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html"><i class="fa fa-check"></i><b>7</b> Análisis exploratorio de datos (<em>EDA</em>)</a><ul>
+<li class="chapter" data-level="7.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#introducción-3"><i class="fa fa-check"></i><b>7.1</b> Introducción</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#requisitos-indispensables"><i class="fa fa-check"></i><b>7.1.1</b> Requisitos indispensables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#preguntas"><i class="fa fa-check"></i><b>7.2</b> Preguntas</a></li>
+<li class="chapter" data-level="7.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#variación"><i class="fa fa-check"></i><b>7.3</b> Variación</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#visualizando-distribuciones"><i class="fa fa-check"></i><b>7.3.1</b> Visualizando distribuciones</a></li>
+<li class="chapter" data-level="7.3.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-típicos"><i class="fa fa-check"></i><b>7.3.2</b> Valores típicos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-inusuales"><i class="fa fa-check"></i><b>7.3.3</b> Valores inusuales</a></li>
+<li class="chapter" data-level="7.3.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-15"><i class="fa fa-check"></i><b>7.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-faltantes-2"><i class="fa fa-check"></i><b>7.4</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-16"><i class="fa fa-check"></i><b>7.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#covariación"><i class="fa fa-check"></i><b>7.5</b> Covariación</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#cat-cont"><i class="fa fa-check"></i><b>7.5.1</b> Una variable categórica y una variable continua</a></li>
+<li class="chapter" data-level="7.5.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-categóricas"><i class="fa fa-check"></i><b>7.5.2</b> Dos variables categóricas</a></li>
+<li class="chapter" data-level="7.5.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-continuas"><i class="fa fa-check"></i><b>7.5.3</b> Dos variables continuas</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#patrones-y-modelos"><i class="fa fa-check"></i><b>7.6</b> Patrones y modelos</a></li>
+<li class="chapter" data-level="7.7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#argumentos-en-ggplot2"><i class="fa fa-check"></i><b>7.7</b> Argumentos en ggplot2</a></li>
+<li class="chapter" data-level="7.8" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#aprendiendo-más"><i class="fa fa-check"></i><b>7.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html"><i class="fa fa-check"></i><b>8</b> Flujo de trabajo: proyectos</a><ul>
+<li class="chapter" data-level="8.1" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#qué-es-real"><i class="fa fa-check"></i><b>8.1</b> ¿Qué es real?</a></li>
+<li class="chapter" data-level="8.2" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#dónde-vive-tu-análisis"><i class="fa fa-check"></i><b>8.2</b> ¿Dónde vive tu análisis?</a></li>
+<li class="chapter" data-level="8.3" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#rutas-y-directorios"><i class="fa fa-check"></i><b>8.3</b> Rutas y directorios</a></li>
+<li class="chapter" data-level="8.4" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#proyectos-en-rstudio"><i class="fa fa-check"></i><b>8.4</b> Proyectos en RStudio</a></li>
+<li class="chapter" data-level="8.5" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#resumen"><i class="fa fa-check"></i><b>8.5</b> Resumen</a></li>
+</ul></li>
+<li class="part"><span><b>II Manejar o domar datos</b></span></li>
+<li class="chapter" data-level="9" data-path="domardatos-intro.html"><a href="domardatos-intro.html"><i class="fa fa-check"></i><b>9</b> Introducción</a></li>
+<li class="chapter" data-level="10" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>10</b> Tibbles</a><ul>
+<li class="chapter" data-level="10.1" data-path="tibbles.html"><a href="tibbles.html#introducción-4"><i class="fa fa-check"></i><b>10.1</b> Introducción</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="tibbles.html"><a href="tibbles.html#prerrequisitos-2"><i class="fa fa-check"></i><b>10.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tibbles.html"><a href="tibbles.html#creando-tibbles"><i class="fa fa-check"></i><b>10.2</b> Creando tibbles</a></li>
+<li class="chapter" data-level="10.3" data-path="tibbles.html"><a href="tibbles.html#tibbles-vs.data.frame"><i class="fa fa-check"></i><b>10.3</b> Tibbles vs. data.frame</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="tibbles.html"><a href="tibbles.html#impresión-en-la-consola"><i class="fa fa-check"></i><b>10.3.1</b> Impresión en la consola</a></li>
+<li class="chapter" data-level="10.3.2" data-path="tibbles.html"><a href="tibbles.html#selección-de-subconjuntos"><i class="fa fa-check"></i><b>10.3.2</b> Selección de subconjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="tibbles.html"><a href="tibbles.html#interactuando-con-código-antiguo"><i class="fa fa-check"></i><b>10.4</b> Interactuando con código antiguo</a></li>
+<li class="chapter" data-level="10.5" data-path="tibbles.html"><a href="tibbles.html#ejercicios-20"><i class="fa fa-check"></i><b>10.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="importación-de-datos.html"><a href="importación-de-datos.html"><i class="fa fa-check"></i><b>11</b> Importación de datos</a><ul>
+<li class="chapter" data-level="11.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#introducción-5"><i class="fa fa-check"></i><b>11.1</b> Introducción</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#prerrequisitos-3"><i class="fa fa-check"></i><b>11.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comenzando"><i class="fa fa-check"></i><b>11.2</b> Comenzando</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comparación-con-r-base"><i class="fa fa-check"></i><b>11.2.1</b> Comparación con R base</a></li>
+<li class="chapter" data-level="11.2.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-21"><i class="fa fa-check"></i><b>11.2.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-vector"><i class="fa fa-check"></i><b>11.3</b> Segmentar un vector</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#números"><i class="fa fa-check"></i><b>11.3.1</b> Números</a></li>
+<li class="chapter" data-level="11.3.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-strings"><i class="fa fa-check"></i><b>11.3.2</b> Cadenas de texto (<em>strings</em>)</a></li>
+<li class="chapter" data-level="11.3.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-factors"><i class="fa fa-check"></i><b>11.3.3</b> Factores</a></li>
+<li class="chapter" data-level="11.3.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-datetimes"><i class="fa fa-check"></i><b>11.3.4</b> Fechas, fechas-horas, y horas</a></li>
+<li class="chapter" data-level="11.3.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-22"><i class="fa fa-check"></i><b>11.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-archivo"><i class="fa fa-check"></i><b>11.4</b> Segmentar un archivo</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#estrategia"><i class="fa fa-check"></i><b>11.4.1</b> Estrategia</a></li>
+<li class="chapter" data-level="11.4.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#problemas"><i class="fa fa-check"></i><b>11.4.2</b> Problemas</a></li>
+<li class="chapter" data-level="11.4.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otras-estrategias"><i class="fa fa-check"></i><b>11.4.3</b> Otras estrategias</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#escribir-a-un-archivo"><i class="fa fa-check"></i><b>11.5</b> Escribir a un archivo</a></li>
+<li class="chapter" data-level="11.6" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otros-tipos-de-datos"><i class="fa fa-check"></i><b>11.6</b> Otros tipos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="datos-ordenados.html"><a href="datos-ordenados.html"><i class="fa fa-check"></i><b>12</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#introducción-6"><i class="fa fa-check"></i><b>12.1</b> Introducción</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#prerrequisitos-4"><i class="fa fa-check"></i><b>12.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-ordenados-1"><i class="fa fa-check"></i><b>12.2</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-23"><i class="fa fa-check"></i><b>12.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#pivotar"><i class="fa fa-check"></i><b>12.3</b> Pivotar</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-largos"><i class="fa fa-check"></i><b>12.3.1</b> Datos “largos”</a></li>
+<li class="chapter" data-level="12.3.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-anchos"><i class="fa fa-check"></i><b>12.3.2</b> Datos “anchos”</a></li>
+<li class="chapter" data-level="12.3.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-24"><i class="fa fa-check"></i><b>12.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar-y-unir"><i class="fa fa-check"></i><b>12.4</b> Separar y unir</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar"><i class="fa fa-check"></i><b>12.4.1</b> Separar</a></li>
+<li class="chapter" data-level="12.4.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#unir"><i class="fa fa-check"></i><b>12.4.2</b> Unir</a></li>
+<li class="chapter" data-level="12.4.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-25"><i class="fa fa-check"></i><b>12.4.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="datos-ordenados.html"><a href="datos-ordenados.html#valores-faltantes-3"><i class="fa fa-check"></i><b>12.5</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-26"><i class="fa fa-check"></i><b>12.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="datos-ordenados.html"><a href="datos-ordenados.html#estudio-de-caso"><i class="fa fa-check"></i><b>12.6</b> Estudio de caso</a><ul>
+<li class="chapter" data-level="12.6.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-27"><i class="fa fa-check"></i><b>12.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-no-ordenados"><i class="fa fa-check"></i><b>12.7</b> Datos no ordenados</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="datos-relacionales.html"><a href="datos-relacionales.html"><i class="fa fa-check"></i><b>13</b> Datos relacionales</a><ul>
+<li class="chapter" data-level="13.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#introducción-7"><i class="fa fa-check"></i><b>13.1</b> Introducción</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#prerrequisitos-5"><i class="fa fa-check"></i><b>13.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#nycflights13-relational"><i class="fa fa-check"></i><b>13.2</b> Datos sobre vuelos</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-28"><i class="fa fa-check"></i><b>13.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#claves"><i class="fa fa-check"></i><b>13.3</b> Claves</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-29"><i class="fa fa-check"></i><b>13.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#mutating-joins"><i class="fa fa-check"></i><b>13.4</b> Uniones de transformación</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#entendiendo-las-uniones"><i class="fa fa-check"></i><b>13.4.1</b> Entendiendo las uniones</a></li>
+<li class="chapter" data-level="13.4.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#inner-join"><i class="fa fa-check"></i><b>13.4.2</b> Unión interior</a></li>
+<li class="chapter" data-level="13.4.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#outer-join"><i class="fa fa-check"></i><b>13.4.3</b> Uniones exteriores</a></li>
+<li class="chapter" data-level="13.4.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-matches"><i class="fa fa-check"></i><b>13.4.4</b> Claves duplicadas</a></li>
+<li class="chapter" data-level="13.4.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-by"><i class="fa fa-check"></i><b>13.4.5</b> Definiendo las columnas clave</a></li>
+<li class="chapter" data-level="13.4.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-30"><i class="fa fa-check"></i><b>13.4.6</b> Ejercicios</a></li>
+<li class="chapter" data-level="13.4.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#otras-implementaciones"><i class="fa fa-check"></i><b>13.4.7</b> Otras implementaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#filtering-joins"><i class="fa fa-check"></i><b>13.5</b> Uniones de filtro</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-31"><i class="fa fa-check"></i><b>13.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#problemas-con-las-uniones"><i class="fa fa-check"></i><b>13.6</b> Problemas con las uniones</a></li>
+<li class="chapter" data-level="13.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#set-operations"><i class="fa fa-check"></i><b>13.7</b> Operaciones de conjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html"><i class="fa fa-check"></i><b>14</b> Cadenas de caracteres</a><ul>
+<li class="chapter" data-level="14.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#introducción-8"><i class="fa fa-check"></i><b>14.1</b> Introducción</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#prerequisitos-1"><i class="fa fa-check"></i><b>14.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#cadenas-elementos-básicos"><i class="fa fa-check"></i><b>14.2</b> Cadenas: elementos básicos</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#largo-de-cadena"><i class="fa fa-check"></i><b>14.2.1</b> Largo de cadena</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#combinar-cadenas"><i class="fa fa-check"></i><b>14.2.2</b> Combinar cadenas</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#dividir-cadenas"><i class="fa fa-check"></i><b>14.2.3</b> Dividir cadenas</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#locales"><i class="fa fa-check"></i><b>14.2.4</b> <em>Locales</em></a></li>
+<li class="chapter" data-level="14.2.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-32"><i class="fa fa-check"></i><b>14.2.5</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.2.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencia-de-patrones-con-expresiones-regulares"><i class="fa fa-check"></i><b>14.2.6</b> Buscar coincidencia de patrones con expresiones regulares</a></li>
+<li class="chapter" data-level="14.2.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-básicas"><i class="fa fa-check"></i><b>14.2.7</b> Coincidencias básicas</a></li>
+<li class="chapter" data-level="14.2.8" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#anclas"><i class="fa fa-check"></i><b>14.2.8</b> Anclas</a></li>
+<li class="chapter" data-level="14.2.9" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#clases-de-caracteres-y-alternativas"><i class="fa fa-check"></i><b>14.2.9</b> Clases de caracteres y alternativas</a></li>
+<li class="chapter" data-level="14.2.10" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#repetición"><i class="fa fa-check"></i><b>14.2.10</b> Repetición</a></li>
+<li class="chapter" data-level="14.2.11" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#agrupamiento-y-referencias-previas"><i class="fa fa-check"></i><b>14.2.11</b> Agrupamiento y referencias previas</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#herramientas"><i class="fa fa-check"></i><b>14.3</b> Herramientas</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#detectar-coincidencias"><i class="fa fa-check"></i><b>14.3.1</b> Detectar coincidencias</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-38"><i class="fa fa-check"></i><b>14.3.2</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.3.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#extraer-coincidencias"><i class="fa fa-check"></i><b>14.3.3</b> Extraer coincidencias</a></li>
+<li class="chapter" data-level="14.3.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-agrupadas"><i class="fa fa-check"></i><b>14.3.4</b> Coincidencias agrupadas</a></li>
+<li class="chapter" data-level="14.3.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#remplazar-coincidencias"><i class="fa fa-check"></i><b>14.3.5</b> Remplazar coincidencias</a></li>
+<li class="chapter" data-level="14.3.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#divisiones"><i class="fa fa-check"></i><b>14.3.6</b> Divisiones</a></li>
+<li class="chapter" data-level="14.3.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencias"><i class="fa fa-check"></i><b>14.3.7</b> Buscar coincidencias</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otro-tipo-de-patrones"><i class="fa fa-check"></i><b>14.4</b> Otro tipo de patrones</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-43"><i class="fa fa-check"></i><b>14.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otros-usos-de-las-expresiones-regulares."><i class="fa fa-check"></i><b>14.5</b> Otros usos de las expresiones regulares.</a></li>
+<li class="chapter" data-level="14.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#stringi"><i class="fa fa-check"></i><b>14.6</b> stringi</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-44"><i class="fa fa-check"></i><b>14.6.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="factores.html"><a href="factores.html"><i class="fa fa-check"></i><b>15</b> Factores</a><ul>
+<li class="chapter" data-level="15.1" data-path="factores.html"><a href="factores.html#introducción-9"><i class="fa fa-check"></i><b>15.1</b> Introducción</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="factores.html"><a href="factores.html#prerrequisitos-6"><i class="fa fa-check"></i><b>15.1.1</b> Prerrequisitos</a></li>
+<li class="chapter" data-level="15.1.2" data-path="factores.html"><a href="factores.html#aprendiendo-más-1"><i class="fa fa-check"></i><b>15.1.2</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="factores.html"><a href="factores.html#creando-factores"><i class="fa fa-check"></i><b>15.2</b> Creando factores</a></li>
+<li class="chapter" data-level="15.3" data-path="factores.html"><a href="factores.html#encuesta-social-general"><i class="fa fa-check"></i><b>15.3</b> Encuesta Social General</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="factores.html"><a href="factores.html#ejercicios-45"><i class="fa fa-check"></i><b>15.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="factores.html"><a href="factores.html#modificar-el-orden-de-los-factores"><i class="fa fa-check"></i><b>15.4</b> Modificar el orden de los factores</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="factores.html"><a href="factores.html#ejercicios-46"><i class="fa fa-check"></i><b>15.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="factores.html"><a href="factores.html#modificar-los-niveles-de-los-factores"><i class="fa fa-check"></i><b>15.5</b> Modificar los niveles de los factores</a><ul>
+<li class="chapter" data-level="15.5.1" data-path="factores.html"><a href="factores.html#ejercicios-47"><i class="fa fa-check"></i><b>15.5.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html"><i class="fa fa-check"></i><b>16</b> Fechas y horas</a><ul>
+<li class="chapter" data-level="16.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#introducción-10"><i class="fa fa-check"></i><b>16.1</b> Introducción</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#requisitos-previos"><i class="fa fa-check"></i><b>16.1.1</b> Requisitos previos</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#creando-fechashoras"><i class="fa fa-check"></i><b>16.2</b> Creando fechas/horas</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-cadenas-de-caracteres"><i class="fa fa-check"></i><b>16.2.1</b> Desde cadenas de caracteres</a></li>
+<li class="chapter" data-level="16.2.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-componentes-individuales"><i class="fa fa-check"></i><b>16.2.2</b> Desde componentes individuales</a></li>
+<li class="chapter" data-level="16.2.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-otros-tipos"><i class="fa fa-check"></i><b>16.2.3</b> Desde otros tipos</a></li>
+<li class="chapter" data-level="16.2.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-48"><i class="fa fa-check"></i><b>16.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#componentes-de-fecha-hora"><i class="fa fa-check"></i><b>16.3</b> Componentes de fecha-hora</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#obteniendo-los-componentes"><i class="fa fa-check"></i><b>16.3.1</b> Obteniendo los componentes</a></li>
+<li class="chapter" data-level="16.3.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#redondeo"><i class="fa fa-check"></i><b>16.3.2</b> Redondeo</a></li>
+<li class="chapter" data-level="16.3.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#configurando-componentes"><i class="fa fa-check"></i><b>16.3.3</b> Configurando componentes</a></li>
+<li class="chapter" data-level="16.3.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-49"><i class="fa fa-check"></i><b>16.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#lapsos-de-tiempo"><i class="fa fa-check"></i><b>16.4</b> Lapsos de tiempo</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#duraciones"><i class="fa fa-check"></i><b>16.4.1</b> Duraciones</a></li>
+<li class="chapter" data-level="16.4.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#períodos"><i class="fa fa-check"></i><b>16.4.2</b> Períodos</a></li>
+<li class="chapter" data-level="16.4.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#intervalos"><i class="fa fa-check"></i><b>16.4.3</b> Intervalos</a></li>
+<li class="chapter" data-level="16.4.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#resumen-1"><i class="fa fa-check"></i><b>16.4.4</b> Resumen</a></li>
+<li class="chapter" data-level="16.4.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-50"><i class="fa fa-check"></i><b>16.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#husos-horarios"><i class="fa fa-check"></i><b>16.5</b> Husos horarios</a></li>
+</ul></li>
+<li class="part"><span><b>III Programar</b></span></li>
+<li class="chapter" data-level="17" data-path="programar-intro.html"><a href="programar-intro.html"><i class="fa fa-check"></i><b>17</b> Introducción</a><ul>
+<li class="chapter" data-level="17.1" data-path="programar-intro.html"><a href="programar-intro.html#aprendiendo-más-2"><i class="fa fa-check"></i><b>17.1</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>18</b> Pipes</a><ul>
+<li class="chapter" data-level="18.1" data-path="pipes.html"><a href="pipes.html#introducción-11"><i class="fa fa-check"></i><b>18.1</b> Introducción</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="pipes.html"><a href="pipes.html#prerequisitos-2"><i class="fa fa-check"></i><b>18.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="pipes.html"><a href="pipes.html#alternativas-a-los-pipes"><i class="fa fa-check"></i><b>18.2</b> Alternativas a los pipes</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="pipes.html"><a href="pipes.html#pasos-intermedios"><i class="fa fa-check"></i><b>18.2.1</b> Pasos intermedios</a></li>
+<li class="chapter" data-level="18.2.2" data-path="pipes.html"><a href="pipes.html#sobrescribir-el-original"><i class="fa fa-check"></i><b>18.2.2</b> Sobrescribir el original</a></li>
+<li class="chapter" data-level="18.2.3" data-path="pipes.html"><a href="pipes.html#composición-de-funciones"><i class="fa fa-check"></i><b>18.2.3</b> Composición de funciones</a></li>
+<li class="chapter" data-level="18.2.4" data-path="pipes.html"><a href="pipes.html#uso-de-pipe"><i class="fa fa-check"></i><b>18.2.4</b> Uso de pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="pipes.html"><a href="pipes.html#cuándo-no-usar-el-pipe"><i class="fa fa-check"></i><b>18.3</b> Cuándo no usar el pipe</a></li>
+<li class="chapter" data-level="18.4" data-path="pipes.html"><a href="pipes.html#otras-herramientas-de-magrittr"><i class="fa fa-check"></i><b>18.4</b> Otras herramientas de magrittr</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>19</b> Funciones</a><ul>
+<li class="chapter" data-level="19.1" data-path="funciones.html"><a href="funciones.html#introducción-12"><i class="fa fa-check"></i><b>19.1</b> Introducción</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="funciones.html"><a href="funciones.html#prerrequisitos-7"><i class="fa fa-check"></i><b>19.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="funciones.html"><a href="funciones.html#cuándo-deberías-escribir-una-función"><i class="fa fa-check"></i><b>19.2</b> ¿Cuándo deberías escribir una función?</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="funciones.html"><a href="funciones.html#ejercicios-51"><i class="fa fa-check"></i><b>19.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="funciones.html"><a href="funciones.html#las-funciones-son-para-los-seres-humanos-y-para-las-computadoras"><i class="fa fa-check"></i><b>19.3</b> Las funciones son para los seres humanos y para las computadoras</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="funciones.html"><a href="funciones.html#ejercicios-52"><i class="fa fa-check"></i><b>19.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="funciones.html"><a href="funciones.html#ejecución-condicional"><i class="fa fa-check"></i><b>19.4</b> Ejecución condicional</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="funciones.html"><a href="funciones.html#condiciones"><i class="fa fa-check"></i><b>19.4.1</b> Condiciones</a></li>
+<li class="chapter" data-level="19.4.2" data-path="funciones.html"><a href="funciones.html#condiciones-múltiples"><i class="fa fa-check"></i><b>19.4.2</b> Condiciones múltiples</a></li>
+<li class="chapter" data-level="19.4.3" data-path="funciones.html"><a href="funciones.html#estilo-del-código"><i class="fa fa-check"></i><b>19.4.3</b> Estilo del código</a></li>
+<li class="chapter" data-level="19.4.4" data-path="funciones.html"><a href="funciones.html#ejercicios-53"><i class="fa fa-check"></i><b>19.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="funciones.html"><a href="funciones.html#argumentos-de-funciones"><i class="fa fa-check"></i><b>19.5</b> Argumentos de funciones</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="funciones.html"><a href="funciones.html#elección-de-nombres"><i class="fa fa-check"></i><b>19.5.1</b> Elección de nombres</a></li>
+<li class="chapter" data-level="19.5.2" data-path="funciones.html"><a href="funciones.html#chequear-valores"><i class="fa fa-check"></i><b>19.5.2</b> Chequear valores</a></li>
+<li class="chapter" data-level="19.5.3" data-path="funciones.html"><a href="funciones.html#punto-punto-punto"><i class="fa fa-check"></i><b>19.5.3</b> Punto-punto-punto (…)</a></li>
+<li class="chapter" data-level="19.5.4" data-path="funciones.html"><a href="funciones.html#evaluación-diferida"><i class="fa fa-check"></i><b>19.5.4</b> Evaluación diferida</a></li>
+<li class="chapter" data-level="19.5.5" data-path="funciones.html"><a href="funciones.html#ejercicios-54"><i class="fa fa-check"></i><b>19.5.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.6" data-path="funciones.html"><a href="funciones.html#valores-de-retorno"><i class="fa fa-check"></i><b>19.6</b> Valores de retorno</a><ul>
+<li class="chapter" data-level="19.6.1" data-path="funciones.html"><a href="funciones.html#sentencias-de-retorno-explícitas"><i class="fa fa-check"></i><b>19.6.1</b> Sentencias de retorno explícitas</a></li>
+<li class="chapter" data-level="19.6.2" data-path="funciones.html"><a href="funciones.html#escribir-funciones-aptas-para-un-pipe"><i class="fa fa-check"></i><b>19.6.2</b> Escribir funciones aptas para un pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="19.7" data-path="funciones.html"><a href="funciones.html#entorno"><i class="fa fa-check"></i><b>19.7</b> Entorno</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>20</b> Vectores</a><ul>
+<li class="chapter" data-level="20.1" data-path="vectores.html"><a href="vectores.html#introducción-13"><i class="fa fa-check"></i><b>20.1</b> Introducción</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="vectores.html"><a href="vectores.html#prerrequisitos-8"><i class="fa fa-check"></i><b>20.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="vectores.html"><a href="vectores.html#vectores-básicos"><i class="fa fa-check"></i><b>20.2</b> Vectores básicos</a></li>
+<li class="chapter" data-level="20.3" data-path="vectores.html"><a href="vectores.html#tipos-importantes-de-vectores-atómicos"><i class="fa fa-check"></i><b>20.3</b> Tipos importantes de vectores atómicos</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="vectores.html"><a href="vectores.html#lógico"><i class="fa fa-check"></i><b>20.3.1</b> Lógico</a></li>
+<li class="chapter" data-level="20.3.2" data-path="vectores.html"><a href="vectores.html#numérico"><i class="fa fa-check"></i><b>20.3.2</b> Numérico</a></li>
+<li class="chapter" data-level="20.3.3" data-path="vectores.html"><a href="vectores.html#caracter"><i class="fa fa-check"></i><b>20.3.3</b> Caracter</a></li>
+<li class="chapter" data-level="20.3.4" data-path="vectores.html"><a href="vectores.html#valores-faltantes-4"><i class="fa fa-check"></i><b>20.3.4</b> Valores faltantes</a></li>
+<li class="chapter" data-level="20.3.5" data-path="vectores.html"><a href="vectores.html#ejercicios-55"><i class="fa fa-check"></i><b>20.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="vectores.html"><a href="vectores.html#usando-vectores-atómicos"><i class="fa fa-check"></i><b>20.4</b> Usando vectores atómicos</a><ul>
+<li class="chapter" data-level="20.4.1" data-path="vectores.html"><a href="vectores.html#coerción"><i class="fa fa-check"></i><b>20.4.1</b> Coerción</a></li>
+<li class="chapter" data-level="20.4.2" data-path="vectores.html"><a href="vectores.html#funciones-de-prueba"><i class="fa fa-check"></i><b>20.4.2</b> Funciones de prueba</a></li>
+<li class="chapter" data-level="20.4.3" data-path="vectores.html"><a href="vectores.html#escalares-y-reglas-de-reciclado"><i class="fa fa-check"></i><b>20.4.3</b> Escalares y reglas de reciclado</a></li>
+<li class="chapter" data-level="20.4.4" data-path="vectores.html"><a href="vectores.html#nombrar-vectores"><i class="fa fa-check"></i><b>20.4.4</b> Nombrar vectores</a></li>
+<li class="chapter" data-level="20.4.5" data-path="vectores.html"><a href="vectores.html#vector-subsetting"><i class="fa fa-check"></i><b>20.4.5</b> Creación de subconjuntos (<em>subsetting</em>)</a></li>
+<li class="chapter" data-level="20.4.6" data-path="vectores.html"><a href="vectores.html#ejercicios-56"><i class="fa fa-check"></i><b>20.4.6</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="vectores.html"><a href="vectores.html#vectores-recursivos-listas"><i class="fa fa-check"></i><b>20.5</b> Vectores Recursivos (listas)</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="vectores.html"><a href="vectores.html#visualizando-listas"><i class="fa fa-check"></i><b>20.5.1</b> Visualizando listas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="vectores.html"><a href="vectores.html#subconjuntos-subsetting"><i class="fa fa-check"></i><b>20.5.2</b> Subconjuntos (<em>Subsetting</em>)</a></li>
+<li class="chapter" data-level="20.5.3" data-path="vectores.html"><a href="vectores.html#listas-de-condimentos"><i class="fa fa-check"></i><b>20.5.3</b> Listas de Condimentos</a></li>
+<li class="chapter" data-level="20.5.4" data-path="vectores.html"><a href="vectores.html#ejercicios-57"><i class="fa fa-check"></i><b>20.5.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.6" data-path="vectores.html"><a href="vectores.html#atributos"><i class="fa fa-check"></i><b>20.6</b> Atributos</a></li>
+<li class="chapter" data-level="20.7" data-path="vectores.html"><a href="vectores.html#vectores-aumentados"><i class="fa fa-check"></i><b>20.7</b> Vectores aumentados</a><ul>
+<li class="chapter" data-level="20.7.1" data-path="vectores.html"><a href="vectores.html#factores-1"><i class="fa fa-check"></i><b>20.7.1</b> Factores</a></li>
+<li class="chapter" data-level="20.7.2" data-path="vectores.html"><a href="vectores.html#fechas-y-fechas-hora"><i class="fa fa-check"></i><b>20.7.2</b> Fechas y fechas-hora</a></li>
+<li class="chapter" data-level="20.7.3" data-path="vectores.html"><a href="vectores.html#tibbles-1"><i class="fa fa-check"></i><b>20.7.3</b> Tibbles</a></li>
+<li class="chapter" data-level="20.7.4" data-path="vectores.html"><a href="vectores.html#ejercicios-58"><i class="fa fa-check"></i><b>20.7.4</b> Ejercicios:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>21</b> Iteración</a><ul>
+<li class="chapter" data-level="21.1" data-path="iteración.html"><a href="iteración.html#introducción-14"><i class="fa fa-check"></i><b>21.1</b> Introducción</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="iteración.html"><a href="iteración.html#prerrequisitos-9"><i class="fa fa-check"></i><b>21.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="iteración.html"><a href="iteración.html#bucles-for"><i class="fa fa-check"></i><b>21.2</b> Bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.2.1" data-path="iteración.html"><a href="iteración.html#ejercicios-59"><i class="fa fa-check"></i><b>21.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="iteración.html"><a href="iteración.html#variaciones-de-bucles-for"><i class="fa fa-check"></i><b>21.3</b> Variaciones de bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.3.1" data-path="iteración.html"><a href="iteración.html#modificar-un-objeto-existente"><i class="fa fa-check"></i><b>21.3.1</b> Modificar un objeto existente</a></li>
+<li class="chapter" data-level="21.3.2" data-path="iteración.html"><a href="iteración.html#patrones-de-bucle"><i class="fa fa-check"></i><b>21.3.2</b> Patrones de bucle</a></li>
+<li class="chapter" data-level="21.3.3" data-path="iteración.html"><a href="iteración.html#longitud-de-output-desconocida"><i class="fa fa-check"></i><b>21.3.3</b> Longitud de <em>output</em> desconocida</a></li>
+<li class="chapter" data-level="21.3.4" data-path="iteración.html"><a href="iteración.html#longitud-de-secuencia-desconocida"><i class="fa fa-check"></i><b>21.3.4</b> Longitud de secuencia desconocida</a></li>
+<li class="chapter" data-level="21.3.5" data-path="iteración.html"><a href="iteración.html#ejercicios-60"><i class="fa fa-check"></i><b>21.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="iteración.html"><a href="iteración.html#bucles-for-vs.funcionales"><i class="fa fa-check"></i><b>21.4</b> Bucles <em>for</em> vs. funcionales</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="iteración.html"><a href="iteración.html#ejercicios-61"><i class="fa fa-check"></i><b>21.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="iteración.html"><a href="iteración.html#las-funciones-map"><i class="fa fa-check"></i><b>21.5</b> Las funciones <em>map</em></a><ul>
+<li class="chapter" data-level="21.5.1" data-path="iteración.html"><a href="iteración.html#atajos"><i class="fa fa-check"></i><b>21.5.1</b> Atajos</a></li>
+<li class="chapter" data-level="21.5.2" data-path="iteración.html"><a href="iteración.html#r-base"><i class="fa fa-check"></i><b>21.5.2</b> R Base</a></li>
+<li class="chapter" data-level="21.5.3" data-path="iteración.html"><a href="iteración.html#ejercicios-62"><i class="fa fa-check"></i><b>21.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="iteración.html"><a href="iteración.html#manejando-los-errores"><i class="fa fa-check"></i><b>21.6</b> Manejando los errores</a></li>
+<li class="chapter" data-level="21.7" data-path="iteración.html"><a href="iteración.html#usar-map-sobre-múltiples-argumentos"><i class="fa fa-check"></i><b>21.7</b> Usar <em>map</em> sobre múltiples argumentos</a><ul>
+<li class="chapter" data-level="21.7.1" data-path="iteración.html"><a href="iteración.html#invocando-distintas-funciones"><i class="fa fa-check"></i><b>21.7.1</b> Invocando distintas funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="21.8" data-path="iteración.html"><a href="iteración.html#walk"><i class="fa fa-check"></i><b>21.8</b> Walk</a></li>
+<li class="chapter" data-level="21.9" data-path="iteración.html"><a href="iteración.html#otros-patrones-para-los-bucles-for"><i class="fa fa-check"></i><b>21.9</b> Otros patrones para los bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.9.1" data-path="iteración.html"><a href="iteración.html#funciones-predicativas"><i class="fa fa-check"></i><b>21.9.1</b> Funciones predicativas</a></li>
+<li class="chapter" data-level="21.9.2" data-path="iteración.html"><a href="iteración.html#reducir-y-acumular"><i class="fa fa-check"></i><b>21.9.2</b> Reducir y acumular</a></li>
+<li class="chapter" data-level="21.9.3" data-path="iteración.html"><a href="iteración.html#ejercicios-63"><i class="fa fa-check"></i><b>21.9.3</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Modelar</b></span></li>
+<li class="chapter" data-level="22" data-path="model-intro.html"><a href="model-intro.html"><i class="fa fa-check"></i><b>22</b> Introducción</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-intro.html"><a href="model-intro.html#generación-de-hipótesis-vs.confirmación-de-hipótesis"><i class="fa fa-check"></i><b>22.1</b> Generación de hipótesis vs. confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html"><i class="fa fa-check"></i><b>23</b> Modelos: conceptos básicos</a><ul>
+<li class="chapter" data-level="23.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#introducción-15"><i class="fa fa-check"></i><b>23.1</b> Introducción</a><ul>
+<li class="chapter" data-level="23.1.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#prerrequisitos-10"><i class="fa fa-check"></i><b>23.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="23.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#un-modelo-simple"><i class="fa fa-check"></i><b>23.2</b> Un modelo simple</a><ul>
+<li class="chapter" data-level="23.2.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-64"><i class="fa fa-check"></i><b>23.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#visualizando-modelos"><i class="fa fa-check"></i><b>23.3</b> Visualizando modelos</a><ul>
+<li class="chapter" data-level="23.3.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#predicciones"><i class="fa fa-check"></i><b>23.3.1</b> Predicciones</a></li>
+<li class="chapter" data-level="23.3.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#residuos"><i class="fa fa-check"></i><b>23.3.2</b> Residuos</a></li>
+<li class="chapter" data-level="23.3.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-65"><i class="fa fa-check"></i><b>23.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#fórmulas-y-familias-de-modelos"><i class="fa fa-check"></i><b>23.4</b> Fórmulas y familias de modelos</a><ul>
+<li class="chapter" data-level="23.4.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#variables-categóricas"><i class="fa fa-check"></i><b>23.4.1</b> Variables categóricas</a></li>
+<li class="chapter" data-level="23.4.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-continuas-y-categóricas"><i class="fa fa-check"></i><b>23.4.2</b> Interacciones (continuas y categóricas)</a></li>
+<li class="chapter" data-level="23.4.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-dos-variables-continuas"><i class="fa fa-check"></i><b>23.4.3</b> Interacciones (dos variables continuas)</a></li>
+<li class="chapter" data-level="23.4.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#transformaciones"><i class="fa fa-check"></i><b>23.4.4</b> Transformaciones</a></li>
+<li class="chapter" data-level="23.4.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-66"><i class="fa fa-check"></i><b>23.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#valores-faltantes-5"><i class="fa fa-check"></i><b>23.5</b> Valores faltantes</a></li>
+<li class="chapter" data-level="23.6" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#otras-familias-de-modelos"><i class="fa fa-check"></i><b>23.6</b> Otras familias de modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html"><i class="fa fa-check"></i><b>24</b> Construcción de modelos</a><ul>
+<li class="chapter" data-level="24.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#introducción-16"><i class="fa fa-check"></i><b>24.1</b> Introducción</a><ul>
+<li class="chapter" data-level="24.1.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#prerrequisitos-11"><i class="fa fa-check"></i><b>24.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="24.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#diamond-prices"><i class="fa fa-check"></i><b>24.2</b> ¿Por qué los diamantes de baja calidad son más caros?</a><ul>
+<li class="chapter" data-level="24.2.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#precio-y-quilates"><i class="fa fa-check"></i><b>24.2.1</b> Precio y quilates</a></li>
+<li class="chapter" data-level="24.2.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#un-modelo-más-complicado"><i class="fa fa-check"></i><b>24.2.2</b> Un modelo más complicado</a></li>
+<li class="chapter" data-level="24.2.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-67"><i class="fa fa-check"></i><b>24.2.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#qué-afecta-el-número-de-vuelos-diarios"><i class="fa fa-check"></i><b>24.3</b> ¿Qué afecta el número de vuelos diarios?</a><ul>
+<li class="chapter" data-level="24.3.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#día-de-la-semana"><i class="fa fa-check"></i><b>24.3.1</b> Día de la semana</a></li>
+<li class="chapter" data-level="24.3.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#efecto-estacional-del-sábado"><i class="fa fa-check"></i><b>24.3.2</b> Efecto estacional del sábado</a></li>
+<li class="chapter" data-level="24.3.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#variables-calculadas"><i class="fa fa-check"></i><b>24.3.3</b> Variables calculadas</a></li>
+<li class="chapter" data-level="24.3.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#época-del-año-un-enfoque-alternativo"><i class="fa fa-check"></i><b>24.3.4</b> Época del año: un enfoque alternativo</a></li>
+<li class="chapter" data-level="24.3.5" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-68"><i class="fa fa-check"></i><b>24.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#aprende-más-sobre-los-modelos"><i class="fa fa-check"></i><b>24.4</b> Aprende más sobre los modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="muchos-modelos.html"><a href="muchos-modelos.html"><i class="fa fa-check"></i><b>25</b> Muchos modelos</a><ul>
+<li class="chapter" data-level="25.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#introducción-17"><i class="fa fa-check"></i><b>25.1</b> Introducción</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#prerrequisitos-12"><i class="fa fa-check"></i><b>25.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#gapminder"><i class="fa fa-check"></i><b>25.2</b> gapminder</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#datos-anidados"><i class="fa fa-check"></i><b>25.2.1</b> Datos anidados</a></li>
+<li class="chapter" data-level="25.2.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista"><i class="fa fa-check"></i><b>25.2.2</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.2.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando"><i class="fa fa-check"></i><b>25.2.3</b> Desanidando</a></li>
+<li class="chapter" data-level="25.2.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#calidad-del-modelo"><i class="fa fa-check"></i><b>25.2.4</b> Calidad del modelo</a></li>
+<li class="chapter" data-level="25.2.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-69"><i class="fa fa-check"></i><b>25.2.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista-1"><i class="fa fa-check"></i><b>25.3</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#creando-columnas-lista"><i class="fa fa-check"></i><b>25.4</b> Creando columnas-lista</a><ul>
+<li class="chapter" data-level="25.4.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#con-anidación"><i class="fa fa-check"></i><b>25.4.1</b> Con anidación</a></li>
+<li class="chapter" data-level="25.4.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-funciones-vectorizadas"><i class="fa fa-check"></i><b>25.4.2</b> A partir de funciones vectorizadas</a></li>
+<li class="chapter" data-level="25.4.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-medidas-de-resumen-con-más-de-un-valor"><i class="fa fa-check"></i><b>25.4.3</b> A partir de medidas de resumen con más de un valor</a></li>
+<li class="chapter" data-level="25.4.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-una-lista-nombrada"><i class="fa fa-check"></i><b>25.4.4</b> A partir de una lista nombrada</a></li>
+<li class="chapter" data-level="25.4.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-70"><i class="fa fa-check"></i><b>25.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#simplificando-columnas-lista"><i class="fa fa-check"></i><b>25.5</b> Simplificando columnas-lista</a><ul>
+<li class="chapter" data-level="25.5.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#lista-a-vector"><i class="fa fa-check"></i><b>25.5.1</b> Lista a vector</a></li>
+<li class="chapter" data-level="25.5.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando-1"><i class="fa fa-check"></i><b>25.5.2</b> Desanidando</a></li>
+<li class="chapter" data-level="25.5.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-71"><i class="fa fa-check"></i><b>25.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.6" data-path="muchos-modelos.html"><a href="muchos-modelos.html#haciendo-datos-ordenados-con-broom"><i class="fa fa-check"></i><b>25.6</b> Haciendo datos ordenados con broom</a></li>
+</ul></li>
+<li class="part"><span><b>V Comunicar</b></span></li>
+<li class="chapter" data-level="26" data-path="introducción-18.html"><a href="introducción-18.html"><i class="fa fa-check"></i><b>26</b> Introducción</a></li>
+<li class="chapter" data-level="27" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>27</b> R Markdown</a><ul>
+<li class="chapter" data-level="27.1" data-path="r-markdown.html"><a href="r-markdown.html#introducción-19"><i class="fa fa-check"></i><b>27.1</b> Introducción</a><ul>
+<li class="chapter" data-level="27.1.1" data-path="r-markdown.html"><a href="r-markdown.html#prerequisitos-3"><i class="fa fa-check"></i><b>27.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="27.2" data-path="r-markdown.html"><a href="r-markdown.html#r-markdown-básico"><i class="fa fa-check"></i><b>27.2</b> R Markdown básico</a><ul>
+<li class="chapter" data-level="27.2.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-72"><i class="fa fa-check"></i><b>27.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="r-markdown.html"><a href="r-markdown.html#formateo-de-texto-con-markdown"><i class="fa fa-check"></i><b>27.3</b> Formateo de texto con Markdown</a><ul>
+<li class="chapter" data-level="27.3.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-73"><i class="fa fa-check"></i><b>27.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.4" data-path="r-markdown.html"><a href="r-markdown.html#bloques-de-código"><i class="fa fa-check"></i><b>27.4</b> Bloques de código</a><ul>
+<li class="chapter" data-level="27.4.1" data-path="r-markdown.html"><a href="r-markdown.html#nombres-en-bloques"><i class="fa fa-check"></i><b>27.4.1</b> Nombres en bloques</a></li>
+<li class="chapter" data-level="27.4.2" data-path="r-markdown.html"><a href="r-markdown.html#opciones-en-bloques"><i class="fa fa-check"></i><b>27.4.2</b> Opciones en bloques</a></li>
+<li class="chapter" data-level="27.4.3" data-path="r-markdown.html"><a href="r-markdown.html#tablas"><i class="fa fa-check"></i><b>27.4.3</b> Tablas</a></li>
+<li class="chapter" data-level="27.4.4" data-path="r-markdown.html"><a href="r-markdown.html#caching"><i class="fa fa-check"></i><b>27.4.4</b> Caching</a></li>
+<li class="chapter" data-level="27.4.5" data-path="r-markdown.html"><a href="r-markdown.html#opciones-globales"><i class="fa fa-check"></i><b>27.4.5</b> Opciones globales</a></li>
+<li class="chapter" data-level="27.4.6" data-path="r-markdown.html"><a href="r-markdown.html#código-en-la-línea"><i class="fa fa-check"></i><b>27.4.6</b> Código en la línea</a></li>
+<li class="chapter" data-level="27.4.7" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-74"><i class="fa fa-check"></i><b>27.4.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.5" data-path="r-markdown.html"><a href="r-markdown.html#solucionando-problemas"><i class="fa fa-check"></i><b>27.5</b> Solucionando problemas</a></li>
+<li class="chapter" data-level="27.6" data-path="r-markdown.html"><a href="r-markdown.html#encabezado-yaml"><i class="fa fa-check"></i><b>27.6</b> Encabezado YAML</a><ul>
+<li class="chapter" data-level="27.6.1" data-path="r-markdown.html"><a href="r-markdown.html#parámetros"><i class="fa fa-check"></i><b>27.6.1</b> Parámetros</a></li>
+<li class="chapter" data-level="27.6.2" data-path="r-markdown.html"><a href="r-markdown.html#bibliografías-y-citas"><i class="fa fa-check"></i><b>27.6.2</b> Bibliografías y citas</a></li>
+</ul></li>
+<li class="chapter" data-level="27.7" data-path="r-markdown.html"><a href="r-markdown.html#aprendiendo-más-3"><i class="fa fa-check"></i><b>27.7</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html"><i class="fa fa-check"></i><b>28</b> Comunicar con gráficos</a><ul>
+<li class="chapter" data-level="28.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#introducción-20"><i class="fa fa-check"></i><b>28.1</b> Introducción</a><ul>
+<li class="chapter" data-level="28.1.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#prerrequisitos-13"><i class="fa fa-check"></i><b>28.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#etiquetas"><i class="fa fa-check"></i><b>28.2</b> Etiquetas</a><ul>
+<li class="chapter" data-level="28.2.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-75"><i class="fa fa-check"></i><b>28.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#anotaciones"><i class="fa fa-check"></i><b>28.3</b> Anotaciones</a><ul>
+<li class="chapter" data-level="28.3.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-76"><i class="fa fa-check"></i><b>28.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#escalas"><i class="fa fa-check"></i><b>28.4</b> Escalas</a><ul>
+<li class="chapter" data-level="28.4.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#marcas-de-los-ejes-y-leyendas"><i class="fa fa-check"></i><b>28.4.1</b> Marcas de los ejes y leyendas</a></li>
+<li class="chapter" data-level="28.4.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#diseño-de-leyendas"><i class="fa fa-check"></i><b>28.4.2</b> Diseño de leyendas</a></li>
+<li class="chapter" data-level="28.4.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#reemplazando-una-escala"><i class="fa fa-check"></i><b>28.4.3</b> Reemplazando una escala</a></li>
+<li class="chapter" data-level="28.4.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-77"><i class="fa fa-check"></i><b>28.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#haciendo-zoom"><i class="fa fa-check"></i><b>28.5</b> Haciendo Zoom</a></li>
+<li class="chapter" data-level="28.6" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#temas"><i class="fa fa-check"></i><b>28.6</b> Temas</a></li>
+<li class="chapter" data-level="28.7" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#guardando-tus-gráficos"><i class="fa fa-check"></i><b>28.7</b> Guardando tus gráficos</a><ul>
+<li class="chapter" data-level="28.7.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#redimensionar-una-figura"><i class="fa fa-check"></i><b>28.7.1</b> Redimensionar una figura</a></li>
+<li class="chapter" data-level="28.7.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#otras-opciones-importantes"><i class="fa fa-check"></i><b>28.7.2</b> Otras opciones importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="28.8" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#aprendiendo-más-4"><i class="fa fa-check"></i><b>28.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html"><i class="fa fa-check"></i><b>29</b> Formatos de R Markdown</a><ul>
+<li class="chapter" data-level="29.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#introducción-21"><i class="fa fa-check"></i><b>29.1</b> Introducción</a></li>
+<li class="chapter" data-level="29.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#opciones-de-salida"><i class="fa fa-check"></i><b>29.2</b> Opciones de salida</a></li>
+<li class="chapter" data-level="29.3" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#documentos"><i class="fa fa-check"></i><b>29.3</b> Documentos</a></li>
+<li class="chapter" data-level="29.4" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#notebooks"><i class="fa fa-check"></i><b>29.4</b> Notebooks</a></li>
+<li class="chapter" data-level="29.5" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#presentaciones"><i class="fa fa-check"></i><b>29.5</b> Presentaciones</a></li>
+<li class="chapter" data-level="29.6" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#dashboards"><i class="fa fa-check"></i><b>29.6</b> Dashboards</a></li>
+<li class="chapter" data-level="29.7" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#interactividad"><i class="fa fa-check"></i><b>29.7</b> Interactividad</a><ul>
+<li class="chapter" data-level="29.7.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#htmlwidgets"><i class="fa fa-check"></i><b>29.7.1</b> htmlwidgets</a></li>
+<li class="chapter" data-level="29.7.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#shiny"><i class="fa fa-check"></i><b>29.7.2</b> Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="29.8" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#sitios-web"><i class="fa fa-check"></i><b>29.8</b> Sitios Web</a></li>
+<li class="chapter" data-level="29.9" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#otros-formatos"><i class="fa fa-check"></i><b>29.9</b> Otros Formatos</a></li>
+<li class="chapter" data-level="29.10" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#aprende-más"><i class="fa fa-check"></i><b>29.10</b> Aprende más</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="flujo-de-trabajo-en-r-markdown.html"><a href="flujo-de-trabajo-en-r-markdown.html"><i class="fa fa-check"></i><b>30</b> Flujo de trabajo en R Markdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R para Ciencia de Datos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="datos-relacionales" class="section level1">
+<h1><span class="header-section-number">13</span> Datos relacionales</h1>
+<div id="introducción-7" class="section level2">
+<h2><span class="header-section-number">13.1</span> Introducción</h2>
+<p>Es raro que un análisis de datos involucre una única tabla de datos. Lo típico es que tengas muchas tablas que debes combinar para responder a tus preguntas de interés. De manera colectiva, se le llama <em>datos relacionales</em> a esas múltiples tablas de datos, ya que sus relaciones, y no solo los conjuntos de datos individuales, son importantes.</p>
+<p>Las relaciones siempre se definen sobre un par de tablas. Todas las otras relaciones se construyen sobre esta idea simple: las relaciones entre tres o más tablas son siempre una propiedad de las relaciones entre cada par. ¡A veces ambos elementos de un par pueden ser la misma tabla! Esto se necesita si, por ejemplo, tienes una tabla de personas y cada persona tiene una referencia a sus padres.</p>
+<p>Para trabajar con datos relacionales necesitas verbos que funcionen con pares de tablas. Existen tres familias de verbos diseñadas para trabajar con datos relacionales:</p>
+<ul>
+<li><p><strong>Uniones de transformación</strong> (del inglés <em>mutating joins</em>), que agregan nuevas variables a un <em>data frame</em> a partir de las observaciones coincidentes en otra tabla.</p></li>
+<li><p><strong>Uniones de filtro</strong> (del inglés <em>filtering joins</em>), que filtran observaciones en un <em>data frame</em> con base en si coinciden o no con una observación de otra tabla.</p></li>
+<li><p><strong>Operaciones de conjuntos</strong> (del inglés <em>set operations</em>), que tratan las observaciones como elementos de un conjunto.</p></li>
+</ul>
+<p>El lugar más común para encontrar datos relacionales es en un sistema <em>relacional</em> de administración de bases de datos (<em>Relational Data Base Management System</em> en inglés), un concepto que abarca casi todas las bases de datos modernas. Si has usado una base de datos con anterioridad, casi seguramente fue SQL. Si es así, los conceptos de este capítulo debiesen ser familiares, aunque su expresión en <strong>dplyr</strong> es un poco distinta. En términos generales, <strong>dplyr</strong> es un poco más fácil de usar que SQLes, ya que dplyr se especializa en el análisis de datos: facilita las operaciones habituales, a expensas de dificultar otras que no se requieren a menudo para el análisis de datos.</p>
+<div id="prerrequisitos-5" class="section level3">
+<h3><span class="header-section-number">13.1.1</span> Prerrequisitos</h3>
+<p>Vamos a explorar datos relacionales contenidos en el paquete <strong>datos</strong> usando los verbos para dos tablas de <strong>dplyr</strong>.</p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb260-2" data-line-number="2"><span class="kw">library</span>(datos)</a></code></pre></div>
+</div>
+</div>
+<div id="nycflights13-relational" class="section level2">
+<h2><span class="header-section-number">13.2</span> Datos sobre vuelos</h2>
+<p>Usaremos datos sobre vuelos desde y hacia Nueva York para aprender sobre datos relacionales<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. El paquete <strong>datos</strong> contiene cuatro tablas que se relacionan con la tabla <code>vuelos</code> que se usó en el capítulo sobre <a href="transform.html#transform">transformación de datos</a>:</p>
+<ul>
+<li><code>aerolineas</code> permite observar el nombre completo de la aerolínea a partir de su código abreviado:</li>
+</ul>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" data-line-number="1">aerolineas</a>
+<a class="sourceLine" id="cb261-2" data-line-number="2"><span class="co">#&gt; # A tibble: 16 x 2</span></a>
+<a class="sourceLine" id="cb261-3" data-line-number="3"><span class="co">#&gt;   aerolinea nombre                  </span></a>
+<a class="sourceLine" id="cb261-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;                   </span></a>
+<a class="sourceLine" id="cb261-5" data-line-number="5"><span class="co">#&gt; 1 9E        Endeavor Air Inc.       </span></a>
+<a class="sourceLine" id="cb261-6" data-line-number="6"><span class="co">#&gt; 2 AA        American Airlines Inc.  </span></a>
+<a class="sourceLine" id="cb261-7" data-line-number="7"><span class="co">#&gt; 3 AS        Alaska Airlines Inc.    </span></a>
+<a class="sourceLine" id="cb261-8" data-line-number="8"><span class="co">#&gt; 4 B6        JetBlue Airways         </span></a>
+<a class="sourceLine" id="cb261-9" data-line-number="9"><span class="co">#&gt; 5 DL        Delta Air Lines Inc.    </span></a>
+<a class="sourceLine" id="cb261-10" data-line-number="10"><span class="co">#&gt; 6 EV        ExpressJet Airlines Inc.</span></a>
+<a class="sourceLine" id="cb261-11" data-line-number="11"><span class="co">#&gt; # … with 10 more rows</span></a></code></pre></div>
+<ul>
+<li><code>aeropuertos</code> entrega información de cada aeropuerto, identificado por su <code>código</code>:</li>
+</ul>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" data-line-number="1">aeropuertos</a>
+<a class="sourceLine" id="cb262-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1,458 x 8</span></a>
+<a class="sourceLine" id="cb262-3" data-line-number="3"><span class="co">#&gt;   codigo_aeropuer… nombre latitud longitud altura zona_horaria horario_verano</span></a>
+<a class="sourceLine" id="cb262-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb262-5" data-line-number="5"><span class="co">#&gt; 1 04G              Lansd…    41.1    -80.6   1044           -5 A             </span></a>
+<a class="sourceLine" id="cb262-6" data-line-number="6"><span class="co">#&gt; 2 06A              Moton…    32.5    -85.7    264           -6 A             </span></a>
+<a class="sourceLine" id="cb262-7" data-line-number="7"><span class="co">#&gt; 3 06C              Schau…    42.0    -88.1    801           -6 A             </span></a>
+<a class="sourceLine" id="cb262-8" data-line-number="8"><span class="co">#&gt; 4 06N              Randa…    41.4    -74.4    523           -5 A             </span></a>
+<a class="sourceLine" id="cb262-9" data-line-number="9"><span class="co">#&gt; 5 09J              Jekyl…    31.1    -81.4     11           -5 A             </span></a>
+<a class="sourceLine" id="cb262-10" data-line-number="10"><span class="co">#&gt; 6 0A9              Eliza…    36.4    -82.2   1593           -5 A             </span></a>
+<a class="sourceLine" id="cb262-11" data-line-number="11"><span class="co">#&gt; # … with 1,452 more rows, and 1 more variable: zona_horaria_iana &lt;chr&gt;</span></a></code></pre></div>
+<ul>
+<li><code>aviones</code> entrega información de cada avión, identificado por su <code>codigo_cola</code>:</li>
+</ul>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1">aviones</a>
+<a class="sourceLine" id="cb263-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3,322 x 9</span></a>
+<a class="sourceLine" id="cb263-3" data-line-number="3"><span class="co">#&gt;   codigo_cola  anio tipo  fabricante modelo motores asientos velocidad</span></a>
+<a class="sourceLine" id="cb263-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;int&gt;    &lt;int&gt;     &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb263-5" data-line-number="5"><span class="co">#&gt; 1 N10156       2004 Ala … EMBRAER    EMB-1…       2       55        NA</span></a>
+<a class="sourceLine" id="cb263-6" data-line-number="6"><span class="co">#&gt; 2 N102UW       1998 Ala … AIRBUS IN… A320-…       2      182        NA</span></a>
+<a class="sourceLine" id="cb263-7" data-line-number="7"><span class="co">#&gt; 3 N103US       1999 Ala … AIRBUS IN… A320-…       2      182        NA</span></a>
+<a class="sourceLine" id="cb263-8" data-line-number="8"><span class="co">#&gt; 4 N104UW       1999 Ala … AIRBUS IN… A320-…       2      182        NA</span></a>
+<a class="sourceLine" id="cb263-9" data-line-number="9"><span class="co">#&gt; 5 N10575       2002 Ala … EMBRAER    EMB-1…       2       55        NA</span></a>
+<a class="sourceLine" id="cb263-10" data-line-number="10"><span class="co">#&gt; 6 N105UW       1999 Ala … AIRBUS IN… A320-…       2      182        NA</span></a>
+<a class="sourceLine" id="cb263-11" data-line-number="11"><span class="co">#&gt; # … with 3,316 more rows, and 1 more variable: tipo_motor &lt;chr&gt;</span></a></code></pre></div>
+<ul>
+<li><code>clima</code> entrega información del clima en cada aeropuerto de Nueva York para cada hora:</li>
+</ul>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb264-1" data-line-number="1">clima</a>
+<a class="sourceLine" id="cb264-2" data-line-number="2"><span class="co">#&gt; # A tibble: 26,115 x 15</span></a>
+<a class="sourceLine" id="cb264-3" data-line-number="3"><span class="co">#&gt;   origen  anio   mes   dia  hora temperatura punto_rocio humedad</span></a>
+<a class="sourceLine" id="cb264-4" data-line-number="4"><span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb264-5" data-line-number="5"><span class="co">#&gt; 1 EWR     2013     1     1     1        39.0        26.1    59.4</span></a>
+<a class="sourceLine" id="cb264-6" data-line-number="6"><span class="co">#&gt; 2 EWR     2013     1     1     2        39.0        27.0    61.6</span></a>
+<a class="sourceLine" id="cb264-7" data-line-number="7"><span class="co">#&gt; 3 EWR     2013     1     1     3        39.0        28.0    64.4</span></a>
+<a class="sourceLine" id="cb264-8" data-line-number="8"><span class="co">#&gt; 4 EWR     2013     1     1     4        39.9        28.0    62.2</span></a>
+<a class="sourceLine" id="cb264-9" data-line-number="9"><span class="co">#&gt; 5 EWR     2013     1     1     5        39.0        28.0    64.4</span></a>
+<a class="sourceLine" id="cb264-10" data-line-number="10"><span class="co">#&gt; 6 EWR     2013     1     1     6        37.9        28.0    67.2</span></a>
+<a class="sourceLine" id="cb264-11" data-line-number="11"><span class="co">#&gt; # … with 26,109 more rows, and 7 more variables: direccion_viento &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb264-12" data-line-number="12"><span class="co">#&gt; #   velocidad_viento &lt;dbl&gt;, velocidad_rafaga &lt;dbl&gt;, precipitacion &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb264-13" data-line-number="13"><span class="co">#&gt; #   presion &lt;dbl&gt;, visibilidad &lt;dbl&gt;, fecha_hora &lt;dttm&gt;</span></a></code></pre></div>
+<p>Una forma de mostrar las relaciones entre las diferentes tablas es mediante un diagrama:</p>
+<p><img src="diagrams_w_text_as_path/es/relational-nycflights.svg" width="70%" style="display: block; margin: auto;" /></p>
+<p>Este diagrama es un poco abrumador, ¡pero es simple comparado con algunos que verás en el exterior! La clave para entender estos diagramas es recordar que cada relación siempre involucra un par de tablas. No necesitas entender todo el diagrama, necesitas entender la cadena de relaciones entre las tablas que te interesan.</p>
+<p>En estos datos:</p>
+<ul>
+<li><p><code>vuelos</code> se connecta con <code>aviones</code> a través de la variable <code>codigo_cola</code>.</p></li>
+<li><p><code>vuelos</code> se conecta con <code>aerolineas</code> a través de la variable <code>codigo_carrier</code>.</p></li>
+<li><p><code>vuelos</code> se conecta con <code>aeropuertos</code> de dos formas: a través de las variables <code>origen</code> y
+<code>destino</code>.</p></li>
+<li><p><code>vuelos</code> se conecta con <code>clima</code> a través de las variables <code>origen</code> (la ubicación),
+<code>anio</code>, <code>mes</code>, <code>dia</code> y <code>hora</code> (el horario).</p></li>
+</ul>
+<div id="ejercicios-28" class="section level3">
+<h3><span class="header-section-number">13.2.1</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>Imagina que necesitas dibujar (aproximadamente) la ruta que cada avión vuela desde su origen
+hasta el destino. ¿Qué variables necesitarías? ¿Qué tablas necesitarías combinar?</p></li>
+<li><p>Olvidamos dibujar la relación entre <code>clima</code> y <code>aeropuertos</code>. ¿Cuál es la relación y cómo debería
+aparecer en el diagrama?</p></li>
+<li><p><code>clima</code> únicamente contiene información de los aeropuertos de origen (Nueva York).
+Si incluyera registros para todos los aeropuertos de EEUU, ¿qué relación tendría con <code>vuelos</code>?</p></li>
+<li><p>Sabemos que hay días “especiales” en el año y pocas personas suelen volar en ellos.
+¿Cómo se representarían en un data frame? ¿Cuáles serían las claves primarias de esa tabla?
+¿Cómo se conectaría con las tablas existentes?</p></li>
+</ol>
+</div>
+</div>
+<div id="claves" class="section level2">
+<h2><span class="header-section-number">13.3</span> Claves</h2>
+<p>Las variables usadas para conectar cada par de variables se llaman <em>claves</em> (del inglés <em>key</em>). Una clave es una variable (o un conjunto de variables) que identifican de manera única una observación. En casos simples, una sola variable es suficiente para identificar una observación. Por ejemplo, cada avión está identificado de forma única por su <code>codigo_cola</code>. En otros casos, se pueden necesitar múltiples variables. Por ejemplo, para identificar una observación en <code>clima</code> se necesitan cinco variables: <code>anio</code>, <code>mes</code>, <code>dia</code>, <code>hora</code> y <code>origen</code>.</p>
+<p>Existen dos tipos de claves:</p>
+<ul>
+<li><p>Una <em>clave primaria</em> identifica únicamente una observación en su propia tabla.
+Por ejemplo, <code>aviones$codigo_cola</code> es una clave primaria, ya que identifica de
+manera única cada avión en la tabla <code>aviones</code>.</p></li>
+<li><p>Una <em>clave foránea</em> únicamente identifica una observación en otra tabla.
+Por ejemplo, <code>vuelos$codigo_cola</code> es una clave foránea, ya que aparece en la
+tabla <code>vuelos</code>, en la que une cada vuelo con un único avión.</p></li>
+</ul>
+<p>Una variable puede ser clave primaria <em>y</em> clave foránea a la vez. Por ejemplo, <code>origen</code> es parte de la clave primaria <code>clima</code> y también una clave foránea de <code>aeropuertos</code>.</p>
+<p>Una vez que identificas las claves primarias en tus tablas, es una buena práctica verificar que identifican de forma única cada observación. Una forma de hacerlo es usar <code>count()</code> con las claves primarias y buscar las entradas con <code>n</code> mayor a uno:</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" data-line-number="1">aviones <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb265-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(codigo_cola) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb265-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb265-4" data-line-number="4"><span class="co">#&gt; # A tibble: 0 x 2</span></a>
+<a class="sourceLine" id="cb265-5" data-line-number="5"><span class="co">#&gt; # … with 2 variables: codigo_cola &lt;chr&gt;, n &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb265-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb265-7" data-line-number="7">clima <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb265-8" data-line-number="8"><span class="st">  </span><span class="kw">count</span>(anio, mes, dia, hora, origen) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb265-9" data-line-number="9"><span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb265-10" data-line-number="10"><span class="co">#&gt; # A tibble: 3 x 6</span></a>
+<a class="sourceLine" id="cb265-11" data-line-number="11"><span class="co">#&gt;    anio   mes   dia  hora origen     n</span></a>
+<a class="sourceLine" id="cb265-12" data-line-number="12"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb265-13" data-line-number="13"><span class="co">#&gt; 1  2013    11     3     1 EWR        2</span></a>
+<a class="sourceLine" id="cb265-14" data-line-number="14"><span class="co">#&gt; 2  2013    11     3     1 JFK        2</span></a>
+<a class="sourceLine" id="cb265-15" data-line-number="15"><span class="co">#&gt; 3  2013    11     3     1 LGA        2</span></a></code></pre></div>
+<p>A veces una tabla puede no tener una clave primaria explícita: cada fila es una observación, pero no existe una combinación de variables que la identifique de forma confiable. Por ejemplo, ¿cuál es la clave primaria en la tabla <code>vuelos</code>? Quizás pienses que podría ser la fecha más el vuelo o el código de cola, pero ninguna de esas variables es única:</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" data-line-number="1">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb266-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(anio, mes, dia, vuelo) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb266-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb266-4" data-line-number="4"><span class="co">#&gt; # A tibble: 29,768 x 5</span></a>
+<a class="sourceLine" id="cb266-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia vuelo     n</span></a>
+<a class="sourceLine" id="cb266-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb266-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     1     2</span></a>
+<a class="sourceLine" id="cb266-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1     3     2</span></a>
+<a class="sourceLine" id="cb266-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1     4     2</span></a>
+<a class="sourceLine" id="cb266-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1    11     3</span></a>
+<a class="sourceLine" id="cb266-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1    15     2</span></a>
+<a class="sourceLine" id="cb266-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1    21     2</span></a>
+<a class="sourceLine" id="cb266-13" data-line-number="13"><span class="co">#&gt; # … with 29,762 more rows</span></a>
+<a class="sourceLine" id="cb266-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb266-15" data-line-number="15">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb266-16" data-line-number="16"><span class="st">  </span><span class="kw">count</span>(anio, mes, dia, codigo_cola) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb266-17" data-line-number="17"><span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb266-18" data-line-number="18"><span class="co">#&gt; # A tibble: 64,928 x 5</span></a>
+<a class="sourceLine" id="cb266-19" data-line-number="19"><span class="co">#&gt;    anio   mes   dia codigo_cola     n</span></a>
+<a class="sourceLine" id="cb266-20" data-line-number="20"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;       &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb266-21" data-line-number="21"><span class="co">#&gt; 1  2013     1     1 N0EGMQ          2</span></a>
+<a class="sourceLine" id="cb266-22" data-line-number="22"><span class="co">#&gt; 2  2013     1     1 N11189          2</span></a>
+<a class="sourceLine" id="cb266-23" data-line-number="23"><span class="co">#&gt; 3  2013     1     1 N11536          2</span></a>
+<a class="sourceLine" id="cb266-24" data-line-number="24"><span class="co">#&gt; 4  2013     1     1 N11544          3</span></a>
+<a class="sourceLine" id="cb266-25" data-line-number="25"><span class="co">#&gt; 5  2013     1     1 N11551          2</span></a>
+<a class="sourceLine" id="cb266-26" data-line-number="26"><span class="co">#&gt; 6  2013     1     1 N12540          2</span></a>
+<a class="sourceLine" id="cb266-27" data-line-number="27"><span class="co">#&gt; # … with 64,922 more rows</span></a></code></pre></div>
+<p>Al comenzar a trabajar con estos datos, ingenuamente asumimos que cada número de vuelo sería usado solo una vez al día: eso haría mucho más simple comunicar problemas con un vuelo específico. ¡Desafortunadamente este no es el caso! Si una tabla no tiene una clave primaria, a veces es útil incluir una con <code>mutate()</code> y <code>row_number()</code> (<em>número de fila</em>). Eso simplifica hacer coincidir observaciones una vez que haz hecho algunos filtros y quieres volver a verificar con los datos originales. Esto se llama <strong>clave subrogada</strong>.</p>
+<p>Una clave primaria y su correspondiente clave foránea en otra tabla forman una <strong>relación</strong>. Las relaciones son típicamente uno-a-muchos. Por ejemplo, cada vuelo tiene un avión, pero cada avión tiene muchos vuelos. En otros datos, ocasionalmente verás relaciones uno-a-uno. Puedes pensar esto como un caso especial de uno-a-muchos. Puedes modelar relaciones muchos-a-muchos como relaciones de la forma muchos-a-uno y uno-a-muchos. Por ejemplo, en estos datos existe una relación muchos-a-muchos entre aerolíneas y aeropuertos: cada aerolínea vuela a muchos aeropuertos, cada aeropuerto recibe a muchas aerolíneas.</p>
+<div id="ejercicios-29" class="section level3">
+<h3><span class="header-section-number">13.3.1</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>Agrega una clave subrogada a <code>vuelos</code>.</p></li>
+<li><p>Identifica las claves en los siguientes conjuntos de datos</p></li>
+<li><code>datos::bateadores</code></li>
+<li><code>datos::nombres</code></li>
+<li><code>datos::atmosfera</code></li>
+<li><code>datos::vehiculos</code></li>
+<li><p><code>datos::diamantes</code></p></li>
+</ol>
+<p>(Puede que necesites leer un poco de documentación.)</p>
+<ol style="list-style-type: decimal">
+<li><p>Dibuja un diagrama que ilustre las conexiones entre las tablas <code>bateadores</code>,
+<code>personas</code> y <code>salarios</code> incluidas en el paquete <strong>datos</strong>. Dibuja otro diagrama que muestre la
+relación entre <code>personas</code>, <code>dirigentes</code> y <code>premios_dirigentes</code>.</p>
+<p>¿Cómo caracterizarías las relación entre <code>bateadores</code>, <code>lanzadores</code> y <code>jardineros</code>?</p></li>
+</ol>
+</div>
+</div>
+<div id="mutating-joins" class="section level2">
+<h2><span class="header-section-number">13.4</span> Uniones de transformación</h2>
+<p>La primera herramienta que miraremos para combinar pares de variables es la <strong>unión de transformación</strong> (<em>mutating join</em>). Una unión de transformación te permite combinar variables a partir de dos tablas. Primero busca coincidencias de observaciones de acuerdo a sus claves y luego copia las variables de una tabla en la otra.</p>
+<p>Tal como <code>mutate()</code>, las funciones de unión agregan variables hacia la derecha, por lo que si tienes muchas variables inicialmente, las nuevas variables no se imprimirán. Para estos ejemplos, crearemos un conjunto de datos más angosto para que sea más fácil ver qué es lo que está ocurriendo:</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" data-line-number="1">vuelos2 &lt;-<span class="st"> </span>vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb267-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(anio<span class="op">:</span>dia, hora, origen, destino, codigo_cola, aerolinea)</a>
+<a class="sourceLine" id="cb267-3" data-line-number="3">vuelos2</a>
+<a class="sourceLine" id="cb267-4" data-line-number="4"><span class="co">#&gt; # A tibble: 336,776 x 8</span></a>
+<a class="sourceLine" id="cb267-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia  hora origen destino codigo_cola aerolinea</span></a>
+<a class="sourceLine" id="cb267-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb267-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH     N14228      UA       </span></a>
+<a class="sourceLine" id="cb267-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH     N24211      UA       </span></a>
+<a class="sourceLine" id="cb267-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA     N619AA      AA       </span></a>
+<a class="sourceLine" id="cb267-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN     N804JB      B6       </span></a>
+<a class="sourceLine" id="cb267-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL     N668DN      DL       </span></a>
+<a class="sourceLine" id="cb267-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1     5 EWR    ORD     N39463      UA       </span></a>
+<a class="sourceLine" id="cb267-13" data-line-number="13"><span class="co">#&gt; # … with 336,770 more rows</span></a></code></pre></div>
+<p>(Recuerda que en RStudio puedes también usar <code>View()</code> para evitar este problema.)</p>
+<p>Imagina que quieres incluir el nombre completo de la aerolínea en <code>vuelos2</code>. Puedes combinar los datos de <code>aerolinas</code> y <code>vuelos2</code> con <code>left_join()</code> (<em>union_izquierda</em>):</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" data-line-number="1">vuelos2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb268-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>origen, <span class="op">-</span>destino) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb268-3" data-line-number="3"><span class="st">  </span><span class="kw">left_join</span>(aerolineas, <span class="dt">by =</span> <span class="st">&quot;aerolinea&quot;</span>)</a>
+<a class="sourceLine" id="cb268-4" data-line-number="4"><span class="co">#&gt; # A tibble: 336,776 x 7</span></a>
+<a class="sourceLine" id="cb268-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia  hora codigo_cola aerolinea nombre                </span></a>
+<a class="sourceLine" id="cb268-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;                 </span></a>
+<a class="sourceLine" id="cb268-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     5 N14228      UA        United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb268-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1     5 N24211      UA        United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb268-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1     5 N619AA      AA        American Airlines Inc.</span></a>
+<a class="sourceLine" id="cb268-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1     5 N804JB      B6        JetBlue Airways       </span></a>
+<a class="sourceLine" id="cb268-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1     6 N668DN      DL        Delta Air Lines Inc.  </span></a>
+<a class="sourceLine" id="cb268-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1     5 N39463      UA        United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb268-13" data-line-number="13"><span class="co">#&gt; # … with 336,770 more rows</span></a></code></pre></div>
+<p>El resultado de unir <code>aerolineas</code> y <code>vuelos2</code> es la inclusión de una variable adicional: <code>nombre</code>. Esta es la razón de que llamemos unión de transformación a este tipo de unión. En este caso, podrías obtener el mismo resultado usando <code>mutate()</code> junto a las operaciones de filtro de R base:</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1">vuelos2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb269-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>origen, <span class="op">-</span>destino) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb269-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nombre =</span> aerolineas<span class="op">$</span>nombre[<span class="kw">match</span>(aerolinea, aerolineas<span class="op">$</span>aerolinea)])</a>
+<a class="sourceLine" id="cb269-4" data-line-number="4"><span class="co">#&gt; # A tibble: 336,776 x 7</span></a>
+<a class="sourceLine" id="cb269-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia  hora codigo_cola aerolinea nombre                </span></a>
+<a class="sourceLine" id="cb269-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;                 </span></a>
+<a class="sourceLine" id="cb269-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     5 N14228      UA        United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb269-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1     5 N24211      UA        United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb269-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1     5 N619AA      AA        American Airlines Inc.</span></a>
+<a class="sourceLine" id="cb269-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1     5 N804JB      B6        JetBlue Airways       </span></a>
+<a class="sourceLine" id="cb269-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1     6 N668DN      DL        Delta Air Lines Inc.  </span></a>
+<a class="sourceLine" id="cb269-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1     5 N39463      UA        United Air Lines Inc. </span></a>
+<a class="sourceLine" id="cb269-13" data-line-number="13"><span class="co">#&gt; # … with 336,770 more rows</span></a></code></pre></div>
+<p>Sin embargo, esto último es difícil de generalizar cuando necesitas hacer coincidir múltiples variables y requiere hacer una lectura detenida para entender lo que se quiere hacer.</p>
+<p>En las siguientes secciones explicaremos en detalle cómo funcionan las uniones de transformación. Comenzarás aprendiendo una representación visual útil de las uniones. Luego usaremos eso para explicar las cuatro uniones de transformación: la unión interior y las tres uniones exteriores. Cuando trabajas con datos reales, las claves no siempre identifican a las observaciones de forma única. Es por eso que a continuación hablaremos de lo que ocurre cuando no existe una coincidencia única. Finalmente, aprenderás cómo decirle a <strong>dplyr</strong> qué variables son las claves para una unión determinada.</p>
+<div id="entendiendo-las-uniones" class="section level3">
+<h3><span class="header-section-number">13.4.1</span> Entendiendo las uniones</h3>
+<p>Para ayudarte a entender las uniones, usaremos una representación gráfica:</p>
+<p><img src="diagrams_w_text_as_path/es/join-setup.svg" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb270-2" data-line-number="2">  <span class="op">~</span>key, <span class="op">~</span>val_x,</a>
+<a class="sourceLine" id="cb270-3" data-line-number="3">  <span class="dv">1</span>, <span class="st">&quot;x1&quot;</span>,</a>
+<a class="sourceLine" id="cb270-4" data-line-number="4">  <span class="dv">2</span>, <span class="st">&quot;x2&quot;</span>,</a>
+<a class="sourceLine" id="cb270-5" data-line-number="5">  <span class="dv">3</span>, <span class="st">&quot;x3&quot;</span></a>
+<a class="sourceLine" id="cb270-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb270-7" data-line-number="7">y &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb270-8" data-line-number="8">  <span class="op">~</span>key, <span class="op">~</span>val_y,</a>
+<a class="sourceLine" id="cb270-9" data-line-number="9">  <span class="dv">1</span>, <span class="st">&quot;y1&quot;</span>,</a>
+<a class="sourceLine" id="cb270-10" data-line-number="10">  <span class="dv">2</span>, <span class="st">&quot;y2&quot;</span>,</a>
+<a class="sourceLine" id="cb270-11" data-line-number="11">  <span class="dv">4</span>, <span class="st">&quot;y3&quot;</span></a>
+<a class="sourceLine" id="cb270-12" data-line-number="12">)</a></code></pre></div>
+<p>La columna coloreada representa la variable “clave”: estas se usan para unir filas entre las tablas. La columa gris representa la columna “valor” que se usa en todo el proceso. En estos ejemplos te mostraremos una única clave, pero la idea es generalizable de manera directa a múltiples claves y múltiples valores.</p>
+<p>Una unión es una forma de conectar cada fila en <code>x</code> con cero, una o más filas en <code>y</code>. El siguiente diagrama muestra cada coincidencia potencial como una intersección de pares de líneas.</p>
+<p><img src="diagrams_w_text_as_path/es/join-setup2.svg" style="display: block; margin: auto;" /></p>
+<p>(Si observas detenidamente, te darás cuenta de que hemos cambiado el orden de las columnas clave y valor en <code>x</code>. Esto es para enfatizar que las uniones encuentran coincidencias basadas en las claves; el valor simplemente se traslada durante el proceso.)</p>
+<p>En la unión que mostramos, las coincidencias se indican con puntos. El número de puntos es igual al número de coincidencias y al número de filas en la salida.</p>
+<p><img src="diagrams_w_text_as_path/es/join-inner.svg" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inner-join" class="section level3">
+<h3><span class="header-section-number">13.4.2</span> Unión interior</h3>
+<p>La forma más simple de unión es la <em>unión interior</em> (del inglés <em>inner join</em>). Una unión interior une pares de observaciones siempre que sus claves sean iguales:</p>
+<p><img src="diagrams_w_text_as_path/es/join-inner.svg" style="display: block; margin: auto;" /></p>
+<p>(Para ser precisos, esto corresponde a una <em>unión de igualdad</em> (o <em>equijoin</em>) interior, debido a que las claves se unen usando el operador de igualdad. Dado que muchas uniones son uniones de igualdad, por lo general omitimos esa especificación.)</p>
+<p>El output de una unión interior es un nuevo data frame que contiene la clave, los valores de x y los valores de y. Usamos <code>by</code> (<em>según</em>) para indicar a dplyr qué variable es la clave:</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1">x <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb271-2" data-line-number="2"><span class="st">  </span><span class="kw">inner_join</span>(y, <span class="dt">by =</span> <span class="st">&quot;key&quot;</span>)</a>
+<a class="sourceLine" id="cb271-3" data-line-number="3"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
+<a class="sourceLine" id="cb271-4" data-line-number="4"><span class="co">#&gt;     key val_x val_y</span></a>
+<a class="sourceLine" id="cb271-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb271-6" data-line-number="6"><span class="co">#&gt; 1     1 x1    y1   </span></a>
+<a class="sourceLine" id="cb271-7" data-line-number="7"><span class="co">#&gt; 2     2 x2    y2</span></a></code></pre></div>
+<p>La propiedad más importante de una unión interior es que las filas no coincidentes no se incluyen en el resultado. Esto significa que generalmente las uniones interiores no son apropiadas para su uso en el análisis de datos dado que es muy fácil perder observaciones.</p>
+</div>
+<div id="outer-join" class="section level3">
+<h3><span class="header-section-number">13.4.3</span> Uniones exteriores</h3>
+<p>Una unión interior mantiene las observaciones que aparecen en ambas tablas. Una <strong>unión exterior</strong> mantiene las observaciones que aparecen en al menos una de las tablas. Existen tres tipos de uniones exteriores:</p>
+<ul>
+<li>Una <strong>unión izquierda</strong> (<em>left join</em>) mantiene todas las observaciones en <code>x</code>.</li>
+<li>Una <strong>unión derecha</strong> (<em>right join</em>) mantiene todas las observaciones en <code>y</code>.</li>
+<li>Una <strong>unión completa</strong> (<em>full join</em>) mantiene todas las observaciones en <code>x</code> e <code>y</code>.</li>
+</ul>
+<p>Estas uniones funcionan agregando una observación “virtual” adicional a cada tabla. Esta observación tiene una clave que siempre coincide (de no haber otras claves coincidentes) y un valor que se llena con <code>NA</code>.</p>
+<p>Gráficamente corresponde a lo siguiente:</p>
+<p><img src="diagrams_w_text_as_path/es/join-outer.svg" style="display: block; margin: auto;" /></p>
+<p>La unión que más frecuentemente se usa es la unión izquierda: úsala cuando necesites buscar datos adicionales en otra tabla, dado que preserva las observaciones originales incluso cuando no hay coincidencias. La unión izquierda debiera ser tu unión por defecto, a menos que tengas un motivo importante para preferir una de las otras.</p>
+<p>Otra forma de ilustrar diferentes tipos de uniones es mediante un diagrama de Venn:</p>
+<p><img src="diagrams_w_text_as_path/es/join-venn.svg" style="display: block; margin: auto;" /></p>
+<p>Sin embargo, esta no es una buena representación. Puede ayudar a recordar qué uniones preservan las observaciones en qué tabla pero esto tiene una limitante importante: un diagrama de Venn no puede mostrar qué ocurre con las claves que no identifican de manera única una observación.</p>
+</div>
+<div id="join-matches" class="section level3">
+<h3><span class="header-section-number">13.4.4</span> Claves duplicadas</h3>
+<p>Hasta ahora todos los diagramas han asumido que las claves son únicas. Pero ese no siempre es así. Esta sección explica qué ocurre en esos casos. Existen dos posibilidades:</p>
+<ol style="list-style-type: decimal">
+<li>Una tabla tiene claves duplicadas. Esto es útil cuando quieres agregar información
+adicional dado que típicamente existe una relación uno a muchos.</li>
+</ol>
+<p><img src="diagrams_w_text_as_path/es/join-one-to-many.svg" style="display: block; margin: auto;" /></p>
+<p>Nota que hemos puesto la columna clave en una posición ligeramente distinta en el output.
+Esto refleja que la clave es una clave primaria en <code>y</code> y una clave foránea en <code>x</code>.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb272-2" data-line-number="2"> <span class="op">~</span>key, <span class="op">~</span>val_x,</a>
+<a class="sourceLine" id="cb272-3" data-line-number="3"> <span class="dv">1</span>, <span class="st">&quot;x1&quot;</span>,</a>
+<a class="sourceLine" id="cb272-4" data-line-number="4"> <span class="dv">2</span>, <span class="st">&quot;x2&quot;</span>,</a>
+<a class="sourceLine" id="cb272-5" data-line-number="5"> <span class="dv">2</span>, <span class="st">&quot;x3&quot;</span>,</a>
+<a class="sourceLine" id="cb272-6" data-line-number="6"> <span class="dv">1</span>, <span class="st">&quot;x4&quot;</span></a>
+<a class="sourceLine" id="cb272-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb272-8" data-line-number="8">y &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb272-9" data-line-number="9"> <span class="op">~</span>key, <span class="op">~</span>val_y,</a>
+<a class="sourceLine" id="cb272-10" data-line-number="10"> <span class="dv">1</span>, <span class="st">&quot;y1&quot;</span>,</a>
+<a class="sourceLine" id="cb272-11" data-line-number="11"> <span class="dv">2</span>, <span class="st">&quot;y2&quot;</span></a>
+<a class="sourceLine" id="cb272-12" data-line-number="12">)</a>
+<a class="sourceLine" id="cb272-13" data-line-number="13"><span class="kw">left_join</span>(x, y, <span class="dt">by =</span> <span class="st">&quot;key&quot;</span>)</a>
+<a class="sourceLine" id="cb272-14" data-line-number="14"><span class="co">#&gt; # A tibble: 4 x 3</span></a>
+<a class="sourceLine" id="cb272-15" data-line-number="15"><span class="co">#&gt;     key val_x val_y</span></a>
+<a class="sourceLine" id="cb272-16" data-line-number="16"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb272-17" data-line-number="17"><span class="co">#&gt; 1     1 x1    y1   </span></a>
+<a class="sourceLine" id="cb272-18" data-line-number="18"><span class="co">#&gt; 2     2 x2    y2   </span></a>
+<a class="sourceLine" id="cb272-19" data-line-number="19"><span class="co">#&gt; 3     2 x3    y2   </span></a>
+<a class="sourceLine" id="cb272-20" data-line-number="20"><span class="co">#&gt; 4     1 x4    y1</span></a></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Ambas tablas tienen claves duplicadas. Esto es usualmente un error debido a que
+en ninguna de las tablas las claves identifican de manera única una observación.
+Cuando unes claves duplicadas, se obtienen todas las posibles combinaciones, es decir, el producto cartesiano:</li>
+</ol>
+<p><img src="diagrams_w_text_as_path/es/join-many-to-many.svg" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1">  x &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb273-2" data-line-number="2"> <span class="op">~</span>key, <span class="op">~</span>val_x,</a>
+<a class="sourceLine" id="cb273-3" data-line-number="3"> <span class="dv">1</span>, <span class="st">&quot;x1&quot;</span>,</a>
+<a class="sourceLine" id="cb273-4" data-line-number="4"> <span class="dv">2</span>, <span class="st">&quot;x2&quot;</span>,</a>
+<a class="sourceLine" id="cb273-5" data-line-number="5"> <span class="dv">2</span>, <span class="st">&quot;x3&quot;</span>,</a>
+<a class="sourceLine" id="cb273-6" data-line-number="6"> <span class="dv">3</span>, <span class="st">&quot;x4&quot;</span></a>
+<a class="sourceLine" id="cb273-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb273-8" data-line-number="8">  y &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb273-9" data-line-number="9"> <span class="op">~</span>key, <span class="op">~</span>val_y,</a>
+<a class="sourceLine" id="cb273-10" data-line-number="10"> <span class="dv">1</span>, <span class="st">&quot;y1&quot;</span>,</a>
+<a class="sourceLine" id="cb273-11" data-line-number="11"> <span class="dv">2</span>, <span class="st">&quot;y2&quot;</span>,</a>
+<a class="sourceLine" id="cb273-12" data-line-number="12"> <span class="dv">2</span>, <span class="st">&quot;y3&quot;</span>,</a>
+<a class="sourceLine" id="cb273-13" data-line-number="13"> <span class="dv">3</span>, <span class="st">&quot;y4&quot;</span></a>
+<a class="sourceLine" id="cb273-14" data-line-number="14">  )</a>
+<a class="sourceLine" id="cb273-15" data-line-number="15">  <span class="kw">left_join</span>(x, y, <span class="dt">by =</span> <span class="st">&quot;key&quot;</span>)</a>
+<a class="sourceLine" id="cb273-16" data-line-number="16"><span class="co">#&gt; # A tibble: 6 x 3</span></a>
+<a class="sourceLine" id="cb273-17" data-line-number="17"><span class="co">#&gt;     key val_x val_y</span></a>
+<a class="sourceLine" id="cb273-18" data-line-number="18"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb273-19" data-line-number="19"><span class="co">#&gt; 1     1 x1    y1   </span></a>
+<a class="sourceLine" id="cb273-20" data-line-number="20"><span class="co">#&gt; 2     2 x2    y2   </span></a>
+<a class="sourceLine" id="cb273-21" data-line-number="21"><span class="co">#&gt; 3     2 x2    y3   </span></a>
+<a class="sourceLine" id="cb273-22" data-line-number="22"><span class="co">#&gt; 4     2 x3    y2   </span></a>
+<a class="sourceLine" id="cb273-23" data-line-number="23"><span class="co">#&gt; 5     2 x3    y3   </span></a>
+<a class="sourceLine" id="cb273-24" data-line-number="24"><span class="co">#&gt; 6     3 x4    y4</span></a></code></pre></div>
+</div>
+<div id="join-by" class="section level3">
+<h3><span class="header-section-number">13.4.5</span> Definiendo las columnas clave</h3>
+<p>Hasta ahora, los pares de tablas siempre se han unido de acuerdo a una única variable y esa variable tiene el mismo nombre en ambas tablas. Esta restricción se expresa de la forma <code>by = &quot;key&quot;</code>. Puedes usar otros valores de <code>by</code> para conectar las tablas de otras maneras:</p>
+<ul>
+<li>Por defecto, <code>by = NULL</code>, usa todas las variables que aparecen en ambas tablas,
+lo que se conoce como unión <strong>natural</strong>. Por ejemplo, las tablas vuelos y clima
+coinciden en sus variables comunes: <code>anio</code>, <code>mes</code>, <code>dia</code>, <code>hora</code> y <code>origen</code>.</li>
+</ul>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1">vuelos2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb274-2" data-line-number="2"><span class="st"> </span><span class="kw">left_join</span>(clima)</a>
+<a class="sourceLine" id="cb274-3" data-line-number="3"><span class="co">#&gt; Joining, by = c(&quot;anio&quot;, &quot;mes&quot;, &quot;dia&quot;, &quot;hora&quot;, &quot;origen&quot;)</span></a>
+<a class="sourceLine" id="cb274-4" data-line-number="4"><span class="co">#&gt; # A tibble: 336,776 x 18</span></a>
+<a class="sourceLine" id="cb274-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia  hora origen destino codigo_cola aerolinea temperatura</span></a>
+<a class="sourceLine" id="cb274-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb274-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH     N14228      UA               39.0</span></a>
+<a class="sourceLine" id="cb274-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH     N24211      UA               39.9</span></a>
+<a class="sourceLine" id="cb274-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA     N619AA      AA               39.0</span></a>
+<a class="sourceLine" id="cb274-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN     N804JB      B6               39.0</span></a>
+<a class="sourceLine" id="cb274-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL     N668DN      DL               39.9</span></a>
+<a class="sourceLine" id="cb274-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1     5 EWR    ORD     N39463      UA               39.0</span></a>
+<a class="sourceLine" id="cb274-13" data-line-number="13"><span class="co">#&gt; # … with 336,770 more rows, and 9 more variables: punto_rocio &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb274-14" data-line-number="14"><span class="co">#&gt; #   humedad &lt;dbl&gt;, direccion_viento &lt;dbl&gt;, velocidad_viento &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb274-15" data-line-number="15"><span class="co">#&gt; #   velocidad_rafaga &lt;dbl&gt;, precipitacion &lt;dbl&gt;, presion &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb274-16" data-line-number="16"><span class="co">#&gt; #   visibilidad &lt;dbl&gt;, fecha_hora &lt;dttm&gt;</span></a></code></pre></div>
+<ul>
+<li>Un vector de caracteres, <code>by = &quot;x&quot;</code>. Esto es similar a una unión natural,
+pero usa algunas de las variables comunes. Por ejemplo, <code>vuelos</code> y <code>aviones</code>
+tienen la variable <code>anio</code>, pero esta significa cosas distintas en cada tabla
+por lo que queremos unir por <code>codigo_cola</code>.</li>
+</ul>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1">vuelos2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb275-2" data-line-number="2"><span class="st"> </span><span class="kw">left_join</span>(aviones, <span class="dt">by =</span> <span class="st">&quot;codigo_cola&quot;</span>)</a>
+<a class="sourceLine" id="cb275-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 16</span></a>
+<a class="sourceLine" id="cb275-4" data-line-number="4"><span class="co">#&gt;   anio.x   mes   dia  hora origen destino codigo_cola aerolinea anio.y tipo </span></a>
+<a class="sourceLine" id="cb275-5" data-line-number="5"><span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb275-6" data-line-number="6"><span class="co">#&gt; 1   2013     1     1     5 EWR    IAH     N14228      UA          1999 Ala …</span></a>
+<a class="sourceLine" id="cb275-7" data-line-number="7"><span class="co">#&gt; 2   2013     1     1     5 LGA    IAH     N24211      UA          1998 Ala …</span></a>
+<a class="sourceLine" id="cb275-8" data-line-number="8"><span class="co">#&gt; 3   2013     1     1     5 JFK    MIA     N619AA      AA          1990 Ala …</span></a>
+<a class="sourceLine" id="cb275-9" data-line-number="9"><span class="co">#&gt; 4   2013     1     1     5 JFK    BQN     N804JB      B6          2012 Ala …</span></a>
+<a class="sourceLine" id="cb275-10" data-line-number="10"><span class="co">#&gt; 5   2013     1     1     6 LGA    ATL     N668DN      DL          1991 Ala …</span></a>
+<a class="sourceLine" id="cb275-11" data-line-number="11"><span class="co">#&gt; 6   2013     1     1     5 EWR    ORD     N39463      UA          2012 Ala …</span></a>
+<a class="sourceLine" id="cb275-12" data-line-number="12"><span class="co">#&gt; # … with 336,770 more rows, and 6 more variables: fabricante &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb275-13" data-line-number="13"><span class="co">#&gt; #   modelo &lt;chr&gt;, motores &lt;int&gt;, asientos &lt;int&gt;, velocidad &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb275-14" data-line-number="14"><span class="co">#&gt; #   tipo_motor &lt;chr&gt;</span></a></code></pre></div>
+<p>Nota que la variable <code>anio</code> (que aparece en los dos data frames de entrada,
+pero que no es igual en ambos casos) se desambigua con un sufijo en el output.</p>
+<ul>
+<li>Un vector de caracteres con nombres: <code>by = c(&quot;a&quot; = &quot;b&quot;)</code>. Esto va a unir la
+variable <code>a</code> en la tabla <code>x</code> con la variabla <code>b</code> en la tabla <code>y</code>. Las variables de
+<code>x</code> se usarán en el output.</li>
+</ul>
+<p>Por ejemplo, si queremos dibujar un mapa necesitamos combinar los datos de vuelos con los datos de aeropuertos, que contienen la ubicación de cada uno (<code>latitud</code> y <code>longitud</code>). Cada vuelo tiene un <code>aeropuerto</code> de origen y destino, por lo que necesitamos especficar cuál queremos unir:</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1">vuelos2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-2" data-line-number="2"><span class="st"> </span><span class="kw">left_join</span>(aeropuertos, <span class="kw">c</span>(<span class="st">&quot;origen&quot;</span> =<span class="st"> &quot;codigo_aeropuerto&quot;</span>))</a>
+<a class="sourceLine" id="cb276-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
+<a class="sourceLine" id="cb276-4" data-line-number="4"><span class="co">#&gt;    anio   mes   dia  hora origen destino codigo_cola aerolinea nombre latitud</span></a>
+<a class="sourceLine" id="cb276-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb276-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH     N14228      UA        Newar…    40.7</span></a>
+<a class="sourceLine" id="cb276-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH     N24211      UA        La Gu…    40.8</span></a>
+<a class="sourceLine" id="cb276-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA     N619AA      AA        John …    40.6</span></a>
+<a class="sourceLine" id="cb276-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN     N804JB      B6        John …    40.6</span></a>
+<a class="sourceLine" id="cb276-10" data-line-number="10"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL     N668DN      DL        La Gu…    40.8</span></a>
+<a class="sourceLine" id="cb276-11" data-line-number="11"><span class="co">#&gt; 6  2013     1     1     5 EWR    ORD     N39463      UA        Newar…    40.7</span></a>
+<a class="sourceLine" id="cb276-12" data-line-number="12"><span class="co">#&gt; # … with 336,770 more rows, and 5 more variables: longitud &lt;dbl&gt;, altura &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb276-13" data-line-number="13"><span class="co">#&gt; #   zona_horaria &lt;dbl&gt;, horario_verano &lt;chr&gt;, zona_horaria_iana &lt;chr&gt;</span></a>
+<a class="sourceLine" id="cb276-14" data-line-number="14"> </a>
+<a class="sourceLine" id="cb276-15" data-line-number="15">vuelos2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb276-16" data-line-number="16"><span class="st"> </span><span class="kw">left_join</span>(aeropuertos, <span class="kw">c</span>(<span class="st">&quot;destino&quot;</span> =<span class="st"> &quot;codigo_aeropuerto&quot;</span>))</a>
+<a class="sourceLine" id="cb276-17" data-line-number="17"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
+<a class="sourceLine" id="cb276-18" data-line-number="18"><span class="co">#&gt;    anio   mes   dia  hora origen destino codigo_cola aerolinea nombre latitud</span></a>
+<a class="sourceLine" id="cb276-19" data-line-number="19"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb276-20" data-line-number="20"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH     N14228      UA        Georg…    30.0</span></a>
+<a class="sourceLine" id="cb276-21" data-line-number="21"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH     N24211      UA        Georg…    30.0</span></a>
+<a class="sourceLine" id="cb276-22" data-line-number="22"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA     N619AA      AA        Miami…    25.8</span></a>
+<a class="sourceLine" id="cb276-23" data-line-number="23"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN     N804JB      B6        &lt;NA&gt;      NA  </span></a>
+<a class="sourceLine" id="cb276-24" data-line-number="24"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL     N668DN      DL        Harts…    33.6</span></a>
+<a class="sourceLine" id="cb276-25" data-line-number="25"><span class="co">#&gt; 6  2013     1     1     5 EWR    ORD     N39463      UA        Chica…    42.0</span></a>
+<a class="sourceLine" id="cb276-26" data-line-number="26"><span class="co">#&gt; # … with 336,770 more rows, and 5 more variables: longitud &lt;dbl&gt;, altura &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb276-27" data-line-number="27"><span class="co">#&gt; #   zona_horaria &lt;dbl&gt;, horario_verano &lt;chr&gt;, zona_horaria_iana &lt;chr&gt;</span></a></code></pre></div>
+</div>
+<div id="ejercicios-30" class="section level3">
+<h3><span class="header-section-number">13.4.6</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>Calcula el atraso promedio por destino y luego une los datos en <code>aeropuertos</code>
+para que puedas mostrar la distribución espacial de los atrasos. Esta es una forma fácil de dibujar un mapa de los Estados Unidos:</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1">aeropuertos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="kw">semi_join</span>(vuelos, <span class="kw">c</span>(<span class="st">&quot;codigo_aeropuerto&quot;</span> =<span class="st"> &quot;destino&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb277-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="kw">aes</span>(longitud, latitud)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb277-4" data-line-number="4"><span class="kw">borders</span>(<span class="st">&quot;state&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb277-5" data-line-number="5"><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb277-6" data-line-number="6"><span class="kw">coord_quickmap</span>()</a></code></pre></div></li>
+</ol>
+<p>(No te preocupes si no entiendes quá hace <code>semi_join()</code>; lo aprenderás a continuación.)</p>
+<p>Quizás quieras usar <code>size</code> o <code>colour</code> para editar los puntos y mostrar
+el atraso promedio de cada aeropuerto.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Agrega la ubicación de origen <em>y</em> destino (por ejemplo, <code>latitud</code> y <code>longitud</code>)
+a <code>vuelos</code>.</p></li>
+<li><p>¿Existe una relación entre la antiguedad de un avión y sus atrasos?</p></li>
+<li><p>¿Qué condiciones climáticas hacen más probables los atrasos?</p></li>
+<li><p>¿Qué sucedió el día 13 de junio de 2013? Muestra el patrón espacial de los atrasos. Luego, usa un buscador para encontrar referencias cruzadas con el clima.</p></li>
+</ol>
+</div>
+<div id="otras-implementaciones" class="section level3">
+<h3><span class="header-section-number">13.4.7</span> Otras implementaciones</h3>
+<p><code>base::merge()</code> puede realizar los cuatro tipos de uniones de transformación:</p>
+<table>
+<thead>
+<tr class="header">
+<th>dplyr</th>
+<th>merge</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>inner_join(x, y)</code></td>
+<td><code>merge(x, y)</code></td>
+</tr>
+<tr class="even">
+<td><code>left_join(x, y)</code></td>
+<td><code>merge(x, y, all.x = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>right_join(x, y)</code></td>
+<td><code>merge(x, y, all.y = TRUE)</code>,</td>
+</tr>
+<tr class="even">
+<td><code>full_join(x, y)</code></td>
+<td><code>merge(x, y, all.x = TRUE, all.y = TRUE)</code></td>
+</tr>
+</tbody>
+</table>
+<p>La ventaja de los verbos específicos de <strong>dplyr</strong> es que muestran de manera clara la intención del código: la diferencia entre las uniones es realmente importante pero se esconde en los argumentos de <code>merge()</code>. Las uniones de <strong>dplyr</strong> son considerablemente más rápidas y no generan problemas con el orden de las filas</p>
+<p>SQL es una inspiración para las convenciones de <strong>dplyr</strong>, por lo que su traducción es directa:</p>
+<table>
+<thead>
+<tr class="header">
+<th>dplyr</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>inner_join(x, y, by = &quot;z&quot;)</code></td>
+<td><code>SELECT * FROM x INNER JOIN y USING (z)</code></td>
+</tr>
+<tr class="even">
+<td><code>left_join(x, y, by = &quot;z&quot;)</code></td>
+<td><code>SELECT * FROM x LEFT OUTER JOIN y USING (z)</code></td>
+</tr>
+<tr class="odd">
+<td><code>right_join(x, y, by = &quot;z&quot;)</code></td>
+<td><code>SELECT * FROM x RIGHT OUTER JOIN y USING (z)</code></td>
+</tr>
+<tr class="even">
+<td><code>full_join(x, y, by = &quot;z&quot;)</code></td>
+<td><code>SELECT * FROM x FULL OUTER JOIN y USING (z)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Nota que “INNER” y “OUTER” son opcionales, por lo que a menudo se omiten.</p>
+<p>Unir distintas variables entre tablas, por ejemplo <code>inner_join(x, y, by = c(&quot;a&quot; = &quot;b&quot;))</code>, usa una sintaxis ligeramente distinta en SQL: <code>SELECT * FROM x INNER JOIN y ON x.a = y.b</code>. Como la sintaxis sugiere, SQL soporta un rango más amplio de tipos de uniones que <strong>dplyr</strong>, ya que puedes conectar tablas usando restricciones distintas a las de igualdad (a veces llamadas de no-igualdad).</p>
+</div>
+</div>
+<div id="filtering-joins" class="section level2">
+<h2><span class="header-section-number">13.5</span> Uniones de filtro</h2>
+<p>Las uniones de filtro unen observaciones de la misma forma que las uniones de transformación pero afectan a las observaciones, no a las variables. Existen dos tipos:</p>
+<ul>
+<li><code>semi_join(x, y)</code> <strong>mantiene</strong> todas las observaciones en <code>x</code> con coincidencias en <code>y</code>.</li>
+<li><code>anti_join(x, y)</code> <strong>descarta</strong> todas las observaciones en <code>x</code> con coincidencias en <code>y</code>.</li>
+</ul>
+<p>Las semi uniones son útiles para unir tablas resumen previamente filtradas con las filas originales. Por ejemplo, imagina que encontraste los diez destinos más populares:</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1">destinos_populares &lt;-<span class="st"> </span>vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(destino, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb278-4" data-line-number="4">destinos_populares</a>
+<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="co">#&gt;   destino     n</span></a>
+<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="co">#&gt; 1 ORD     17283</span></a>
+<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="co">#&gt; 2 ATL     17215</span></a>
+<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="co">#&gt; 3 LAX     16174</span></a>
+<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="co">#&gt; 4 BOS     15508</span></a>
+<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="co">#&gt; 5 MCO     14082</span></a>
+<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="co">#&gt; 6 CLT     14064</span></a>
+<a class="sourceLine" id="cb278-14" data-line-number="14"><span class="co">#&gt; # … with 4 more rows</span></a></code></pre></div>
+<p>Ahora quieres encontrar cada vuelo que fue a alguno de esos destinos. Puedes construir un filtro:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb279-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(destino <span class="op">%in%</span><span class="st"> </span>destinos_populares<span class="op">$</span>destino)</a>
+<a class="sourceLine" id="cb279-3" data-line-number="3"><span class="co">#&gt; # A tibble: 141,145 x 19</span></a>
+<a class="sourceLine" id="cb279-4" data-line-number="4"><span class="co">#&gt;    anio   mes   dia horario_salida salida_programa… atraso_salida</span></a>
+<a class="sourceLine" id="cb279-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;          &lt;int&gt;            &lt;int&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb279-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1            542              540             2</span></a>
+<a class="sourceLine" id="cb279-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1            554              600            -6</span></a>
+<a class="sourceLine" id="cb279-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1            554              558            -4</span></a>
+<a class="sourceLine" id="cb279-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1            555              600            -5</span></a>
+<a class="sourceLine" id="cb279-10" data-line-number="10"><span class="co">#&gt; 5  2013     1     1            557              600            -3</span></a>
+<a class="sourceLine" id="cb279-11" data-line-number="11"><span class="co">#&gt; 6  2013     1     1            558              600            -2</span></a>
+<a class="sourceLine" id="cb279-12" data-line-number="12"><span class="co">#&gt; # … with 141,139 more rows, and 13 more variables: horario_llegada &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb279-13" data-line-number="13"><span class="co">#&gt; #   llegada_programada &lt;int&gt;, atraso_llegada &lt;dbl&gt;, aerolinea &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb279-14" data-line-number="14"><span class="co">#&gt; #   vuelo &lt;int&gt;, codigo_cola &lt;chr&gt;, origen &lt;chr&gt;, destino &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb279-15" data-line-number="15"><span class="co">#&gt; #   tiempo_vuelo &lt;dbl&gt;, distancia &lt;dbl&gt;, hora &lt;dbl&gt;, minuto &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb279-16" data-line-number="16"><span class="co">#&gt; #   fecha_hora &lt;dttm&gt;</span></a></code></pre></div>
+<p>Pero es difícil extender este enfoque a varias variables. Por ejemplo, imagina que encontraste los diez días con los atrasos promedio más altos. ¿Cómo construirías un filtro que use <code>anio</code>, <code>mes</code> y <code>dia</code> para buscar coincidencias con <code>vuelos</code>?</p>
+<p>Puedes, en cambio, usar <code>semi_join()</code>, que conecta dos tablas de manera similar a una unión de transformación, pero en lugar de agregar nuevas columnas, mantiene las filas en <code>x</code> que tienen coincidencias en <code>y</code>:</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb280-2" data-line-number="2"><span class="st">  </span><span class="kw">semi_join</span>(destinos_populares)</a>
+<a class="sourceLine" id="cb280-3" data-line-number="3"><span class="co">#&gt; Joining, by = &quot;destino&quot;</span></a>
+<a class="sourceLine" id="cb280-4" data-line-number="4"><span class="co">#&gt; # A tibble: 141,145 x 19</span></a>
+<a class="sourceLine" id="cb280-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia horario_salida salida_programa… atraso_salida</span></a>
+<a class="sourceLine" id="cb280-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;          &lt;int&gt;            &lt;int&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb280-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1            542              540             2</span></a>
+<a class="sourceLine" id="cb280-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1            554              600            -6</span></a>
+<a class="sourceLine" id="cb280-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1            554              558            -4</span></a>
+<a class="sourceLine" id="cb280-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1            555              600            -5</span></a>
+<a class="sourceLine" id="cb280-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1            557              600            -3</span></a>
+<a class="sourceLine" id="cb280-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1            558              600            -2</span></a>
+<a class="sourceLine" id="cb280-13" data-line-number="13"><span class="co">#&gt; # … with 141,139 more rows, and 13 more variables: horario_llegada &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb280-14" data-line-number="14"><span class="co">#&gt; #   llegada_programada &lt;int&gt;, atraso_llegada &lt;dbl&gt;, aerolinea &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb280-15" data-line-number="15"><span class="co">#&gt; #   vuelo &lt;int&gt;, codigo_cola &lt;chr&gt;, origen &lt;chr&gt;, destino &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb280-16" data-line-number="16"><span class="co">#&gt; #   tiempo_vuelo &lt;dbl&gt;, distancia &lt;dbl&gt;, hora &lt;dbl&gt;, minuto &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb280-17" data-line-number="17"><span class="co">#&gt; #   fecha_hora &lt;dttm&gt;</span></a></code></pre></div>
+<p>Gráficamente, un <code>semi_join()</code> se ve de la siguiente forma:</p>
+<p><img src="diagrams_w_text_as_path/es/join-semi.svg" style="display: block; margin: auto;" /></p>
+<p>Solo la existencia de coincidencias es importante; da igual qué observaciones son coincidentes. Esto significa que las uniones de filtro nunca duplican filas como lo hacen las uniones de transformación:</p>
+<p><img src="diagrams_w_text_as_path/es/join-semi-many.svg" style="display: block; margin: auto;" /></p>
+<p>La operación inversa de <code>semi_join()</code> es <code>anti_join()</code>. <code>anti_join()</code> mantiene las filas que <em>no</em> tienen coincidencias:</p>
+<p><img src="diagrams_w_text_as_path/es/join-anti.svg" style="display: block; margin: auto;" /></p>
+<p>Las anti uniones son útiles para encontrar desajustes. Por ejemplo, al conectar <code>aviones</code> y <code>vuelos</code>, podría interesarte saber que existen muchos <code>vuelos</code> que no tienen coincidencias en <code>aviones</code>:</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb281-2" data-line-number="2"><span class="st">  </span><span class="kw">anti_join</span>(aviones, <span class="dt">by =</span> <span class="st">&quot;codigo_cola&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb281-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(codigo_cola, <span class="dt">sort =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb281-4" data-line-number="4"><span class="co">#&gt; # A tibble: 722 x 2</span></a>
+<a class="sourceLine" id="cb281-5" data-line-number="5"><span class="co">#&gt;   codigo_cola     n</span></a>
+<a class="sourceLine" id="cb281-6" data-line-number="6"><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb281-7" data-line-number="7"><span class="co">#&gt; 1 &lt;NA&gt;         2512</span></a>
+<a class="sourceLine" id="cb281-8" data-line-number="8"><span class="co">#&gt; 2 N725MQ        575</span></a>
+<a class="sourceLine" id="cb281-9" data-line-number="9"><span class="co">#&gt; 3 N722MQ        513</span></a>
+<a class="sourceLine" id="cb281-10" data-line-number="10"><span class="co">#&gt; 4 N723MQ        507</span></a>
+<a class="sourceLine" id="cb281-11" data-line-number="11"><span class="co">#&gt; 5 N713MQ        483</span></a>
+<a class="sourceLine" id="cb281-12" data-line-number="12"><span class="co">#&gt; 6 N735MQ        396</span></a>
+<a class="sourceLine" id="cb281-13" data-line-number="13"><span class="co">#&gt; # … with 716 more rows</span></a></code></pre></div>
+<div id="ejercicios-31" class="section level3">
+<h3><span class="header-section-number">13.5.1</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>¿Qué significa que a un vuelo le falte <code>codigo_cola</code>? ¿Qué tienen en común los códigos
+de cola que no tienen registros coincidentes en <code>aviones</code>? (Pista: una variable explica
+~90% de los problemas.)</p></li>
+<li><p>Filtra los vuelos para mostrar únicamente los aviones que han realizado al menos cien
+viajes.</p></li>
+<li><p>Combina <code>datos::vehiculos</code> y <code>datos::comunes</code> para encontrar los registros de los
+modelos más comunes.</p></li>
+<li><p>Encuentra las 48 horas (en el transcurso del año) que tengan los peores atrasos. Haz
+una referencia cruzada con la tabla <code>clima</code>. ¿Puedes observar patrones?</p></li>
+<li><p>¿Qué te indica <code>anti_join(vuelos, aeropuertos, by = c(&quot;destino&quot; = &quot;codigo_aeropuerto&quot;))</code>?
+¿Qué te indica <code>anti_join(aeropuertos, vuelos, by = c(&quot;codigo_aeropuerto&quot; = &quot;destino&quot;))</code>?</p></li>
+<li><p>Puedes esperar que exista una relación implícita entre aviones y aerolíneas, dado que cada
+avión es operado por una única aerolínea. Confirma o descarta esta hipótesis usando las
+herramientas que aprendiste más arriba.</p></li>
+</ol>
+</div>
+</div>
+<div id="problemas-con-las-uniones" class="section level2">
+<h2><span class="header-section-number">13.6</span> Problemas con las uniones</h2>
+<p>Los datos con los que has estado trabajando en este capítulo han sido limpiados de modo que tengas la menor cantidad de problemas posibles. Tus datos difícilmente estarán tan ordenados, por lo que hay algunas consideraciones y pasos a tener en cuenta para que las uniones funcionen adecuadamente sobre tus propios datos.</p>
+<ol style="list-style-type: decimal">
+<li><p>Comienza identificando las variables que forman las claves primarias en cada tabla.
+Usualmente debieras hacerlo considerando tus conocimientos de los datos, no observando
+empíricamente las combinaciones de variables que resultan en un identificador único.
+Si te centras en las variables sin pensar en sus significados, puedes tener la (mala)
+suerte de encontrar una combinación única en tus datos pero que no sea válida en general.</p>
+<p>Por ejemplo, la altura y la longitud identifican de manera única cada aeropuerto, ¡pero
+no son buenos identificadores!</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" data-line-number="1">  aeropuertos <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(altura, longitud) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb282-2" data-line-number="2"><span class="co">#&gt; # A tibble: 0 x 3</span></a>
+<a class="sourceLine" id="cb282-3" data-line-number="3"><span class="co">#&gt; # … with 3 variables: altura &lt;dbl&gt;, longitud &lt;dbl&gt;, n &lt;int&gt;</span></a></code></pre></div></li>
+<li><p>Verifica que ninguna de las variables en la clave primaria esté perdida.
+¡Si hay un valor faltante no podrá identificar una observación!</p></li>
+<li><p>Verifica que las claves foráneas coincidan con las claves primarias en
+otra tabla. La mejor forma de hacerlo es mediante un <code>anti_join()</code>. Es común
+que las claves no coincidan debido a errores en la entrada de datos. Arreglar
+este problema requiere mucho trabajo.</p>
+<p>Si tienes claves perdidas, debes tener cuidado en el uso de unión interior
+versus unión exterior y considerar cuidadosamente si quieres descartar las filas
+que no tengan coincidencias.</p></li>
+</ol>
+<p>Ten en cuenta que verificar el número de filas antes y después de unir no es suficiente para asegurar
+que la unión funcionó de forma exitosa. Si tienes una unión interior con claves duplicadas en ambas tablas,
+puedes tener la mala suerte de que el número de filas descartadas sea igual al número de filas duplicadas.</p>
+</div>
+<div id="set-operations" class="section level2">
+<h2><span class="header-section-number">13.7</span> Operaciones de conjuntos</h2>
+<p>El tipo final de verbo para dos tablas son las operaciones de conjunto. Si bien lo usamos de manera poco frecuente, en ocasiones es útil cuando quieres dividir un filtro complejo en partes maś simples. Todas estas operaciones funcionan con una fila completa, comparando los valores de cada variable. Esto espera que los input <code>x</code> e <code>y</code> tengan las mismas variables y trata las observaciones como conjuntos:</p>
+<ul>
+<li><code>intersect(x, y)</code>: devuelve las observaciones comunes en <code>x</code> e <code>y</code>.</li>
+<li><code>union(x, y)</code>: devuelve las observaciones únicas en <code>x</code> e <code>y</code>.</li>
+<li><code>setdiff(x, y)</code>: devuelve las observaciones en <code>x</code> pero no en <code>y</code>.</li>
+</ul>
+<p>Dados los siguientes datos simples:</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1">df1 &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb283-2" data-line-number="2">  <span class="op">~</span>x, <span class="op">~</span>y,</a>
+<a class="sourceLine" id="cb283-3" data-line-number="3">  <span class="dv">1</span>, <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb283-4" data-line-number="4">  <span class="dv">2</span>, <span class="dv">1</span></a>
+<a class="sourceLine" id="cb283-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb283-6" data-line-number="6">df2 &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb283-7" data-line-number="7">  <span class="op">~</span>x, <span class="op">~</span>y,</a>
+<a class="sourceLine" id="cb283-8" data-line-number="8">  <span class="dv">1</span>, <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb283-9" data-line-number="9">  <span class="dv">1</span>, <span class="dv">2</span></a>
+<a class="sourceLine" id="cb283-10" data-line-number="10">)</a></code></pre></div>
+<p>Las cuatro posibilidades son:</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="kw">intersect</span>(df1, df2)</a>
+<a class="sourceLine" id="cb284-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb284-3" data-line-number="3"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb284-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb284-5" data-line-number="5"><span class="co">#&gt; 1     1     1</span></a>
+<a class="sourceLine" id="cb284-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb284-7" data-line-number="7"><span class="co"># Nota que obtenemos 3 filas, no 4</span></a>
+<a class="sourceLine" id="cb284-8" data-line-number="8"><span class="kw">union</span>(df1, df2)</a>
+<a class="sourceLine" id="cb284-9" data-line-number="9"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
+<a class="sourceLine" id="cb284-10" data-line-number="10"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb284-11" data-line-number="11"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb284-12" data-line-number="12"><span class="co">#&gt; 1     1     1</span></a>
+<a class="sourceLine" id="cb284-13" data-line-number="13"><span class="co">#&gt; 2     2     1</span></a>
+<a class="sourceLine" id="cb284-14" data-line-number="14"><span class="co">#&gt; 3     1     2</span></a>
+<a class="sourceLine" id="cb284-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb284-16" data-line-number="16"><span class="kw">setdiff</span>(df1, df2)</a>
+<a class="sourceLine" id="cb284-17" data-line-number="17"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb284-18" data-line-number="18"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb284-19" data-line-number="19"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb284-20" data-line-number="20"><span class="co">#&gt; 1     2     1</span></a>
+<a class="sourceLine" id="cb284-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb284-22" data-line-number="22"><span class="kw">setdiff</span>(df2, df1)</a>
+<a class="sourceLine" id="cb284-23" data-line-number="23"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
+<a class="sourceLine" id="cb284-24" data-line-number="24"><span class="co">#&gt;       x     y</span></a>
+<a class="sourceLine" id="cb284-25" data-line-number="25"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb284-26" data-line-number="26"><span class="co">#&gt; 1     1     2</span></a></code></pre></div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>NdT. El texto original se refiere al paquete nycflights13 cuya traducción se incluye en el paquete <strong>datos</strong>.<a href="datos-relacionales.html#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="datos-ordenados.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cadenas-de-caracteres.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cienciadedatos/r4ds/edit/master/13-relational-data.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

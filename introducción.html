@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Introducción | R para Ciencia de Datos</title>
+  <meta name="description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Introducción | R para Ciencia de Datos" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://es.r4ds.hadley.nz/" />
+  <meta property="og:image" content="http://es.r4ds.hadley.nz/cover.png" />
+  <meta property="og:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="github-repo" content="cienciadedatos/r4ds" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Introducción | R para Ciencia de Datos" />
+  
+  <meta name="twitter:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="twitter:image" content="http://es.r4ds.hadley.nz/cover.png" />
+
+<meta name="author" content="Garrett Grolemund" />
+<meta name="author" content="Hadley Wickham" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="explorar-introduccion.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="r4ds.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">R para Ciencia de Datos</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenida</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-traducción"><i class="fa fa-check"></i>Sobre la traducción</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-versión-original-en-inglés"><i class="fa fa-check"></i>Sobre la versión original en inglés</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html#lo-que-aprenderás"><i class="fa fa-check"></i><b>1.1</b> Lo que aprenderás</a></li>
+<li class="chapter" data-level="1.2" data-path="introducción.html"><a href="introducción.html#cómo-está-organizado-este-libro"><i class="fa fa-check"></i><b>1.2</b> Cómo está organizado este libro</a></li>
+<li class="chapter" data-level="1.3" data-path="introducción.html"><a href="introducción.html#qué-no-vas-a-aprender"><i class="fa fa-check"></i><b>1.3</b> Qué no vas a aprender</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="introducción.html"><a href="introducción.html#big-data"><i class="fa fa-check"></i><b>1.3.1</b> Big data</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introducción.html"><a href="introducción.html#python-julia-y-amigos"><i class="fa fa-check"></i><b>1.3.2</b> Python, Julia y amigos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introducción.html"><a href="introducción.html#datos-no-rectangulares"><i class="fa fa-check"></i><b>1.3.3</b> Datos no rectangulares</a></li>
+<li class="chapter" data-level="1.3.4" data-path="introducción.html"><a href="introducción.html#confirmación-de-hipótesis"><i class="fa fa-check"></i><b>1.3.4</b> Confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introducción.html"><a href="introducción.html#prerrequisitos"><i class="fa fa-check"></i><b>1.4</b> Prerrequisitos</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introducción.html"><a href="introducción.html#r"><i class="fa fa-check"></i><b>1.4.1</b> R</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introducción.html"><a href="introducción.html#rstudio"><i class="fa fa-check"></i><b>1.4.2</b> RStudio</a></li>
+<li class="chapter" data-level="1.4.3" data-path="introducción.html"><a href="introducción.html#el-tidyverse"><i class="fa fa-check"></i><b>1.4.3</b> El Tidyverse</a></li>
+<li class="chapter" data-level="1.4.4" data-path="introducción.html"><a href="introducción.html#el-paquete-datos"><i class="fa fa-check"></i><b>1.4.4</b> El paquete <code>datos</code></a></li>
+<li class="chapter" data-level="1.4.5" data-path="introducción.html"><a href="introducción.html#otros-paquetes"><i class="fa fa-check"></i><b>1.4.5</b> Otros paquetes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introducción.html"><a href="introducción.html#ejecutar-código-en-r"><i class="fa fa-check"></i><b>1.5</b> Ejecutar código en R</a></li>
+<li class="chapter" data-level="1.6" data-path="introducción.html"><a href="introducción.html#pedir-ayuda-y-aprender-más"><i class="fa fa-check"></i><b>1.6</b> Pedir ayuda y aprender más</a></li>
+<li class="chapter" data-level="1.7" data-path="introducción.html"><a href="introducción.html#agradecimientos"><i class="fa fa-check"></i><b>1.7</b> Agradecimientos</a></li>
+<li class="chapter" data-level="1.8" data-path="introducción.html"><a href="introducción.html#colofón"><i class="fa fa-check"></i><b>1.8</b> Colofón</a></li>
+</ul></li>
+<li class="part"><span><b>I Explorar</b></span></li>
+<li class="chapter" data-level="2" data-path="explorar-introduccion.html"><a href="explorar-introduccion.html"><i class="fa fa-check"></i><b>2</b> Introducción</a></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#introducción-1"><i class="fa fa-check"></i><b>3.1</b> Introducción</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#prerrequisitos-1"><i class="fa fa-check"></i><b>3.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#primeros-pasos"><i class="fa fa-check"></i><b>3.2</b> Primeros pasos</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#el-data-frame-millas"><i class="fa fa-check"></i><b>3.2.1</b> El data frame <code>millas</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#creando-un-gráfico-con-ggplot"><i class="fa fa-check"></i><b>3.2.2</b> Creando un gráfico con ggplot</a></li>
+<li class="chapter" data-level="3.2.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#una-plantilla-de-gráficos"><i class="fa fa-check"></i><b>3.2.3</b> Una plantilla de gráficos</a></li>
+<li class="chapter" data-level="3.2.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios"><i class="fa fa-check"></i><b>3.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#mapeos-estéticos"><i class="fa fa-check"></i><b>3.3</b> Mapeos estéticos</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-1"><i class="fa fa-check"></i><b>3.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#problemas-comunes"><i class="fa fa-check"></i><b>3.4</b> Problemas comunes</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#separar-en-facetas"><i class="fa fa-check"></i><b>3.5</b> Separar en facetas</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-2"><i class="fa fa-check"></i><b>3.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#objetos-geométricos"><i class="fa fa-check"></i><b>3.6</b> Objetos geométricos</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-3"><i class="fa fa-check"></i><b>3.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#transformaciones-estadísticas"><i class="fa fa-check"></i><b>3.7</b> Transformaciones estadísticas</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-4"><i class="fa fa-check"></i><b>3.7.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ajustes-de-posición"><i class="fa fa-check"></i><b>3.8</b> Ajustes de posición</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-5"><i class="fa fa-check"></i><b>3.8.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#sistemas-de-coordenadas"><i class="fa fa-check"></i><b>3.9</b> Sistemas de coordenadas</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-6"><i class="fa fa-check"></i><b>3.9.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#la-gramática-de-gráficos-en-capas"><i class="fa fa-check"></i><b>3.10</b> La gramática de gráficos en capas</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html"><i class="fa fa-check"></i><b>4</b> Flujo de trabajo: conocimientos básicos</a><ul>
+<li class="chapter" data-level="4.1" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#conocimientos-básicos-de-programación"><i class="fa fa-check"></i><b>4.1</b> Conocimientos básicos de programación</a></li>
+<li class="chapter" data-level="4.2" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#la-importancia-de-los-nombres"><i class="fa fa-check"></i><b>4.2</b> La importancia de los nombres</a></li>
+<li class="chapter" data-level="4.3" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#usando-funciones"><i class="fa fa-check"></i><b>4.3</b> Usando funciones</a></li>
+<li class="chapter" data-level="4.4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#ejercicios-7"><i class="fa fa-check"></i><b>4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="transform.html"><a href="transform.html"><i class="fa fa-check"></i><b>5</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="5.1" data-path="transform.html"><a href="transform.html#introducción-2"><i class="fa fa-check"></i><b>5.1</b> Introducción</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="transform.html"><a href="transform.html#prerequisitos"><i class="fa fa-check"></i><b>5.1.1</b> Prerequisitos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="transform.html"><a href="transform.html#vuelos"><i class="fa fa-check"></i><b>5.1.2</b> vuelos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="transform.html"><a href="transform.html#lo-básico-de-dplyr"><i class="fa fa-check"></i><b>5.1.3</b> Lo básico de <strong>dplyr</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="transform.html"><a href="transform.html#filtrar-filas-con-filter"><i class="fa fa-check"></i><b>5.2</b> Filtrar filas con <code>filter()</code></a><ul>
+<li class="chapter" data-level="5.2.1" data-path="transform.html"><a href="transform.html#comparaciones"><i class="fa fa-check"></i><b>5.2.1</b> Comparaciones</a></li>
+<li class="chapter" data-level="5.2.2" data-path="transform.html"><a href="transform.html#operadores-lógicos"><i class="fa fa-check"></i><b>5.2.2</b> Operadores lógicos</a></li>
+<li class="chapter" data-level="5.2.3" data-path="transform.html"><a href="transform.html#valores-faltantes"><i class="fa fa-check"></i><b>5.2.3</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.2.4" data-path="transform.html"><a href="transform.html#ejercicios-8"><i class="fa fa-check"></i><b>5.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="transform.html"><a href="transform.html#reordenar-las-filas-con-arrange"><i class="fa fa-check"></i><b>5.3</b> Reordenar las filas con <code>arrange()</code></a><ul>
+<li class="chapter" data-level="5.3.1" data-path="transform.html"><a href="transform.html#ejercicios-9"><i class="fa fa-check"></i><b>5.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="transform.html"><a href="transform.html#select"><i class="fa fa-check"></i><b>5.4</b> Seleccionar columnas con <code>select()</code></a><ul>
+<li class="chapter" data-level="5.4.1" data-path="transform.html"><a href="transform.html#ejercicios-10"><i class="fa fa-check"></i><b>5.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="transform.html"><a href="transform.html#añadir-nuevas-variables-con-mutate"><i class="fa fa-check"></i><b>5.5</b> Añadir nuevas variables con <code>mutate()</code></a><ul>
+<li class="chapter" data-level="5.5.1" data-path="transform.html"><a href="transform.html#mutate-funs"><i class="fa fa-check"></i><b>5.5.1</b> Funciones de creación útiles</a></li>
+<li class="chapter" data-level="5.5.2" data-path="transform.html"><a href="transform.html#ejercicios-11"><i class="fa fa-check"></i><b>5.5.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="transform.html"><a href="transform.html#resúmenes-agrupados-con-summarise"><i class="fa fa-check"></i><b>5.6</b> Resúmenes agrupados con <code>summarise()</code></a><ul>
+<li class="chapter" data-level="5.6.1" data-path="transform.html"><a href="transform.html#combinación-de-múltiples-operaciones-con-el-pipe"><i class="fa fa-check"></i><b>5.6.1</b> Combinación de múltiples operaciones con el <em>pipe</em></a></li>
+<li class="chapter" data-level="5.6.2" data-path="transform.html"><a href="transform.html#valores-faltantes-1"><i class="fa fa-check"></i><b>5.6.2</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.6.3" data-path="transform.html"><a href="transform.html#conteos"><i class="fa fa-check"></i><b>5.6.3</b> Conteos</a></li>
+<li class="chapter" data-level="5.6.4" data-path="transform.html"><a href="transform.html#summarise-funs"><i class="fa fa-check"></i><b>5.6.4</b> Funciones de resumen útiles</a></li>
+<li class="chapter" data-level="5.6.5" data-path="transform.html"><a href="transform.html#agrupación-por-múltiples-variables"><i class="fa fa-check"></i><b>5.6.5</b> Agrupación por múltiples variables</a></li>
+<li class="chapter" data-level="5.6.6" data-path="transform.html"><a href="transform.html#desagrupar"><i class="fa fa-check"></i><b>5.6.6</b> Desagrupar</a></li>
+<li class="chapter" data-level="5.6.7" data-path="transform.html"><a href="transform.html#ejercicios-12"><i class="fa fa-check"></i><b>5.6.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="transform.html"><a href="transform.html#transformaciones-agrupadas-y-filtros"><i class="fa fa-check"></i><b>5.7</b> Transformaciones agrupadas (y filtros)</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="transform.html"><a href="transform.html#ejercicios-13"><i class="fa fa-check"></i><b>5.7.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html"><i class="fa fa-check"></i><b>6</b> Flujo de trabajo: <em>Scripts</em></a><ul>
+<li class="chapter" data-level="6.1" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejecutando-código"><i class="fa fa-check"></i><b>6.1</b> Ejecutando código</a></li>
+<li class="chapter" data-level="6.2" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#diagnósticos-de-rstudio"><i class="fa fa-check"></i><b>6.2</b> Diagnósticos de RStudio</a></li>
+<li class="chapter" data-level="6.3" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejercicios-14"><i class="fa fa-check"></i><b>6.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html"><i class="fa fa-check"></i><b>7</b> Análisis exploratorio de datos (<em>EDA</em>)</a><ul>
+<li class="chapter" data-level="7.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#introducción-3"><i class="fa fa-check"></i><b>7.1</b> Introducción</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#requisitos-indispensables"><i class="fa fa-check"></i><b>7.1.1</b> Requisitos indispensables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#preguntas"><i class="fa fa-check"></i><b>7.2</b> Preguntas</a></li>
+<li class="chapter" data-level="7.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#variación"><i class="fa fa-check"></i><b>7.3</b> Variación</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#visualizando-distribuciones"><i class="fa fa-check"></i><b>7.3.1</b> Visualizando distribuciones</a></li>
+<li class="chapter" data-level="7.3.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-típicos"><i class="fa fa-check"></i><b>7.3.2</b> Valores típicos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-inusuales"><i class="fa fa-check"></i><b>7.3.3</b> Valores inusuales</a></li>
+<li class="chapter" data-level="7.3.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-15"><i class="fa fa-check"></i><b>7.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-faltantes-2"><i class="fa fa-check"></i><b>7.4</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-16"><i class="fa fa-check"></i><b>7.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#covariación"><i class="fa fa-check"></i><b>7.5</b> Covariación</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#cat-cont"><i class="fa fa-check"></i><b>7.5.1</b> Una variable categórica y una variable continua</a></li>
+<li class="chapter" data-level="7.5.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-categóricas"><i class="fa fa-check"></i><b>7.5.2</b> Dos variables categóricas</a></li>
+<li class="chapter" data-level="7.5.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-continuas"><i class="fa fa-check"></i><b>7.5.3</b> Dos variables continuas</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#patrones-y-modelos"><i class="fa fa-check"></i><b>7.6</b> Patrones y modelos</a></li>
+<li class="chapter" data-level="7.7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#argumentos-en-ggplot2"><i class="fa fa-check"></i><b>7.7</b> Argumentos en ggplot2</a></li>
+<li class="chapter" data-level="7.8" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#aprendiendo-más"><i class="fa fa-check"></i><b>7.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html"><i class="fa fa-check"></i><b>8</b> Flujo de trabajo: proyectos</a><ul>
+<li class="chapter" data-level="8.1" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#qué-es-real"><i class="fa fa-check"></i><b>8.1</b> ¿Qué es real?</a></li>
+<li class="chapter" data-level="8.2" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#dónde-vive-tu-análisis"><i class="fa fa-check"></i><b>8.2</b> ¿Dónde vive tu análisis?</a></li>
+<li class="chapter" data-level="8.3" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#rutas-y-directorios"><i class="fa fa-check"></i><b>8.3</b> Rutas y directorios</a></li>
+<li class="chapter" data-level="8.4" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#proyectos-en-rstudio"><i class="fa fa-check"></i><b>8.4</b> Proyectos en RStudio</a></li>
+<li class="chapter" data-level="8.5" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#resumen"><i class="fa fa-check"></i><b>8.5</b> Resumen</a></li>
+</ul></li>
+<li class="part"><span><b>II Manejar o domar datos</b></span></li>
+<li class="chapter" data-level="9" data-path="domardatos-intro.html"><a href="domardatos-intro.html"><i class="fa fa-check"></i><b>9</b> Introducción</a></li>
+<li class="chapter" data-level="10" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>10</b> Tibbles</a><ul>
+<li class="chapter" data-level="10.1" data-path="tibbles.html"><a href="tibbles.html#introducción-4"><i class="fa fa-check"></i><b>10.1</b> Introducción</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="tibbles.html"><a href="tibbles.html#prerrequisitos-2"><i class="fa fa-check"></i><b>10.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tibbles.html"><a href="tibbles.html#creando-tibbles"><i class="fa fa-check"></i><b>10.2</b> Creando tibbles</a></li>
+<li class="chapter" data-level="10.3" data-path="tibbles.html"><a href="tibbles.html#tibbles-vs.data.frame"><i class="fa fa-check"></i><b>10.3</b> Tibbles vs. data.frame</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="tibbles.html"><a href="tibbles.html#impresión-en-la-consola"><i class="fa fa-check"></i><b>10.3.1</b> Impresión en la consola</a></li>
+<li class="chapter" data-level="10.3.2" data-path="tibbles.html"><a href="tibbles.html#selección-de-subconjuntos"><i class="fa fa-check"></i><b>10.3.2</b> Selección de subconjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="tibbles.html"><a href="tibbles.html#interactuando-con-código-antiguo"><i class="fa fa-check"></i><b>10.4</b> Interactuando con código antiguo</a></li>
+<li class="chapter" data-level="10.5" data-path="tibbles.html"><a href="tibbles.html#ejercicios-20"><i class="fa fa-check"></i><b>10.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="importación-de-datos.html"><a href="importación-de-datos.html"><i class="fa fa-check"></i><b>11</b> Importación de datos</a><ul>
+<li class="chapter" data-level="11.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#introducción-5"><i class="fa fa-check"></i><b>11.1</b> Introducción</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#prerrequisitos-3"><i class="fa fa-check"></i><b>11.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comenzando"><i class="fa fa-check"></i><b>11.2</b> Comenzando</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comparación-con-r-base"><i class="fa fa-check"></i><b>11.2.1</b> Comparación con R base</a></li>
+<li class="chapter" data-level="11.2.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-21"><i class="fa fa-check"></i><b>11.2.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-vector"><i class="fa fa-check"></i><b>11.3</b> Segmentar un vector</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#números"><i class="fa fa-check"></i><b>11.3.1</b> Números</a></li>
+<li class="chapter" data-level="11.3.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-strings"><i class="fa fa-check"></i><b>11.3.2</b> Cadenas de texto (<em>strings</em>)</a></li>
+<li class="chapter" data-level="11.3.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-factors"><i class="fa fa-check"></i><b>11.3.3</b> Factores</a></li>
+<li class="chapter" data-level="11.3.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-datetimes"><i class="fa fa-check"></i><b>11.3.4</b> Fechas, fechas-horas, y horas</a></li>
+<li class="chapter" data-level="11.3.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-22"><i class="fa fa-check"></i><b>11.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-archivo"><i class="fa fa-check"></i><b>11.4</b> Segmentar un archivo</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#estrategia"><i class="fa fa-check"></i><b>11.4.1</b> Estrategia</a></li>
+<li class="chapter" data-level="11.4.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#problemas"><i class="fa fa-check"></i><b>11.4.2</b> Problemas</a></li>
+<li class="chapter" data-level="11.4.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otras-estrategias"><i class="fa fa-check"></i><b>11.4.3</b> Otras estrategias</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#escribir-a-un-archivo"><i class="fa fa-check"></i><b>11.5</b> Escribir a un archivo</a></li>
+<li class="chapter" data-level="11.6" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otros-tipos-de-datos"><i class="fa fa-check"></i><b>11.6</b> Otros tipos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="datos-ordenados.html"><a href="datos-ordenados.html"><i class="fa fa-check"></i><b>12</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#introducción-6"><i class="fa fa-check"></i><b>12.1</b> Introducción</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#prerrequisitos-4"><i class="fa fa-check"></i><b>12.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-ordenados-1"><i class="fa fa-check"></i><b>12.2</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-23"><i class="fa fa-check"></i><b>12.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#pivotar"><i class="fa fa-check"></i><b>12.3</b> Pivotar</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-largos"><i class="fa fa-check"></i><b>12.3.1</b> Datos “largos”</a></li>
+<li class="chapter" data-level="12.3.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-anchos"><i class="fa fa-check"></i><b>12.3.2</b> Datos “anchos”</a></li>
+<li class="chapter" data-level="12.3.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-24"><i class="fa fa-check"></i><b>12.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar-y-unir"><i class="fa fa-check"></i><b>12.4</b> Separar y unir</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar"><i class="fa fa-check"></i><b>12.4.1</b> Separar</a></li>
+<li class="chapter" data-level="12.4.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#unir"><i class="fa fa-check"></i><b>12.4.2</b> Unir</a></li>
+<li class="chapter" data-level="12.4.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-25"><i class="fa fa-check"></i><b>12.4.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="datos-ordenados.html"><a href="datos-ordenados.html#valores-faltantes-3"><i class="fa fa-check"></i><b>12.5</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-26"><i class="fa fa-check"></i><b>12.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="datos-ordenados.html"><a href="datos-ordenados.html#estudio-de-caso"><i class="fa fa-check"></i><b>12.6</b> Estudio de caso</a><ul>
+<li class="chapter" data-level="12.6.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-27"><i class="fa fa-check"></i><b>12.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-no-ordenados"><i class="fa fa-check"></i><b>12.7</b> Datos no ordenados</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="datos-relacionales.html"><a href="datos-relacionales.html"><i class="fa fa-check"></i><b>13</b> Datos relacionales</a><ul>
+<li class="chapter" data-level="13.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#introducción-7"><i class="fa fa-check"></i><b>13.1</b> Introducción</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#prerrequisitos-5"><i class="fa fa-check"></i><b>13.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#nycflights13-relational"><i class="fa fa-check"></i><b>13.2</b> Datos sobre vuelos</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-28"><i class="fa fa-check"></i><b>13.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#claves"><i class="fa fa-check"></i><b>13.3</b> Claves</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-29"><i class="fa fa-check"></i><b>13.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#mutating-joins"><i class="fa fa-check"></i><b>13.4</b> Uniones de transformación</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#entendiendo-las-uniones"><i class="fa fa-check"></i><b>13.4.1</b> Entendiendo las uniones</a></li>
+<li class="chapter" data-level="13.4.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#inner-join"><i class="fa fa-check"></i><b>13.4.2</b> Unión interior</a></li>
+<li class="chapter" data-level="13.4.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#outer-join"><i class="fa fa-check"></i><b>13.4.3</b> Uniones exteriores</a></li>
+<li class="chapter" data-level="13.4.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-matches"><i class="fa fa-check"></i><b>13.4.4</b> Claves duplicadas</a></li>
+<li class="chapter" data-level="13.4.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-by"><i class="fa fa-check"></i><b>13.4.5</b> Definiendo las columnas clave</a></li>
+<li class="chapter" data-level="13.4.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-30"><i class="fa fa-check"></i><b>13.4.6</b> Ejercicios</a></li>
+<li class="chapter" data-level="13.4.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#otras-implementaciones"><i class="fa fa-check"></i><b>13.4.7</b> Otras implementaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#filtering-joins"><i class="fa fa-check"></i><b>13.5</b> Uniones de filtro</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-31"><i class="fa fa-check"></i><b>13.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#problemas-con-las-uniones"><i class="fa fa-check"></i><b>13.6</b> Problemas con las uniones</a></li>
+<li class="chapter" data-level="13.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#set-operations"><i class="fa fa-check"></i><b>13.7</b> Operaciones de conjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html"><i class="fa fa-check"></i><b>14</b> Cadenas de caracteres</a><ul>
+<li class="chapter" data-level="14.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#introducción-8"><i class="fa fa-check"></i><b>14.1</b> Introducción</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#prerequisitos-1"><i class="fa fa-check"></i><b>14.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#cadenas-elementos-básicos"><i class="fa fa-check"></i><b>14.2</b> Cadenas: elementos básicos</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#largo-de-cadena"><i class="fa fa-check"></i><b>14.2.1</b> Largo de cadena</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#combinar-cadenas"><i class="fa fa-check"></i><b>14.2.2</b> Combinar cadenas</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#dividir-cadenas"><i class="fa fa-check"></i><b>14.2.3</b> Dividir cadenas</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#locales"><i class="fa fa-check"></i><b>14.2.4</b> <em>Locales</em></a></li>
+<li class="chapter" data-level="14.2.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-32"><i class="fa fa-check"></i><b>14.2.5</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.2.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencia-de-patrones-con-expresiones-regulares"><i class="fa fa-check"></i><b>14.2.6</b> Buscar coincidencia de patrones con expresiones regulares</a></li>
+<li class="chapter" data-level="14.2.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-básicas"><i class="fa fa-check"></i><b>14.2.7</b> Coincidencias básicas</a></li>
+<li class="chapter" data-level="14.2.8" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#anclas"><i class="fa fa-check"></i><b>14.2.8</b> Anclas</a></li>
+<li class="chapter" data-level="14.2.9" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#clases-de-caracteres-y-alternativas"><i class="fa fa-check"></i><b>14.2.9</b> Clases de caracteres y alternativas</a></li>
+<li class="chapter" data-level="14.2.10" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#repetición"><i class="fa fa-check"></i><b>14.2.10</b> Repetición</a></li>
+<li class="chapter" data-level="14.2.11" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#agrupamiento-y-referencias-previas"><i class="fa fa-check"></i><b>14.2.11</b> Agrupamiento y referencias previas</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#herramientas"><i class="fa fa-check"></i><b>14.3</b> Herramientas</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#detectar-coincidencias"><i class="fa fa-check"></i><b>14.3.1</b> Detectar coincidencias</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-38"><i class="fa fa-check"></i><b>14.3.2</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.3.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#extraer-coincidencias"><i class="fa fa-check"></i><b>14.3.3</b> Extraer coincidencias</a></li>
+<li class="chapter" data-level="14.3.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-agrupadas"><i class="fa fa-check"></i><b>14.3.4</b> Coincidencias agrupadas</a></li>
+<li class="chapter" data-level="14.3.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#remplazar-coincidencias"><i class="fa fa-check"></i><b>14.3.5</b> Remplazar coincidencias</a></li>
+<li class="chapter" data-level="14.3.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#divisiones"><i class="fa fa-check"></i><b>14.3.6</b> Divisiones</a></li>
+<li class="chapter" data-level="14.3.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencias"><i class="fa fa-check"></i><b>14.3.7</b> Buscar coincidencias</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otro-tipo-de-patrones"><i class="fa fa-check"></i><b>14.4</b> Otro tipo de patrones</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-43"><i class="fa fa-check"></i><b>14.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otros-usos-de-las-expresiones-regulares."><i class="fa fa-check"></i><b>14.5</b> Otros usos de las expresiones regulares.</a></li>
+<li class="chapter" data-level="14.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#stringi"><i class="fa fa-check"></i><b>14.6</b> stringi</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-44"><i class="fa fa-check"></i><b>14.6.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="factores.html"><a href="factores.html"><i class="fa fa-check"></i><b>15</b> Factores</a><ul>
+<li class="chapter" data-level="15.1" data-path="factores.html"><a href="factores.html#introducción-9"><i class="fa fa-check"></i><b>15.1</b> Introducción</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="factores.html"><a href="factores.html#prerrequisitos-6"><i class="fa fa-check"></i><b>15.1.1</b> Prerrequisitos</a></li>
+<li class="chapter" data-level="15.1.2" data-path="factores.html"><a href="factores.html#aprendiendo-más-1"><i class="fa fa-check"></i><b>15.1.2</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="factores.html"><a href="factores.html#creando-factores"><i class="fa fa-check"></i><b>15.2</b> Creando factores</a></li>
+<li class="chapter" data-level="15.3" data-path="factores.html"><a href="factores.html#encuesta-social-general"><i class="fa fa-check"></i><b>15.3</b> Encuesta Social General</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="factores.html"><a href="factores.html#ejercicios-45"><i class="fa fa-check"></i><b>15.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="factores.html"><a href="factores.html#modificar-el-orden-de-los-factores"><i class="fa fa-check"></i><b>15.4</b> Modificar el orden de los factores</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="factores.html"><a href="factores.html#ejercicios-46"><i class="fa fa-check"></i><b>15.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="factores.html"><a href="factores.html#modificar-los-niveles-de-los-factores"><i class="fa fa-check"></i><b>15.5</b> Modificar los niveles de los factores</a><ul>
+<li class="chapter" data-level="15.5.1" data-path="factores.html"><a href="factores.html#ejercicios-47"><i class="fa fa-check"></i><b>15.5.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html"><i class="fa fa-check"></i><b>16</b> Fechas y horas</a><ul>
+<li class="chapter" data-level="16.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#introducción-10"><i class="fa fa-check"></i><b>16.1</b> Introducción</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#requisitos-previos"><i class="fa fa-check"></i><b>16.1.1</b> Requisitos previos</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#creando-fechashoras"><i class="fa fa-check"></i><b>16.2</b> Creando fechas/horas</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-cadenas-de-caracteres"><i class="fa fa-check"></i><b>16.2.1</b> Desde cadenas de caracteres</a></li>
+<li class="chapter" data-level="16.2.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-componentes-individuales"><i class="fa fa-check"></i><b>16.2.2</b> Desde componentes individuales</a></li>
+<li class="chapter" data-level="16.2.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-otros-tipos"><i class="fa fa-check"></i><b>16.2.3</b> Desde otros tipos</a></li>
+<li class="chapter" data-level="16.2.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-48"><i class="fa fa-check"></i><b>16.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#componentes-de-fecha-hora"><i class="fa fa-check"></i><b>16.3</b> Componentes de fecha-hora</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#obteniendo-los-componentes"><i class="fa fa-check"></i><b>16.3.1</b> Obteniendo los componentes</a></li>
+<li class="chapter" data-level="16.3.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#redondeo"><i class="fa fa-check"></i><b>16.3.2</b> Redondeo</a></li>
+<li class="chapter" data-level="16.3.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#configurando-componentes"><i class="fa fa-check"></i><b>16.3.3</b> Configurando componentes</a></li>
+<li class="chapter" data-level="16.3.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-49"><i class="fa fa-check"></i><b>16.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#lapsos-de-tiempo"><i class="fa fa-check"></i><b>16.4</b> Lapsos de tiempo</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#duraciones"><i class="fa fa-check"></i><b>16.4.1</b> Duraciones</a></li>
+<li class="chapter" data-level="16.4.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#períodos"><i class="fa fa-check"></i><b>16.4.2</b> Períodos</a></li>
+<li class="chapter" data-level="16.4.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#intervalos"><i class="fa fa-check"></i><b>16.4.3</b> Intervalos</a></li>
+<li class="chapter" data-level="16.4.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#resumen-1"><i class="fa fa-check"></i><b>16.4.4</b> Resumen</a></li>
+<li class="chapter" data-level="16.4.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-50"><i class="fa fa-check"></i><b>16.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#husos-horarios"><i class="fa fa-check"></i><b>16.5</b> Husos horarios</a></li>
+</ul></li>
+<li class="part"><span><b>III Programar</b></span></li>
+<li class="chapter" data-level="17" data-path="programar-intro.html"><a href="programar-intro.html"><i class="fa fa-check"></i><b>17</b> Introducción</a><ul>
+<li class="chapter" data-level="17.1" data-path="programar-intro.html"><a href="programar-intro.html#aprendiendo-más-2"><i class="fa fa-check"></i><b>17.1</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>18</b> Pipes</a><ul>
+<li class="chapter" data-level="18.1" data-path="pipes.html"><a href="pipes.html#introducción-11"><i class="fa fa-check"></i><b>18.1</b> Introducción</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="pipes.html"><a href="pipes.html#prerequisitos-2"><i class="fa fa-check"></i><b>18.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="pipes.html"><a href="pipes.html#alternativas-a-los-pipes"><i class="fa fa-check"></i><b>18.2</b> Alternativas a los pipes</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="pipes.html"><a href="pipes.html#pasos-intermedios"><i class="fa fa-check"></i><b>18.2.1</b> Pasos intermedios</a></li>
+<li class="chapter" data-level="18.2.2" data-path="pipes.html"><a href="pipes.html#sobrescribir-el-original"><i class="fa fa-check"></i><b>18.2.2</b> Sobrescribir el original</a></li>
+<li class="chapter" data-level="18.2.3" data-path="pipes.html"><a href="pipes.html#composición-de-funciones"><i class="fa fa-check"></i><b>18.2.3</b> Composición de funciones</a></li>
+<li class="chapter" data-level="18.2.4" data-path="pipes.html"><a href="pipes.html#uso-de-pipe"><i class="fa fa-check"></i><b>18.2.4</b> Uso de pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="pipes.html"><a href="pipes.html#cuándo-no-usar-el-pipe"><i class="fa fa-check"></i><b>18.3</b> Cuándo no usar el pipe</a></li>
+<li class="chapter" data-level="18.4" data-path="pipes.html"><a href="pipes.html#otras-herramientas-de-magrittr"><i class="fa fa-check"></i><b>18.4</b> Otras herramientas de magrittr</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>19</b> Funciones</a><ul>
+<li class="chapter" data-level="19.1" data-path="funciones.html"><a href="funciones.html#introducción-12"><i class="fa fa-check"></i><b>19.1</b> Introducción</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="funciones.html"><a href="funciones.html#prerrequisitos-7"><i class="fa fa-check"></i><b>19.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="funciones.html"><a href="funciones.html#cuándo-deberías-escribir-una-función"><i class="fa fa-check"></i><b>19.2</b> ¿Cuándo deberías escribir una función?</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="funciones.html"><a href="funciones.html#ejercicios-51"><i class="fa fa-check"></i><b>19.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="funciones.html"><a href="funciones.html#las-funciones-son-para-los-seres-humanos-y-para-las-computadoras"><i class="fa fa-check"></i><b>19.3</b> Las funciones son para los seres humanos y para las computadoras</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="funciones.html"><a href="funciones.html#ejercicios-52"><i class="fa fa-check"></i><b>19.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="funciones.html"><a href="funciones.html#ejecución-condicional"><i class="fa fa-check"></i><b>19.4</b> Ejecución condicional</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="funciones.html"><a href="funciones.html#condiciones"><i class="fa fa-check"></i><b>19.4.1</b> Condiciones</a></li>
+<li class="chapter" data-level="19.4.2" data-path="funciones.html"><a href="funciones.html#condiciones-múltiples"><i class="fa fa-check"></i><b>19.4.2</b> Condiciones múltiples</a></li>
+<li class="chapter" data-level="19.4.3" data-path="funciones.html"><a href="funciones.html#estilo-del-código"><i class="fa fa-check"></i><b>19.4.3</b> Estilo del código</a></li>
+<li class="chapter" data-level="19.4.4" data-path="funciones.html"><a href="funciones.html#ejercicios-53"><i class="fa fa-check"></i><b>19.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="funciones.html"><a href="funciones.html#argumentos-de-funciones"><i class="fa fa-check"></i><b>19.5</b> Argumentos de funciones</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="funciones.html"><a href="funciones.html#elección-de-nombres"><i class="fa fa-check"></i><b>19.5.1</b> Elección de nombres</a></li>
+<li class="chapter" data-level="19.5.2" data-path="funciones.html"><a href="funciones.html#chequear-valores"><i class="fa fa-check"></i><b>19.5.2</b> Chequear valores</a></li>
+<li class="chapter" data-level="19.5.3" data-path="funciones.html"><a href="funciones.html#punto-punto-punto"><i class="fa fa-check"></i><b>19.5.3</b> Punto-punto-punto (…)</a></li>
+<li class="chapter" data-level="19.5.4" data-path="funciones.html"><a href="funciones.html#evaluación-diferida"><i class="fa fa-check"></i><b>19.5.4</b> Evaluación diferida</a></li>
+<li class="chapter" data-level="19.5.5" data-path="funciones.html"><a href="funciones.html#ejercicios-54"><i class="fa fa-check"></i><b>19.5.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.6" data-path="funciones.html"><a href="funciones.html#valores-de-retorno"><i class="fa fa-check"></i><b>19.6</b> Valores de retorno</a><ul>
+<li class="chapter" data-level="19.6.1" data-path="funciones.html"><a href="funciones.html#sentencias-de-retorno-explícitas"><i class="fa fa-check"></i><b>19.6.1</b> Sentencias de retorno explícitas</a></li>
+<li class="chapter" data-level="19.6.2" data-path="funciones.html"><a href="funciones.html#escribir-funciones-aptas-para-un-pipe"><i class="fa fa-check"></i><b>19.6.2</b> Escribir funciones aptas para un pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="19.7" data-path="funciones.html"><a href="funciones.html#entorno"><i class="fa fa-check"></i><b>19.7</b> Entorno</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>20</b> Vectores</a><ul>
+<li class="chapter" data-level="20.1" data-path="vectores.html"><a href="vectores.html#introducción-13"><i class="fa fa-check"></i><b>20.1</b> Introducción</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="vectores.html"><a href="vectores.html#prerrequisitos-8"><i class="fa fa-check"></i><b>20.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="vectores.html"><a href="vectores.html#vectores-básicos"><i class="fa fa-check"></i><b>20.2</b> Vectores básicos</a></li>
+<li class="chapter" data-level="20.3" data-path="vectores.html"><a href="vectores.html#tipos-importantes-de-vectores-atómicos"><i class="fa fa-check"></i><b>20.3</b> Tipos importantes de vectores atómicos</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="vectores.html"><a href="vectores.html#lógico"><i class="fa fa-check"></i><b>20.3.1</b> Lógico</a></li>
+<li class="chapter" data-level="20.3.2" data-path="vectores.html"><a href="vectores.html#numérico"><i class="fa fa-check"></i><b>20.3.2</b> Numérico</a></li>
+<li class="chapter" data-level="20.3.3" data-path="vectores.html"><a href="vectores.html#caracter"><i class="fa fa-check"></i><b>20.3.3</b> Caracter</a></li>
+<li class="chapter" data-level="20.3.4" data-path="vectores.html"><a href="vectores.html#valores-faltantes-4"><i class="fa fa-check"></i><b>20.3.4</b> Valores faltantes</a></li>
+<li class="chapter" data-level="20.3.5" data-path="vectores.html"><a href="vectores.html#ejercicios-55"><i class="fa fa-check"></i><b>20.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="vectores.html"><a href="vectores.html#usando-vectores-atómicos"><i class="fa fa-check"></i><b>20.4</b> Usando vectores atómicos</a><ul>
+<li class="chapter" data-level="20.4.1" data-path="vectores.html"><a href="vectores.html#coerción"><i class="fa fa-check"></i><b>20.4.1</b> Coerción</a></li>
+<li class="chapter" data-level="20.4.2" data-path="vectores.html"><a href="vectores.html#funciones-de-prueba"><i class="fa fa-check"></i><b>20.4.2</b> Funciones de prueba</a></li>
+<li class="chapter" data-level="20.4.3" data-path="vectores.html"><a href="vectores.html#escalares-y-reglas-de-reciclado"><i class="fa fa-check"></i><b>20.4.3</b> Escalares y reglas de reciclado</a></li>
+<li class="chapter" data-level="20.4.4" data-path="vectores.html"><a href="vectores.html#nombrar-vectores"><i class="fa fa-check"></i><b>20.4.4</b> Nombrar vectores</a></li>
+<li class="chapter" data-level="20.4.5" data-path="vectores.html"><a href="vectores.html#vector-subsetting"><i class="fa fa-check"></i><b>20.4.5</b> Creación de subconjuntos (<em>subsetting</em>)</a></li>
+<li class="chapter" data-level="20.4.6" data-path="vectores.html"><a href="vectores.html#ejercicios-56"><i class="fa fa-check"></i><b>20.4.6</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="vectores.html"><a href="vectores.html#vectores-recursivos-listas"><i class="fa fa-check"></i><b>20.5</b> Vectores Recursivos (listas)</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="vectores.html"><a href="vectores.html#visualizando-listas"><i class="fa fa-check"></i><b>20.5.1</b> Visualizando listas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="vectores.html"><a href="vectores.html#subconjuntos-subsetting"><i class="fa fa-check"></i><b>20.5.2</b> Subconjuntos (<em>Subsetting</em>)</a></li>
+<li class="chapter" data-level="20.5.3" data-path="vectores.html"><a href="vectores.html#listas-de-condimentos"><i class="fa fa-check"></i><b>20.5.3</b> Listas de Condimentos</a></li>
+<li class="chapter" data-level="20.5.4" data-path="vectores.html"><a href="vectores.html#ejercicios-57"><i class="fa fa-check"></i><b>20.5.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.6" data-path="vectores.html"><a href="vectores.html#atributos"><i class="fa fa-check"></i><b>20.6</b> Atributos</a></li>
+<li class="chapter" data-level="20.7" data-path="vectores.html"><a href="vectores.html#vectores-aumentados"><i class="fa fa-check"></i><b>20.7</b> Vectores aumentados</a><ul>
+<li class="chapter" data-level="20.7.1" data-path="vectores.html"><a href="vectores.html#factores-1"><i class="fa fa-check"></i><b>20.7.1</b> Factores</a></li>
+<li class="chapter" data-level="20.7.2" data-path="vectores.html"><a href="vectores.html#fechas-y-fechas-hora"><i class="fa fa-check"></i><b>20.7.2</b> Fechas y fechas-hora</a></li>
+<li class="chapter" data-level="20.7.3" data-path="vectores.html"><a href="vectores.html#tibbles-1"><i class="fa fa-check"></i><b>20.7.3</b> Tibbles</a></li>
+<li class="chapter" data-level="20.7.4" data-path="vectores.html"><a href="vectores.html#ejercicios-58"><i class="fa fa-check"></i><b>20.7.4</b> Ejercicios:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>21</b> Iteración</a><ul>
+<li class="chapter" data-level="21.1" data-path="iteración.html"><a href="iteración.html#introducción-14"><i class="fa fa-check"></i><b>21.1</b> Introducción</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="iteración.html"><a href="iteración.html#prerrequisitos-9"><i class="fa fa-check"></i><b>21.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="iteración.html"><a href="iteración.html#bucles-for"><i class="fa fa-check"></i><b>21.2</b> Bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.2.1" data-path="iteración.html"><a href="iteración.html#ejercicios-59"><i class="fa fa-check"></i><b>21.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="iteración.html"><a href="iteración.html#variaciones-de-bucles-for"><i class="fa fa-check"></i><b>21.3</b> Variaciones de bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.3.1" data-path="iteración.html"><a href="iteración.html#modificar-un-objeto-existente"><i class="fa fa-check"></i><b>21.3.1</b> Modificar un objeto existente</a></li>
+<li class="chapter" data-level="21.3.2" data-path="iteración.html"><a href="iteración.html#patrones-de-bucle"><i class="fa fa-check"></i><b>21.3.2</b> Patrones de bucle</a></li>
+<li class="chapter" data-level="21.3.3" data-path="iteración.html"><a href="iteración.html#longitud-de-output-desconocida"><i class="fa fa-check"></i><b>21.3.3</b> Longitud de <em>output</em> desconocida</a></li>
+<li class="chapter" data-level="21.3.4" data-path="iteración.html"><a href="iteración.html#longitud-de-secuencia-desconocida"><i class="fa fa-check"></i><b>21.3.4</b> Longitud de secuencia desconocida</a></li>
+<li class="chapter" data-level="21.3.5" data-path="iteración.html"><a href="iteración.html#ejercicios-60"><i class="fa fa-check"></i><b>21.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="iteración.html"><a href="iteración.html#bucles-for-vs.funcionales"><i class="fa fa-check"></i><b>21.4</b> Bucles <em>for</em> vs. funcionales</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="iteración.html"><a href="iteración.html#ejercicios-61"><i class="fa fa-check"></i><b>21.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="iteración.html"><a href="iteración.html#las-funciones-map"><i class="fa fa-check"></i><b>21.5</b> Las funciones <em>map</em></a><ul>
+<li class="chapter" data-level="21.5.1" data-path="iteración.html"><a href="iteración.html#atajos"><i class="fa fa-check"></i><b>21.5.1</b> Atajos</a></li>
+<li class="chapter" data-level="21.5.2" data-path="iteración.html"><a href="iteración.html#r-base"><i class="fa fa-check"></i><b>21.5.2</b> R Base</a></li>
+<li class="chapter" data-level="21.5.3" data-path="iteración.html"><a href="iteración.html#ejercicios-62"><i class="fa fa-check"></i><b>21.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="iteración.html"><a href="iteración.html#manejando-los-errores"><i class="fa fa-check"></i><b>21.6</b> Manejando los errores</a></li>
+<li class="chapter" data-level="21.7" data-path="iteración.html"><a href="iteración.html#usar-map-sobre-múltiples-argumentos"><i class="fa fa-check"></i><b>21.7</b> Usar <em>map</em> sobre múltiples argumentos</a><ul>
+<li class="chapter" data-level="21.7.1" data-path="iteración.html"><a href="iteración.html#invocando-distintas-funciones"><i class="fa fa-check"></i><b>21.7.1</b> Invocando distintas funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="21.8" data-path="iteración.html"><a href="iteración.html#walk"><i class="fa fa-check"></i><b>21.8</b> Walk</a></li>
+<li class="chapter" data-level="21.9" data-path="iteración.html"><a href="iteración.html#otros-patrones-para-los-bucles-for"><i class="fa fa-check"></i><b>21.9</b> Otros patrones para los bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.9.1" data-path="iteración.html"><a href="iteración.html#funciones-predicativas"><i class="fa fa-check"></i><b>21.9.1</b> Funciones predicativas</a></li>
+<li class="chapter" data-level="21.9.2" data-path="iteración.html"><a href="iteración.html#reducir-y-acumular"><i class="fa fa-check"></i><b>21.9.2</b> Reducir y acumular</a></li>
+<li class="chapter" data-level="21.9.3" data-path="iteración.html"><a href="iteración.html#ejercicios-63"><i class="fa fa-check"></i><b>21.9.3</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Modelar</b></span></li>
+<li class="chapter" data-level="22" data-path="model-intro.html"><a href="model-intro.html"><i class="fa fa-check"></i><b>22</b> Introducción</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-intro.html"><a href="model-intro.html#generación-de-hipótesis-vs.confirmación-de-hipótesis"><i class="fa fa-check"></i><b>22.1</b> Generación de hipótesis vs. confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html"><i class="fa fa-check"></i><b>23</b> Modelos: conceptos básicos</a><ul>
+<li class="chapter" data-level="23.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#introducción-15"><i class="fa fa-check"></i><b>23.1</b> Introducción</a><ul>
+<li class="chapter" data-level="23.1.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#prerrequisitos-10"><i class="fa fa-check"></i><b>23.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="23.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#un-modelo-simple"><i class="fa fa-check"></i><b>23.2</b> Un modelo simple</a><ul>
+<li class="chapter" data-level="23.2.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-64"><i class="fa fa-check"></i><b>23.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#visualizando-modelos"><i class="fa fa-check"></i><b>23.3</b> Visualizando modelos</a><ul>
+<li class="chapter" data-level="23.3.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#predicciones"><i class="fa fa-check"></i><b>23.3.1</b> Predicciones</a></li>
+<li class="chapter" data-level="23.3.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#residuos"><i class="fa fa-check"></i><b>23.3.2</b> Residuos</a></li>
+<li class="chapter" data-level="23.3.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-65"><i class="fa fa-check"></i><b>23.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#fórmulas-y-familias-de-modelos"><i class="fa fa-check"></i><b>23.4</b> Fórmulas y familias de modelos</a><ul>
+<li class="chapter" data-level="23.4.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#variables-categóricas"><i class="fa fa-check"></i><b>23.4.1</b> Variables categóricas</a></li>
+<li class="chapter" data-level="23.4.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-continuas-y-categóricas"><i class="fa fa-check"></i><b>23.4.2</b> Interacciones (continuas y categóricas)</a></li>
+<li class="chapter" data-level="23.4.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-dos-variables-continuas"><i class="fa fa-check"></i><b>23.4.3</b> Interacciones (dos variables continuas)</a></li>
+<li class="chapter" data-level="23.4.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#transformaciones"><i class="fa fa-check"></i><b>23.4.4</b> Transformaciones</a></li>
+<li class="chapter" data-level="23.4.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-66"><i class="fa fa-check"></i><b>23.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#valores-faltantes-5"><i class="fa fa-check"></i><b>23.5</b> Valores faltantes</a></li>
+<li class="chapter" data-level="23.6" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#otras-familias-de-modelos"><i class="fa fa-check"></i><b>23.6</b> Otras familias de modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html"><i class="fa fa-check"></i><b>24</b> Construcción de modelos</a><ul>
+<li class="chapter" data-level="24.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#introducción-16"><i class="fa fa-check"></i><b>24.1</b> Introducción</a><ul>
+<li class="chapter" data-level="24.1.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#prerrequisitos-11"><i class="fa fa-check"></i><b>24.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="24.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#diamond-prices"><i class="fa fa-check"></i><b>24.2</b> ¿Por qué los diamantes de baja calidad son más caros?</a><ul>
+<li class="chapter" data-level="24.2.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#precio-y-quilates"><i class="fa fa-check"></i><b>24.2.1</b> Precio y quilates</a></li>
+<li class="chapter" data-level="24.2.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#un-modelo-más-complicado"><i class="fa fa-check"></i><b>24.2.2</b> Un modelo más complicado</a></li>
+<li class="chapter" data-level="24.2.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-67"><i class="fa fa-check"></i><b>24.2.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#qué-afecta-el-número-de-vuelos-diarios"><i class="fa fa-check"></i><b>24.3</b> ¿Qué afecta el número de vuelos diarios?</a><ul>
+<li class="chapter" data-level="24.3.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#día-de-la-semana"><i class="fa fa-check"></i><b>24.3.1</b> Día de la semana</a></li>
+<li class="chapter" data-level="24.3.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#efecto-estacional-del-sábado"><i class="fa fa-check"></i><b>24.3.2</b> Efecto estacional del sábado</a></li>
+<li class="chapter" data-level="24.3.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#variables-calculadas"><i class="fa fa-check"></i><b>24.3.3</b> Variables calculadas</a></li>
+<li class="chapter" data-level="24.3.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#época-del-año-un-enfoque-alternativo"><i class="fa fa-check"></i><b>24.3.4</b> Época del año: un enfoque alternativo</a></li>
+<li class="chapter" data-level="24.3.5" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-68"><i class="fa fa-check"></i><b>24.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#aprende-más-sobre-los-modelos"><i class="fa fa-check"></i><b>24.4</b> Aprende más sobre los modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="muchos-modelos.html"><a href="muchos-modelos.html"><i class="fa fa-check"></i><b>25</b> Muchos modelos</a><ul>
+<li class="chapter" data-level="25.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#introducción-17"><i class="fa fa-check"></i><b>25.1</b> Introducción</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#prerrequisitos-12"><i class="fa fa-check"></i><b>25.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#gapminder"><i class="fa fa-check"></i><b>25.2</b> gapminder</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#datos-anidados"><i class="fa fa-check"></i><b>25.2.1</b> Datos anidados</a></li>
+<li class="chapter" data-level="25.2.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista"><i class="fa fa-check"></i><b>25.2.2</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.2.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando"><i class="fa fa-check"></i><b>25.2.3</b> Desanidando</a></li>
+<li class="chapter" data-level="25.2.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#calidad-del-modelo"><i class="fa fa-check"></i><b>25.2.4</b> Calidad del modelo</a></li>
+<li class="chapter" data-level="25.2.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-69"><i class="fa fa-check"></i><b>25.2.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista-1"><i class="fa fa-check"></i><b>25.3</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#creando-columnas-lista"><i class="fa fa-check"></i><b>25.4</b> Creando columnas-lista</a><ul>
+<li class="chapter" data-level="25.4.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#con-anidación"><i class="fa fa-check"></i><b>25.4.1</b> Con anidación</a></li>
+<li class="chapter" data-level="25.4.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-funciones-vectorizadas"><i class="fa fa-check"></i><b>25.4.2</b> A partir de funciones vectorizadas</a></li>
+<li class="chapter" data-level="25.4.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-medidas-de-resumen-con-más-de-un-valor"><i class="fa fa-check"></i><b>25.4.3</b> A partir de medidas de resumen con más de un valor</a></li>
+<li class="chapter" data-level="25.4.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-una-lista-nombrada"><i class="fa fa-check"></i><b>25.4.4</b> A partir de una lista nombrada</a></li>
+<li class="chapter" data-level="25.4.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-70"><i class="fa fa-check"></i><b>25.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#simplificando-columnas-lista"><i class="fa fa-check"></i><b>25.5</b> Simplificando columnas-lista</a><ul>
+<li class="chapter" data-level="25.5.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#lista-a-vector"><i class="fa fa-check"></i><b>25.5.1</b> Lista a vector</a></li>
+<li class="chapter" data-level="25.5.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando-1"><i class="fa fa-check"></i><b>25.5.2</b> Desanidando</a></li>
+<li class="chapter" data-level="25.5.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-71"><i class="fa fa-check"></i><b>25.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.6" data-path="muchos-modelos.html"><a href="muchos-modelos.html#haciendo-datos-ordenados-con-broom"><i class="fa fa-check"></i><b>25.6</b> Haciendo datos ordenados con broom</a></li>
+</ul></li>
+<li class="part"><span><b>V Comunicar</b></span></li>
+<li class="chapter" data-level="26" data-path="introducción-18.html"><a href="introducción-18.html"><i class="fa fa-check"></i><b>26</b> Introducción</a></li>
+<li class="chapter" data-level="27" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>27</b> R Markdown</a><ul>
+<li class="chapter" data-level="27.1" data-path="r-markdown.html"><a href="r-markdown.html#introducción-19"><i class="fa fa-check"></i><b>27.1</b> Introducción</a><ul>
+<li class="chapter" data-level="27.1.1" data-path="r-markdown.html"><a href="r-markdown.html#prerequisitos-3"><i class="fa fa-check"></i><b>27.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="27.2" data-path="r-markdown.html"><a href="r-markdown.html#r-markdown-básico"><i class="fa fa-check"></i><b>27.2</b> R Markdown básico</a><ul>
+<li class="chapter" data-level="27.2.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-72"><i class="fa fa-check"></i><b>27.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="r-markdown.html"><a href="r-markdown.html#formateo-de-texto-con-markdown"><i class="fa fa-check"></i><b>27.3</b> Formateo de texto con Markdown</a><ul>
+<li class="chapter" data-level="27.3.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-73"><i class="fa fa-check"></i><b>27.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.4" data-path="r-markdown.html"><a href="r-markdown.html#bloques-de-código"><i class="fa fa-check"></i><b>27.4</b> Bloques de código</a><ul>
+<li class="chapter" data-level="27.4.1" data-path="r-markdown.html"><a href="r-markdown.html#nombres-en-bloques"><i class="fa fa-check"></i><b>27.4.1</b> Nombres en bloques</a></li>
+<li class="chapter" data-level="27.4.2" data-path="r-markdown.html"><a href="r-markdown.html#opciones-en-bloques"><i class="fa fa-check"></i><b>27.4.2</b> Opciones en bloques</a></li>
+<li class="chapter" data-level="27.4.3" data-path="r-markdown.html"><a href="r-markdown.html#tablas"><i class="fa fa-check"></i><b>27.4.3</b> Tablas</a></li>
+<li class="chapter" data-level="27.4.4" data-path="r-markdown.html"><a href="r-markdown.html#caching"><i class="fa fa-check"></i><b>27.4.4</b> Caching</a></li>
+<li class="chapter" data-level="27.4.5" data-path="r-markdown.html"><a href="r-markdown.html#opciones-globales"><i class="fa fa-check"></i><b>27.4.5</b> Opciones globales</a></li>
+<li class="chapter" data-level="27.4.6" data-path="r-markdown.html"><a href="r-markdown.html#código-en-la-línea"><i class="fa fa-check"></i><b>27.4.6</b> Código en la línea</a></li>
+<li class="chapter" data-level="27.4.7" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-74"><i class="fa fa-check"></i><b>27.4.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.5" data-path="r-markdown.html"><a href="r-markdown.html#solucionando-problemas"><i class="fa fa-check"></i><b>27.5</b> Solucionando problemas</a></li>
+<li class="chapter" data-level="27.6" data-path="r-markdown.html"><a href="r-markdown.html#encabezado-yaml"><i class="fa fa-check"></i><b>27.6</b> Encabezado YAML</a><ul>
+<li class="chapter" data-level="27.6.1" data-path="r-markdown.html"><a href="r-markdown.html#parámetros"><i class="fa fa-check"></i><b>27.6.1</b> Parámetros</a></li>
+<li class="chapter" data-level="27.6.2" data-path="r-markdown.html"><a href="r-markdown.html#bibliografías-y-citas"><i class="fa fa-check"></i><b>27.6.2</b> Bibliografías y citas</a></li>
+</ul></li>
+<li class="chapter" data-level="27.7" data-path="r-markdown.html"><a href="r-markdown.html#aprendiendo-más-3"><i class="fa fa-check"></i><b>27.7</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html"><i class="fa fa-check"></i><b>28</b> Comunicar con gráficos</a><ul>
+<li class="chapter" data-level="28.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#introducción-20"><i class="fa fa-check"></i><b>28.1</b> Introducción</a><ul>
+<li class="chapter" data-level="28.1.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#prerrequisitos-13"><i class="fa fa-check"></i><b>28.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#etiquetas"><i class="fa fa-check"></i><b>28.2</b> Etiquetas</a><ul>
+<li class="chapter" data-level="28.2.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-75"><i class="fa fa-check"></i><b>28.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#anotaciones"><i class="fa fa-check"></i><b>28.3</b> Anotaciones</a><ul>
+<li class="chapter" data-level="28.3.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-76"><i class="fa fa-check"></i><b>28.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#escalas"><i class="fa fa-check"></i><b>28.4</b> Escalas</a><ul>
+<li class="chapter" data-level="28.4.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#marcas-de-los-ejes-y-leyendas"><i class="fa fa-check"></i><b>28.4.1</b> Marcas de los ejes y leyendas</a></li>
+<li class="chapter" data-level="28.4.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#diseño-de-leyendas"><i class="fa fa-check"></i><b>28.4.2</b> Diseño de leyendas</a></li>
+<li class="chapter" data-level="28.4.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#reemplazando-una-escala"><i class="fa fa-check"></i><b>28.4.3</b> Reemplazando una escala</a></li>
+<li class="chapter" data-level="28.4.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-77"><i class="fa fa-check"></i><b>28.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#haciendo-zoom"><i class="fa fa-check"></i><b>28.5</b> Haciendo Zoom</a></li>
+<li class="chapter" data-level="28.6" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#temas"><i class="fa fa-check"></i><b>28.6</b> Temas</a></li>
+<li class="chapter" data-level="28.7" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#guardando-tus-gráficos"><i class="fa fa-check"></i><b>28.7</b> Guardando tus gráficos</a><ul>
+<li class="chapter" data-level="28.7.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#redimensionar-una-figura"><i class="fa fa-check"></i><b>28.7.1</b> Redimensionar una figura</a></li>
+<li class="chapter" data-level="28.7.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#otras-opciones-importantes"><i class="fa fa-check"></i><b>28.7.2</b> Otras opciones importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="28.8" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#aprendiendo-más-4"><i class="fa fa-check"></i><b>28.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html"><i class="fa fa-check"></i><b>29</b> Formatos de R Markdown</a><ul>
+<li class="chapter" data-level="29.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#introducción-21"><i class="fa fa-check"></i><b>29.1</b> Introducción</a></li>
+<li class="chapter" data-level="29.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#opciones-de-salida"><i class="fa fa-check"></i><b>29.2</b> Opciones de salida</a></li>
+<li class="chapter" data-level="29.3" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#documentos"><i class="fa fa-check"></i><b>29.3</b> Documentos</a></li>
+<li class="chapter" data-level="29.4" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#notebooks"><i class="fa fa-check"></i><b>29.4</b> Notebooks</a></li>
+<li class="chapter" data-level="29.5" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#presentaciones"><i class="fa fa-check"></i><b>29.5</b> Presentaciones</a></li>
+<li class="chapter" data-level="29.6" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#dashboards"><i class="fa fa-check"></i><b>29.6</b> Dashboards</a></li>
+<li class="chapter" data-level="29.7" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#interactividad"><i class="fa fa-check"></i><b>29.7</b> Interactividad</a><ul>
+<li class="chapter" data-level="29.7.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#htmlwidgets"><i class="fa fa-check"></i><b>29.7.1</b> htmlwidgets</a></li>
+<li class="chapter" data-level="29.7.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#shiny"><i class="fa fa-check"></i><b>29.7.2</b> Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="29.8" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#sitios-web"><i class="fa fa-check"></i><b>29.8</b> Sitios Web</a></li>
+<li class="chapter" data-level="29.9" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#otros-formatos"><i class="fa fa-check"></i><b>29.9</b> Otros Formatos</a></li>
+<li class="chapter" data-level="29.10" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#aprende-más"><i class="fa fa-check"></i><b>29.10</b> Aprende más</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="flujo-de-trabajo-en-r-markdown.html"><a href="flujo-de-trabajo-en-r-markdown.html"><i class="fa fa-check"></i><b>30</b> Flujo de trabajo en R Markdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R para Ciencia de Datos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introducción" class="section level1">
+<h1><span class="header-section-number">1</span> Introducción</h1>
+<p>La ciencia de datos (<em>data science</em>) es una disciplina fascinante que te permite convertir datos sin procesar en entendimiento, comprensión y conocimiento. El objetivo de este libro es ayudarte a aprender las herramientas más importantes para que puedas hacer ciencia de datos en R. Luego de leerlo, tendrás las herramientas para enfrentar una gran variedad de desafíos propios de esta área, usando las mejores partes de R.</p>
+<div id="lo-que-aprenderás" class="section level2">
+<h2><span class="header-section-number">1.1</span> Lo que aprenderás</h2>
+<p>La ciencia de datos es un campo muy amplio y no hay manera de que puedas dominarlo leyendo un solo libro. El objetivo de este, en particular, es entregarte una base sólida acerca de las herramientas más importantes. Nuestro modelo sobre cuáles son las herramientas necesarias para un proyecto típico de ciencia de datos se ve así:</p>
+<p><img src="diagrams/es/data-science.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>Primero, debes <strong>importar</strong> tus datos hacia R. Típicamente, esto implica tomar datos que están guardados en un archivo, base de datos o API y cargarlos como <em>data frame</em> en R. Si no puedes llevar tus datos a R, no puedes hacer ciencia de datos con él.</p>
+<p>Una vez que has importado los datos, es una buena idea <strong>ordenarlos</strong>. Ordenar los datos significa guardarlos de una manera consistente que haga coincidir la semántica del set de datos con la manera en que está guardado. En definitiva, cuando tus datos están ordenados, cada columna es una variable y cada fila una observación. Tener datos ordenados es importante porque si su estructura es consistente, puedes enfocar tus esfuerzos en las preguntas sobre los datos y no en luchar para que estos tengan la forma necesaria para diferentes funciones.</p>
+<p>Cuando tus datos están ordenados, un primer paso suele ser <strong>transformarlos</strong>. La transformación implica reducir las observaciones a aquellas que sean de interés (como todas las personas de una ciudad o todos los datos del último año), crear nuevas variables que sean funciones de variables ya existentes (como calcular la rapidez a partir de la velocidad y el tiempo) y calcular una serie de estadísticos de resumen (como recuentos y medias). Juntos, a ordenar y transformar, se les llama <strong>manejar o domar</strong> los datos, porque hacer que estos tengan la forma con la que es natural trabajarlos, suele sentirse como una lucha.</p>
+<p>Una vez que tienes los datos ordenados con las variables que necesitas, hay dos principales fuentes generadoras de conocimiento: la visualización y el modelado. Ambas tienen fortalezas y debilidades complementarias, por lo que cualquier análisis real iterará entre ellas varias veces.</p>
+<p>La <strong>visualización</strong> es una actividad humana fundamental. Una buena visualización te mostrará cosas que no esperabas o hará surgir nuevas preguntas acerca de los datos. También puede darte pistas acerca de si estás haciendo las preguntas equivocadas o si necesitas recolectar datos diferentes. Las visualizaciones pueden sorprenderte, pero no escalan particularmente bien, ya que requieren ser interpretadas por una persona.</p>
+<p>Los <strong>modelos</strong> son herramientas complementarias a la visualización. Una vez que tus preguntas son lo suficientemente precisas, puedes utilizar un modelo para responderlas. Los modelos son herramientas matemáticas o computacionales, por lo que generalmente escalan bien. Incluso cuando no lo hacen, resulta más económico comprar más computadores que comprar más cerebros. Sin embargo, cada modelo tiene supuestos y, debido a su propia naturaleza, un modelo no puede cuestionar sus propios supuestos. Esto significa que un modelo, por definición, no puede sorprenderte.</p>
+<p>El último paso de la ciencia de datos es la <strong>comunicación</strong>, una parte crítica de cualquier proyecto de análisis de datos. No importa qué tan bien tus modelos y visualizaciones te hayan permitido entender tus datos, a menos que también puedas comunicar esos resultados a otras personas.</p>
+<p>Alrededor de todas estas herramientas se encuentra la <strong>programación</strong>. La programación es una herramienta transversal que usarás en todas las partes de tu proyecto. No necesitas ser una personas experta en programación para hacer ciencia de datos, pero aprender más sobre ella es una gran ventaja porque te permite automatizar tareas recurrentes y resolver problemas con mayor facilidad.</p>
+<p>En cualquier proyecto de ciencia de datos tendrás que ocupar estas herramientas, pero en muchos casos estas no serán suficientes. Hay un regla aproximada de 80-20 en juego: puedes enfrentar alrededor del 80 % de cualquier proyecto usando las herramientas que aprenderás en este libro, pero necesitarás utilizar otras para abordar el 20 % restante. A lo largo del libro te iremos señalando recursos donde puedes aprender más.</p>
+</div>
+<div id="cómo-está-organizado-este-libro" class="section level2">
+<h2><span class="header-section-number">1.2</span> Cómo está organizado este libro</h2>
+<p>La descripción anterior de las herramientas propias de las ciencia de datos está organizada aproximadamente de acuerdo al orden en que usualmente se usan en el análisis (aunque, por supuesto, tendrás que iterar entre ellas múltiples veces). Sin embargo, en nuestra experiencia esa no es la mejor manera de aprenderlas:</p>
+<ul>
+<li><p>Partir con la ingesta y orden de los datos no es lo óptimo porque el 80%
+del tiempo es un proceso rutinario y aburrido y el 20% restante es extraño y frustrante.
+¡No es un buen lugar para aprender un tema nuevo! En cambio, partiremos
+con la visualización y transformación de datos que ya han sido importados
+y ordenados. De esta manera, cuando tengas que importar y ordenar tus
+propios datos, tu motivación se mantendrá alta porque sabrás que ese
+sufrimiento vale la pena.</p></li>
+<li><p>Algunos temas se explican mejor con otras herramientas. Por ejemplo, creemos
+que es más fácil entender qué es un modelo si ya sabes sobre visualización,
+datos ordenados y programación.</p></li>
+<li><p>Las herramientas de programación no son necesariamente interesantes en sí mismas;
+sin embargo, te permiten enfrentar problemas desafiantes. Te entregaremos una
+selección de herramientas de programación en la mitad del libro y luego verás
+cómo se pueden combinar con las herramientas propias de la ciencia de datos
+para enfrentar problemas de modelado interesantes.</p></li>
+</ul>
+<p>En cada capítulo hemos tratado de mantener un patrón similar: partir con algunos ejemplos motivantes que te permitan ver el panorama completo y luego sumergirnos en los detalles. Cada sección del libro incluye ejercicios que te ayudarán a practicar lo que has aprendido. Pese a que puede ser tentador saltarse los ejercicios, no hay mejor manera de aprender que practicar con problemas reales.</p>
+</div>
+<div id="qué-no-vas-a-aprender" class="section level2">
+<h2><span class="header-section-number">1.3</span> Qué no vas a aprender</h2>
+<p>Hay algunos temas importantes que este libro no aborda. Creemos que es importante mantenernos enfocados con determinación en los aspectos esenciales, con el fin de que puedas ponerte en marcha lo más rápido posible. Eso implica que este libro no puede abordar todos los temas importantes.</p>
+<div id="big-data" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> Big data</h3>
+<p>Este libro se enfoca con orgullo en conjuntos de datos pequeños procesables en la memoria de tu computadora. Este es el lugar adecuado para partir, ya que no es posible que te enfrentes a datos de gran tamaño sin antes haber tenido experiencia con otros más pequeños. Las herramientas que aprenderás en este libro permiten manejar fácilmente datos de cientos de megabytes y, con un poco de cuidado, normalmente podrías hacerlas funcionar con 1 o 2 Gb de datos. Si habitualmente trabajas con datos más grandes (por ejemplo, 10-100 Gb), sería bueno que aprendieras sobre <a href="https://github.com/Rdatatable/data.table">data.table</a>. Este libro no enseña <code>data.table</code>, ya que su interfaz concisa hace que sea difícil de aprender por las pocas pistas lingüísticas que entrega. Sin embargo, si trabajas con datos grandes, la ventaja en términos de rendimiento hace que valga la pena el esfuerzo extra que requiere aprenderlo.
+Si tus datos son más grandes que eso, es importante que consideres cuidadosamente si tu problema de <em>big data</em> no es, en realidad, un problema de datos pequeños oculto. Si bien los datos completos pueden ser grandes, muchas veces los necesarios para responder una pregunta específica son menos. Puede que encuentres un subconjunto, una submuestra o un resumen de datos que sí caben en la memoria y que de todos modos te permiten responder la pregunta que te interesa. El desafío en este caso es encontrar los datos pequeños adecuados, lo que usualmente requiere muchas iteraciones.</p>
+<p>Otra posibilidad es que tu problema de <em>big data</em> sea realmente una suma de problemas de datos pequeños. Puede que cada uno de estos problema individuales quepa en la memoria; el problema es que tienes millones de ellos. Por ejemplo, puedes querer ajustar un modelo para cada persona de tu conjunto de datos. Eso sería trivial si tuvieras solo 10 o 100 personas, pero no si tienes un millón. Afortunadamente, cada problema es independiente del resto (una configuración a la que a veces se le llama de manera vergonzosa <em>paralela</em>), por lo que solo necesitas un sistema (como Hadoop o Spark) que te permita enviar diferentes sets de datos a diferentes computadoras para procesarlos. Una vez que hayas resuelto cómo responder la pregunta para un subset de datos usando las herramientas descritas en este libro, podrás aprender otras nuevas como <code>sparklyr</code>, <code>RHIPE</code> y <code>ddr</code> para responder la pregunta para todo el <em>dataset</em>.</p>
+</div>
+<div id="python-julia-y-amigos" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> Python, Julia y amigos</h3>
+<p>En este libro no aprenderás nada sobre Python, Julia u otros lenguajes de programación útiles para hacer ciencia de datos. No es que creamos que estas herramientas sean malas. ¡No lo son! En la práctica, la mayoría de los equipos de ciencia de datos utilizan una mezcla de lenguajes, habitualmente al menos R y Python.</p>
+<p>Sin embargo, creemos fuertemente que es preferible dominar una sola herramienta a la vez. Mejorarás más rápido si te sumerges en un tema con profundidad, en vez de dispersarte entre muchos temas distintos. Esto no quiere decir que solo tengas que saber una cosa, solamente que aprenderás más rápido si te enfocas en una a la vez. Debes tratar de aprender cosas nuevas a lo largo de tu carrera, pero asegúrate de que tu entendimiento sea sólido antes de moverte hacia el siguiente tema interesante.</p>
+<p>Creemos que R es un gran lugar para empezar tu camino en la ciencia de datos, ya que es un ambiente diseñado desde las bases hacia arriba para apoyarla. R no es solo un lenguaje de programación, sino también un ambiente interactivo para hacer ciencia de datos. Para apoyar esta interacción, R es mucho más flexible que muchos de sus equivalentes. Si bien esta flexibilidad tiene desventajas, su lado positivo es que permite desarrollar con facilidad gramáticas que se ajustan a las distintas partes de la ciencia de datos. Estos mini-lenguajes te ayudan a pensar los problemas como científico/a de datos, al tiempo que apoyan una interacción fluida entre tu cerebro y la computadora.</p>
+</div>
+<div id="datos-no-rectangulares" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Datos no rectangulares</h3>
+<p>Este libro se enfoca exclusivamente en datos rectangulares, esto es, en conjuntos de valores que están asociados cada uno con una variable y una observación. Hay muchos conjuntos de datos que no se ajustan naturalmente a este paradigma, los que incluyen imágenes, sonidos, árboles y texto. Sin embargo, los <em>data frames</em> rectangulares son tan comunes en la ciencia y en la industria, que creemos que son un buen lugar para iniciar tu camino en la ciencia de datos.</p>
+</div>
+<div id="confirmación-de-hipótesis" class="section level3">
+<h3><span class="header-section-number">1.3.4</span> Confirmación de hipótesis</h3>
+<p>Es posible dividir el análisis de datos en dos áreas: generación de hipótesis y confirmación de hipótesis (a veces llamada análisis confirmatorio). El foco de este libro está puesto decididamente en la generación de hipótesis o exploración de datos. Acá mirarás con profundidad los datos y, en combinación con tu propio conocimiento, generarás muchas hipótesis interesantes que ayudarán a explicar por qué se comportan como lo hacen. Evaluarás las hipótesis informalmente, usando tu escepticismo para cuestionar los datos de distintas maneras.</p>
+<p>El complemento de la generación de hipótesis es la confirmación de hipótesis. Esta última es difícil por dos razones:</p>
+<ol style="list-style-type: decimal">
+<li><p>Necesitas un modelo matemático con el fin de generar predicciones falseables.
+Esto usualmente requiere considerable sofisticación estadística.</p></li>
+<li><p>Cada observación puede ser utilizada una sola vez para confirmar una hipótesis.
+En el momento en que la usas más de una vez ya estás de vuelta haciendo análisis
+exploratorio. Esto quiere decir que para hacer confirmación de hipótesis tienes
+que haber “pre-registrado” (es decir, haber escrito con anticipación) tu plan
+de análisis y no desviarte de él incluso cuando hayas visto tus datos. Hablaremos
+un poco acerca de estrategias que puedes utilizar para hacer esto más fácil en el
+capítulo sobre <a href="model-intro.html#model-intro">modelos</a>.</p></li>
+</ol>
+<p>Es habitual pensar en el modelado como una herramienta para la confirmación de hipótesis y a la visualización como una herramienta para la generación de hipótesis. Sin embargo, esa es una falsa dicotomía: los modelos son utilizados usualmente para la exploración y, con un poco de cuidado, puedes usar la visualización para confirmar una hipótesis. La diferencia clave es qué tan seguido mires cada observación: si la miras solo una vez es confirmación; si la miras más de una vez es exploración.</p>
+</div>
+</div>
+<div id="prerrequisitos" class="section level2">
+<h2><span class="header-section-number">1.4</span> Prerrequisitos</h2>
+<p>Hemos asumido algunas cosas respecto de lo que ya sabes con el fin de poder sacar mayor provecho de este libro. Tienes que tener una <em>literacidad</em> numérica general y sería útil que tuvieses algo de experiencia programando. Si nunca has programado antes y puedes leer en inglés, <a href="https://rstudio-education.github.io/hopr/">Hands on Programming with R</a> escrito por Garrett podría ser un buen acompañamiento para este libro.</p>
+<p>Hay cinco cosas que necesitas para poder ejecutar el código incluido en este libro: R, RStudio, una colección de paquetes llamada <strong>tidyverse</strong>, el paquete <strong>datos</strong> (que incluye los datos en español se se utilizan en los ejemplos y ejercicios) y una serie de otros paquetes. Los paquetes son la unidad fundamental de código reproducible de R. Incluyen funciones reutilizables, la documentación que describe cómo usarlas y datos de muestra.</p>
+<div id="r" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> R</h3>
+<p>Para descargar R debes acceder a CRAN, llamado así por sus siglas en inglés: the <strong>c</strong>omprehensive <strong>R</strong> <strong>a</strong>rchive <strong>n</strong>etwork. CRAN está compuesto de una serie de servidores espejo repartidos alrededor del mundo y es utilizado para distribuir tanto R como los paquetes de R. No es necesario que intentes elegir un servidor que esté cerca tuyo: en su lugar, puedes utilizar el servidor en la nube, <a href="https://cloud.r-project.org" class="uri">https://cloud.r-project.org</a>, que automáticamente lo identifica por ti.</p>
+<p>Una vez al año sale una nueva versión importante de R y hay entre 2 y 3 ediciones menores en ese período. Es una buena idea actualizarlo regularmente. El proceso puede ser un poco engorroso, especialmente en el caso de las versiones mayores, que requieren que reinstales todos los paquetes que ya tienes. Sin embargo, no hacerlo puede ser peor. Para este libro, asegúrate de tener al menos la versión 3.5.</p>
+</div>
+<div id="rstudio" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> RStudio</h3>
+<p>RStudio es un ambiente de desarrollo integrado (o IDE, por su sigla en inglés: Integrated Development Environment) para programar en R. Puedes descargarlo e instalarlo desde <a href="http://www.rstudio.com/download" class="uri">http://www.rstudio.com/download</a>. RStudio se actualiza un par de veces al año. Cuando haya una nueva versión disponible, el mismo programa te lo hará saber. Es una buena idea mantenerlo actualizado para que puedas aprovechar las mejores y más recientes características. Para este libro, asegúrate de tener al menos la versión 1.0.0.</p>
+<p>Cuando abras RStudio, verás en la interfaz dos regiones clave:</p>
+<p><img src="diagrams/es/rstudio-console.svg" width="75%" style="display: block; margin: auto;" /></p>
+<p>Por ahora, todo lo que tienes que saber es que el código de R se escribe en la Consola y que hay que presionar Enter para ejecutarlo. ¡Aprenderás más a medida que avancemos!</p>
+</div>
+<div id="el-tidyverse" class="section level3">
+<h3><span class="header-section-number">1.4.3</span> El Tidyverse</h3>
+<p>Es necesario que instales también algunos paquetes de R. Un <strong>paquete</strong> es una colección de funciones, datos y documentación que permite extender las capacidades de R base. Los paquetes son clave para usar R de manera exitosa. La mayoría de los paquetes que aprenderás a usar en este libro son parte del llamado “Tidyverse”. Los paquetes del Tidyverse comparten una filosofía acerca de los datos y la programación en R, y están diseñados para trabajar juntos con naturalidad. Su nombre viene de la palabra en inglés “tidy”, que quiere decir “ordenado”.</p>
+<p>Puedes instalar el <strong>tidyverse</strong> completo con una sola línea de código:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
+<p>Escribe en tu computadora esa línea de código en la consola y luego presiona Enter para ejecutarla. R descargará los paquetes de CRAN y los instalará en tu computadora. Si tienes problemas durante la instalación, asegúrate que tienes conexión a Internet y que <a href="https://cloud.r-project.org/" class="uri">https://cloud.r-project.org/</a> no está bloqueado por tu firewall o proxy.</p>
+<p>No podrás usar las funciones, objetos y archivos de ayuda de un paquete hasta que lo hayas cargado con <code>library()</code>. Una vez que has instalado un paquete, puedes cargarlo con la función <code>library()</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; ✔ ggplot2 3.3.0     ✔ purrr   0.3.3</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; ✔ tibble  3.0.0     ✔ dplyr   0.8.5</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; ✔ tidyr   1.0.2     ✔ stringr 1.4.0</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; ✔ readr   1.3.1     ✔ forcats 0.5.0</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a></code></pre></div>
+<p>Este mensaje te indica que el tidyverse está cargando los paquetes <strong>ggplot2</strong>, <strong>tibble</strong>, <strong>tidyr</strong>, <strong>readr</strong>, <strong>purrr</strong>, <strong>dplyr</strong>, <strong>stringr</strong> y <strong>forcats</strong>. Estos son considerados el <strong>corazón</strong> del Tidyverse porque los usarás prácticamente en cualquier análisis.</p>
+<p>Los paquetes del Tidyverse cambian con bastante frecuencia. Puedes ver si existen actualizaciones disponibles y opcionalmente instalarlas ejecutando <code>tidyverse_update()</code>.</p>
+</div>
+<div id="el-paquete-datos" class="section level3">
+<h3><span class="header-section-number">1.4.4</span> El paquete <code>datos</code></h3>
+<p>Con el fin de que este libro sea más accesible para el público hispanoparlante, además de la traducción del texto se han traducido los datos que se utilizan en los ejemplos y ejercicios.</p>
+<p>El paquete <code>datos</code> se encuentra disponible en Github y puedes instalarlo ejecutando el siguiente código:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#install.packages(&quot;remotes&quot;)</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;cienciadedatos/datos&quot;</span>)</a></code></pre></div>
+</div>
+<div id="otros-paquetes" class="section level3">
+<h3><span class="header-section-number">1.4.5</span> Otros paquetes</h3>
+<p>Existen muchas otros paquetes excelentes que no son parte del <strong>tidyverse</strong> porque resuelven problemas de otros ámbitos o porque los principios en los que se basa su diseño son distintos. Esto no los hace mejores o peores, solo diferentes. En otras palabras, el complemento del <strong>tidyverse</strong> no es el <em>messyverse</em> (del inglés <em>messy</em>, desordenado), sino muchos otros universos de paquetes interrelacionados. A medida que te enfrentes a más proyectos de ciencia de datos con R, aprenderás sobre nuevos paquetes y nuevas formas de pensar los datos.</p>
+</div>
+</div>
+<div id="ejecutar-código-en-r" class="section level2">
+<h2><span class="header-section-number">1.5</span> Ejecutar código en R</h2>
+<p>En la sección anterior te mostramos algunos ejemplos de cómo ejecutar código en R. En el libro, el código se ve así:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
+<p>Si ejecutas el mismo código en tu consola local, se verá así:</p>
+<pre><code>&gt; 1 + 2
+[1] 3</code></pre>
+<p>Hay dos diferencias principales. La primera, es que en tu consola debes escribir el código después del signo <code>&gt;</code>, llamado <em>prompt</em>; en el libro no te mostraremos el <em>prompt</em>. La segunda, es que en el libro el <em>output</em>, es decir, el resultado de ejecutar el código, está comentado: <code>#&gt;</code>. En tu consola, el output aparecerá directamente después del código. Estas dos diferencias implican que, como esta es una versión electrónica del libro, puedes copiar directamente el código que aparece acá y pegarlo en tu consola.</p>
+<p>A lo largo del libro usaremos una serie consistente de convenciones para referirnos al código:</p>
+<ul>
+<li><p>Las funciones están escritas en una fuente para código y seguidas de paréntesis.
+La primera vez que son mencionadas ofreceremos una traducción al español:
+<code>sum()</code> (del inglés <em>suma</em>) o <code>mean()</code> (del inglés <em>media</em>).</p></li>
+<li><p>Otros tipos de objetos de R (como datos o argumentos de funciones)
+estarán en fuente para código, pero sin paréntesis: <code>vuelos</code> o <code>x</code>.</p></li>
+<li><p>Si queremos dejar claro de qué paquete viene un objeto, usaremos el nombre
+del paquete seguido de doble dos puntos: <code>dplyr::mutate()</code> o <code>datos::paises</code>.
+Esto también es válido para el código de R.</p></li>
+</ul>
+</div>
+<div id="pedir-ayuda-y-aprender-más" class="section level2">
+<h2><span class="header-section-number">1.6</span> Pedir ayuda y aprender más</h2>
+<p>Este libro no es una isla. No existe ningún recurso que por sí mismo te permita dominar R. A medida que empieces a aplicar las técnicas descritas en este libro a tus propios datos te encontrarás con preguntas que acá no respondemos. En esta sección se describen algunas sugerencias sobre cómo pedir ayuda y cómo seguir aprendiendo.</p>
+<p>Si en algún momento ya no puedes avanzar, empieza buscando en Google. Usualmente, agregar “R” a tu búsqueda es suficiente para que se restrinja solo a resultados relevantes. Si lo que encuentras no es útil, probablemente sea porque no hay resultados disponibles en español. Google es particularmente útil para los mensajes de error. Si te aparece uno y no tienes idea de lo que significa, ¡prueba buscando en Google! Lo más probable es que alguien más se haya confundido con ese mensaje en el pasado y que haya ayuda en la web. Si el error te aparece en español u otro idioma, ejecuta en la consola <code>Sys.setenv(LANGUAGE = &quot;en&quot;)</code> y luego vuelve a ejecutar el código. Es más probable que encuentres ayuda si el error que arroja R está en inglés.</p>
+<p>Si Google no ayuda, prueba con la versión en español de <a href="https://es.stackoverflow.com/">stackoverflow</a>. Parte dedicando un tiempo a buscar si existe ya una respuesta a tu pregunta agregando <code>[R]</code> a tu búsqueda para restringir los resultados a preguntas y respuestas que usen R. Si no encuentras nada útil, prepara un ejemplo reproducible o <strong>reprex</strong>. Un buen <em>reprex</em> hace más fácil que otras personas te puedan ayudar y al prepararlo probablemente resuelvas el problema por tu cuenta.</p>
+<p>Hay tres cosas que debes incluir para hacer que tu ejemplo sea reproducible: los paquetes necesarios, datos y código.</p>
+<ol style="list-style-type: decimal">
+<li><p>Los <strong>paquetes</strong> deben ser cargados al inicio del <em>script</em> (que es
+como se le llama a la secuencia de comandos) para que sea fácil ver cuáles
+se necesitan para el ejemplo. Es una buena oportunidad para chequear que estás
+utilizando la última versión de cada paquete. Es posible que hayas descubierto
+un error (o <em>bug</em>, en inglés) que ya fue resuelto desde que instalaste
+el paquete. Para los paquetes del <strong>tidyverse</strong>, la manera más fácil de hacerlo
+es ejecutando <code>tidyverse_update()</code>.</p></li>
+<li><p>La manera más simple de incluir <strong>datos</strong> en una pregunta es usar <code>dput()</code>
+para generar el código de R que los recree. Por ejemplo, para recrear
+el conjunto de datos <code>mtautos</code> en R, tendríamos que realizar los siguientes
+pasos.</p></li>
+<li>Cargar el paquete que contiene los datos: <code>library(datos</code>)</li>
+<li>Ejecutar <code>dput(mtautos)</code> en R</li>
+<li>Copiar el output</li>
+<li><p>En tu script reproducible, escribir <code>mtautos &lt;-</code> y luego pegar lo copiado.</p></li>
+</ol>
+<p>Trata de buscar el subconjunto más pequeño de tus datos que
+te permita mostrar tu problema.</p>
+<ol style="list-style-type: decimal">
+<li>Dedica tiempo a asegurarte que tu <strong>código</strong> puede ser fácilmente leído
+por otras personas:</li>
+</ol>
+<ul>
+<li><p>Asegúrate de haber utilizado espacios y que los nombre de tus variables
+son a la vez concisos e informativos.</p></li>
+<li><p>Realiza comentarios que indiquen dónde se encuentra el problema.</p></li>
+<li><p>Haz lo posible por remover todo lo que no esté relacionado con el problema.
+Mientras más breve tu código, más fácil de entender y más fácil de arreglar.</p></li>
+</ul>
+<p>Finalmente, revisa que tu ejemplo es efectivamente reproducible. Para ello, inicia una nueva sesión de R y copia y pega tu script ahí.</p>
+<p>También deberías dedicar tiempo a prepararte para resolver problemas por tu cuenta antes de que ocurran. Invertir un poco de tiempo cada día aprendiendo R te entrega grandes beneficios a largo plazo. Una manera es siguiendo lo que hacen Hadley, Garrett y todas las personas de RStudio en el <a href="https://blog.rstudio.org">blog de RStudio</a>. Ahí es donde se publican anuncios sobre nuevos paquetes, nuevas características del entorno de desarrollo integrado (IDE) y talleres presenciales. También te podría interesar seguir a Hadley (<a href="https://twitter.com/hadleywickham">@hadleywickham</a>) o a Garrett (<a href="https://twitter.com/statgarrett">@statgarrett</a>) en Twitter, o a la cuenta <a href="https://twitter.com/rstudiotips">@rstudiotips</a> para mantenerte al día sobre las nuevas características RStudio.</p>
+<p>Para estar al tanto acerca de la comunidad de R en general, puedes leer <a href="http://www.r-bloggers.com" class="uri">http://www.r-bloggers.com</a>: que agrupa cerca de 500 blogs sobre R de todas partes del mundo, algunos incluso en español. Si tienes cuenta en Twitter, puedes seguir el hashtag <code>#rstatsES</code> (en español) o <code>#rstats</code> (en inglés). Twitter es una de las herramientas clave que usa Hadley para mantenerse al día sobre los nuevos desarrollos de la comunidad.</p>
+</div>
+<div id="agradecimientos" class="section level2">
+<h2><span class="header-section-number">1.7</span> Agradecimientos</h2>
+<p>Este libro no es solo el producto de Hadley y Garrett, sino el resultado de muchas conversaciones (en persona y en línea) que hemos tenido con gente de la comunidad de R. Hay algunas personas a las que nos gustaría agradecer de manera particular, ya que han invertido muchas horas respondiendo preguntas tontas y ayudándonos a pensar mejor acerca de la ciencia de datos:</p>
+<ul>
+<li><p>Jenny Bryan y Lionel Henry, por las muchas conversaciones útiles en torno
+al trabajo con listas y listas-columnas.</p></li>
+<li><p>Los tres capítulos sobre flujo de trabajo fueron adaptados (con permiso)
+de <a href="http://stat545.com/block002_hello-r-workspace-wd-project.html" class="uri">http://stat545.com/block002_hello-r-workspace-wd-project.html</a> de
+Jenny Bryan.</p></li>
+<li><p>Genevera Allen por las dicusiones acerca de modelos, modelado,
+la perspectiva sobre de aprendizaje estadístico y la diferencia
+entre generación de hipótesis y confirmación de hipótesis.</p></li>
+<li><p>Yihui Xie por su trabajo en el paquete <a href="https://github.com/rstudio/bookdown">bookdown</a>,
+y por responder incansablemente las peticiones de nuevas características.</p></li>
+<li><p>Bill Behrman por la lectura atenta del libro completo y por probarlo en su
+curso de Ciencia de Datos en Stanford.</p></li>
+<li><p>A la comunidad en Twitter de #rstats que revisó todos los borradores de los capítulos
+y ofreció un montón de retroalimentación útil.</p></li>
+<li><p>Tal Galili, por aumentar su paquete <strong>dendextend</strong> para soportar una sección sobre
+<em>clustering</em> que no llegó al borrador final.</p></li>
+</ul>
+<p>Este libro fue escrito de manera abierta y muchas personas contribuyeron con <em>pull requests</em> para resolver problemas pequeños. Especiales agradecimientos para todos quienes contribuyeron via Github:</p>
+<p>Thanks go to all contributers in alphabetical order: adi pradhan, Ahmed ElGabbas, Ajay Deonarine, <span class="citation">@Alex</span>, Andrew Landgraf, bahadir cankardes, <span class="citation">@batpigandme</span>, <span class="citation">@behrman</span>, Ben Marwick, Bill Behrman, Brandon Greenwell, Brett Klamer, Christian G. Warden, Christian Mongeau, Colin Gillespie, Cooper Morris, Curtis Alexander, Daniel Gromer, David Clark, Derwin McGeary, Devin Pastoor, Dylan Cashman, Earl Brown, Eric Watt, Etienne B. Racine, Flemming Villalona, Gregory Jefferis, <span class="citation">@harrismcgehee</span>, Hengni Cai, Ian Lyttle, Ian Sealy, Jakub Nowosad, Jennifer (Jenny) Bryan, <span class="citation">@jennybc</span>, Jeroen Janssens, Jim Hester, <span class="citation">@jjchern</span>, Joanne Jang, John Sears, Jon Calder, Jonathan Page, <span class="citation">@jonathanflint</span>, Jose Roberto Ayala Solares, Julia Stewart Lowndes, Julian During, Justinas Petuchovas, Kara Woo, <span class="citation">@kdpsingh</span>, Kenny Darrell, Kirill Sevastyanenko, <span class="citation">@koalabearski</span>, <span class="citation">@KyleHumphrey</span>, Lawrence Wu, Matthew Sedaghatfar, Mine Cetinkaya-Rundel, <span class="citation">@MJMarshall</span>, Mustafa Ascha, <span class="citation">@nate-d-olson</span>, Nelson Areal, Nick Clark, <span class="citation">@nickelas</span>, Nirmal Patel, <span class="citation">@nwaff</span>, <span class="citation">@OaCantona</span>, Patrick Kennedy, <span class="citation">@Paul</span>, Peter Hurford, Rademeyer Vermaak, Radu Grosu, <span class="citation">@rlzijdeman</span>, Robert Schuessler, <span class="citation">@robinlovelace</span>, <span class="citation">@robinsones</span>, S’busiso Mkhondwane, <span class="citation">@seamus-mckinsey</span>, <span class="citation">@seanpwilliams</span>, Shannon Ellis, <span class="citation">@shoili</span>, <span class="citation">@sibusiso16</span>, <span class="citation">@spirgel</span>, Steve Mortimer, <span class="citation">@svenski</span>, Terence Teo, Thomas Klebel, TJ Mahr, Tom Prior, Will Beasley, <span class="citation">@yahwes</span>, Yihui Xie, <span class="citation">@zeal626</span>.</p>
+</div>
+<div id="colofón" class="section level2">
+<h2><span class="header-section-number">1.8</span> Colofón</h2>
+<p>La versión <em>online</em> de este libro está disponible en <a href="http://es.r4ds.hadley.nz" class="uri">http://es.r4ds.hadley.nz</a>. El original en inglés puedes encontrarlo en <a href="http://r4ds.had.co.nz" class="uri">http://r4ds.had.co.nz</a>. Las versiones <em>online</em> seguirán evolucionando entre reimpresiones del libro físico.
+La fuente del libro en español está disponible en <a href="https://github.com/cienciadedatos/r4ds" class="uri">https://github.com/cienciadedatos/r4ds</a> y la del libro en inglés en <a href="https://github.com/hadley/r4ds" class="uri">https://github.com/hadley/r4ds</a>. El libro funciona con <a href="https://bookdown.org" class="uri">https://bookdown.org</a>, que hace fácil convertir archivos de R Markdown a HTML, PDF e EPUB.</p>
+<p>Este libro fue construido con:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">session_info</span>(<span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>))</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; ─ Session info ───────────────────────────────────────────────────────────────</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;  setting  value                       </span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;  version  R version 3.6.2 (2017-01-27)</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;  os       Ubuntu 16.04.6 LTS          </span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  system   x86_64, linux-gnu           </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  ui       X11                         </span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;  language en_US.UTF-8                 </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  collate  en_US.UTF-8                 </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;  ctype    en_US.UTF-8                 </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;  tz       UTC                         </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  date     2020-04-14                  </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────────────────────────</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  package      * version  date       lib source        </span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;  askpass        1.1      2019-01-13 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt;  assertthat     0.2.1    2019-03-21 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;  backports      1.1.6    2020-04-05 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;  base64enc      0.1-3    2015-07-28 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt;  BH             1.72.0-3 2020-01-08 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt;  broom          0.5.5    2020-02-29 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt;  callr          3.4.3    2020-03-28 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt;  cellranger     1.1.0    2016-07-27 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt;  cli            2.0.2    2020-02-28 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt;  clipr          0.7.0    2019-07-23 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt;  colorspace     1.4-1    2019-03-18 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt;  crayon         1.3.4    2017-09-16 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt;  curl           4.3      2019-12-02 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt;  DBI            1.1.0    2019-12-15 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt;  dbplyr         1.4.2    2019-06-17 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt;  desc           1.2.0    2018-05-01 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt;  digest         0.6.25   2020-02-23 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt;  dplyr        * 0.8.5    2020-03-07 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt;  ellipsis       0.3.0    2019-09-20 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt;  evaluate       0.14     2019-05-28 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt;  fansi          0.4.1    2020-01-08 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt;  farver         2.0.3    2020-01-16 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#&gt;  forcats      * 0.5.0    2020-03-01 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#&gt;  fs             1.4.1    2020-04-04 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#&gt;  generics       0.0.2    2018-11-29 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#&gt;  ggplot2      * 3.3.0    2020-03-05 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#&gt;  glue           1.4.0    2020-04-03 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#&gt;  gtable         0.3.0    2019-03-25 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#&gt;  haven          2.2.0    2019-11-08 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt;  highr          0.8      2019-03-20 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt;  hms            0.5.3    2020-01-08 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#&gt;  htmltools      0.4.0    2019-10-04 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-48" data-line-number="48"><span class="co">#&gt;  httr           1.4.1    2019-08-05 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co">#&gt;  isoband        0.2.1    2020-04-12 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-50" data-line-number="50"><span class="co">#&gt;  jsonlite       1.6.1    2020-02-02 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#&gt;  knitr          1.28     2020-02-06 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#&gt;  labeling       0.3      2014-08-23 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-53" data-line-number="53"><span class="co">#&gt;  lattice        0.20-38  2018-11-04 [3] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="co">#&gt;  lifecycle      0.2.0    2020-03-06 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="co">#&gt;  lubridate      1.7.8    2020-04-06 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="co">#&gt;  magrittr       1.5      2014-11-22 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="co">#&gt;  markdown       1.1      2019-08-07 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-58" data-line-number="58"><span class="co">#&gt;  MASS           7.3-51.4 2019-03-31 [3] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-59" data-line-number="59"><span class="co">#&gt;  Matrix         1.2-18   2019-11-27 [3] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-60" data-line-number="60"><span class="co">#&gt;  mgcv           1.8-31   2019-11-09 [3] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-61" data-line-number="61"><span class="co">#&gt;  mime           0.9      2020-02-04 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-62" data-line-number="62"><span class="co">#&gt;  modelr         0.1.6    2020-02-22 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-63" data-line-number="63"><span class="co">#&gt;  munsell        0.5.0    2018-06-12 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-64" data-line-number="64"><span class="co">#&gt;  nlme           3.1-142  2019-11-07 [3] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-65" data-line-number="65"><span class="co">#&gt;  openssl        1.4.1    2019-07-18 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-66" data-line-number="66"><span class="co">#&gt;  pillar         1.4.3    2019-12-20 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-67" data-line-number="67"><span class="co">#&gt;  pkgbuild       1.0.6    2019-10-09 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-68" data-line-number="68"><span class="co">#&gt;  pkgconfig      2.0.3    2019-09-22 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-69" data-line-number="69"><span class="co">#&gt;  pkgload        1.0.2    2018-10-29 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-70" data-line-number="70"><span class="co">#&gt;  plogr          0.2.0    2018-03-25 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-71" data-line-number="71"><span class="co">#&gt;  plyr           1.8.6    2020-03-03 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-72" data-line-number="72"><span class="co">#&gt;  praise         1.0.0    2015-08-11 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-73" data-line-number="73"><span class="co">#&gt;  prettyunits    1.1.1    2020-01-24 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-74" data-line-number="74"><span class="co">#&gt;  processx       3.4.2    2020-02-09 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-75" data-line-number="75"><span class="co">#&gt;  progress       1.2.2    2019-05-16 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-76" data-line-number="76"><span class="co">#&gt;  ps             1.3.2    2020-02-13 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-77" data-line-number="77"><span class="co">#&gt;  purrr        * 0.3.3    2019-10-18 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-78" data-line-number="78"><span class="co">#&gt;  R6             2.4.1    2019-11-12 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-79" data-line-number="79"><span class="co">#&gt;  RColorBrewer   1.1-2    2014-12-07 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-80" data-line-number="80"><span class="co">#&gt;  Rcpp           1.0.4.6  2020-04-09 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-81" data-line-number="81"><span class="co">#&gt;  readr        * 1.3.1    2018-12-21 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-82" data-line-number="82"><span class="co">#&gt;  readxl         1.3.1    2019-03-13 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-83" data-line-number="83"><span class="co">#&gt;  rematch        1.0.1    2016-04-21 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-84" data-line-number="84"><span class="co">#&gt;  reprex         0.3.0    2019-05-16 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-85" data-line-number="85"><span class="co">#&gt;  reshape2       1.4.4    2020-04-09 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-86" data-line-number="86"><span class="co">#&gt;  rlang          0.4.5    2020-03-01 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-87" data-line-number="87"><span class="co">#&gt;  rmarkdown      2.1      2020-01-20 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-88" data-line-number="88"><span class="co">#&gt;  rprojroot      1.3-2    2018-01-03 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-89" data-line-number="89"><span class="co">#&gt;  rstudioapi     0.11     2020-02-07 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-90" data-line-number="90"><span class="co">#&gt;  rvest          0.3.5    2019-11-08 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-91" data-line-number="91"><span class="co">#&gt;  scales         1.1.0    2019-11-18 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-92" data-line-number="92"><span class="co">#&gt;  selectr        0.4-2    2019-11-20 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-93" data-line-number="93"><span class="co">#&gt;  stringi        1.4.6    2020-02-17 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-94" data-line-number="94"><span class="co">#&gt;  stringr      * 1.4.0    2019-02-10 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-95" data-line-number="95"><span class="co">#&gt;  sys            3.3      2019-08-21 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-96" data-line-number="96"><span class="co">#&gt;  testthat       2.3.2    2020-03-02 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-97" data-line-number="97"><span class="co">#&gt;  tibble       * 3.0.0    2020-03-30 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-98" data-line-number="98"><span class="co">#&gt;  tidyr        * 1.0.2    2020-01-24 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-99" data-line-number="99"><span class="co">#&gt;  tidyselect     1.0.0    2020-01-27 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-100" data-line-number="100"><span class="co">#&gt;  tidyverse    * 1.3.0    2019-11-21 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-101" data-line-number="101"><span class="co">#&gt;  tinytex        0.21     2020-03-31 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-102" data-line-number="102"><span class="co">#&gt;  utf8           1.1.4    2018-05-24 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-103" data-line-number="103"><span class="co">#&gt;  vctrs          0.2.4    2020-03-10 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-104" data-line-number="104"><span class="co">#&gt;  viridisLite    0.3.0    2018-02-01 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-105" data-line-number="105"><span class="co">#&gt;  whisker        0.4      2019-08-28 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-106" data-line-number="106"><span class="co">#&gt;  withr          2.1.2    2018-03-15 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-107" data-line-number="107"><span class="co">#&gt;  xfun           0.13     2020-04-13 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-108" data-line-number="108"><span class="co">#&gt;  xml2           1.3.1    2020-04-09 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-109" data-line-number="109"><span class="co">#&gt;  yaml           2.2.1    2020-02-01 [1] CRAN (R 3.6.2)</span></a>
+<a class="sourceLine" id="cb6-110" data-line-number="110"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-111" data-line-number="111"><span class="co">#&gt; [1] /home/travis/R/Library</span></a>
+<a class="sourceLine" id="cb6-112" data-line-number="112"><span class="co">#&gt; [2] /usr/local/lib/R/site-library</span></a>
+<a class="sourceLine" id="cb6-113" data-line-number="113"><span class="co">#&gt; [3] /home/travis/R-bin/lib/R/library</span></a></code></pre></div>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="explorar-introduccion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cienciadedatos/r4ds/edit/master/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

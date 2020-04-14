@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>23 Modelos: conceptos básicos | R para Ciencia de Datos</title>
+  <meta name="description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="23 Modelos: conceptos básicos | R para Ciencia de Datos" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://es.r4ds.hadley.nz/" />
+  <meta property="og:image" content="http://es.r4ds.hadley.nz/cover.png" />
+  <meta property="og:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="github-repo" content="cienciadedatos/r4ds" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="23 Modelos: conceptos básicos | R para Ciencia de Datos" />
+  
+  <meta name="twitter:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="twitter:image" content="http://es.r4ds.hadley.nz/cover.png" />
+
+<meta name="author" content="Garrett Grolemund" />
+<meta name="author" content="Hadley Wickham" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="model-intro.html"/>
+<link rel="next" href="construcción-de-modelos.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="r4ds.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">R para Ciencia de Datos</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenida</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-traducción"><i class="fa fa-check"></i>Sobre la traducción</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-versión-original-en-inglés"><i class="fa fa-check"></i>Sobre la versión original en inglés</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html#lo-que-aprenderás"><i class="fa fa-check"></i><b>1.1</b> Lo que aprenderás</a></li>
+<li class="chapter" data-level="1.2" data-path="introducción.html"><a href="introducción.html#cómo-está-organizado-este-libro"><i class="fa fa-check"></i><b>1.2</b> Cómo está organizado este libro</a></li>
+<li class="chapter" data-level="1.3" data-path="introducción.html"><a href="introducción.html#qué-no-vas-a-aprender"><i class="fa fa-check"></i><b>1.3</b> Qué no vas a aprender</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="introducción.html"><a href="introducción.html#big-data"><i class="fa fa-check"></i><b>1.3.1</b> Big data</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introducción.html"><a href="introducción.html#python-julia-y-amigos"><i class="fa fa-check"></i><b>1.3.2</b> Python, Julia y amigos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introducción.html"><a href="introducción.html#datos-no-rectangulares"><i class="fa fa-check"></i><b>1.3.3</b> Datos no rectangulares</a></li>
+<li class="chapter" data-level="1.3.4" data-path="introducción.html"><a href="introducción.html#confirmación-de-hipótesis"><i class="fa fa-check"></i><b>1.3.4</b> Confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introducción.html"><a href="introducción.html#prerrequisitos"><i class="fa fa-check"></i><b>1.4</b> Prerrequisitos</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introducción.html"><a href="introducción.html#r"><i class="fa fa-check"></i><b>1.4.1</b> R</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introducción.html"><a href="introducción.html#rstudio"><i class="fa fa-check"></i><b>1.4.2</b> RStudio</a></li>
+<li class="chapter" data-level="1.4.3" data-path="introducción.html"><a href="introducción.html#el-tidyverse"><i class="fa fa-check"></i><b>1.4.3</b> El Tidyverse</a></li>
+<li class="chapter" data-level="1.4.4" data-path="introducción.html"><a href="introducción.html#el-paquete-datos"><i class="fa fa-check"></i><b>1.4.4</b> El paquete <code>datos</code></a></li>
+<li class="chapter" data-level="1.4.5" data-path="introducción.html"><a href="introducción.html#otros-paquetes"><i class="fa fa-check"></i><b>1.4.5</b> Otros paquetes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introducción.html"><a href="introducción.html#ejecutar-código-en-r"><i class="fa fa-check"></i><b>1.5</b> Ejecutar código en R</a></li>
+<li class="chapter" data-level="1.6" data-path="introducción.html"><a href="introducción.html#pedir-ayuda-y-aprender-más"><i class="fa fa-check"></i><b>1.6</b> Pedir ayuda y aprender más</a></li>
+<li class="chapter" data-level="1.7" data-path="introducción.html"><a href="introducción.html#agradecimientos"><i class="fa fa-check"></i><b>1.7</b> Agradecimientos</a></li>
+<li class="chapter" data-level="1.8" data-path="introducción.html"><a href="introducción.html#colofón"><i class="fa fa-check"></i><b>1.8</b> Colofón</a></li>
+</ul></li>
+<li class="part"><span><b>I Explorar</b></span></li>
+<li class="chapter" data-level="2" data-path="explorar-introduccion.html"><a href="explorar-introduccion.html"><i class="fa fa-check"></i><b>2</b> Introducción</a></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#introducción-1"><i class="fa fa-check"></i><b>3.1</b> Introducción</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#prerrequisitos-1"><i class="fa fa-check"></i><b>3.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#primeros-pasos"><i class="fa fa-check"></i><b>3.2</b> Primeros pasos</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#el-data-frame-millas"><i class="fa fa-check"></i><b>3.2.1</b> El data frame <code>millas</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#creando-un-gráfico-con-ggplot"><i class="fa fa-check"></i><b>3.2.2</b> Creando un gráfico con ggplot</a></li>
+<li class="chapter" data-level="3.2.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#una-plantilla-de-gráficos"><i class="fa fa-check"></i><b>3.2.3</b> Una plantilla de gráficos</a></li>
+<li class="chapter" data-level="3.2.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios"><i class="fa fa-check"></i><b>3.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#mapeos-estéticos"><i class="fa fa-check"></i><b>3.3</b> Mapeos estéticos</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-1"><i class="fa fa-check"></i><b>3.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#problemas-comunes"><i class="fa fa-check"></i><b>3.4</b> Problemas comunes</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#separar-en-facetas"><i class="fa fa-check"></i><b>3.5</b> Separar en facetas</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-2"><i class="fa fa-check"></i><b>3.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#objetos-geométricos"><i class="fa fa-check"></i><b>3.6</b> Objetos geométricos</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-3"><i class="fa fa-check"></i><b>3.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#transformaciones-estadísticas"><i class="fa fa-check"></i><b>3.7</b> Transformaciones estadísticas</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-4"><i class="fa fa-check"></i><b>3.7.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ajustes-de-posición"><i class="fa fa-check"></i><b>3.8</b> Ajustes de posición</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-5"><i class="fa fa-check"></i><b>3.8.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#sistemas-de-coordenadas"><i class="fa fa-check"></i><b>3.9</b> Sistemas de coordenadas</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-6"><i class="fa fa-check"></i><b>3.9.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#la-gramática-de-gráficos-en-capas"><i class="fa fa-check"></i><b>3.10</b> La gramática de gráficos en capas</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html"><i class="fa fa-check"></i><b>4</b> Flujo de trabajo: conocimientos básicos</a><ul>
+<li class="chapter" data-level="4.1" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#conocimientos-básicos-de-programación"><i class="fa fa-check"></i><b>4.1</b> Conocimientos básicos de programación</a></li>
+<li class="chapter" data-level="4.2" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#la-importancia-de-los-nombres"><i class="fa fa-check"></i><b>4.2</b> La importancia de los nombres</a></li>
+<li class="chapter" data-level="4.3" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#usando-funciones"><i class="fa fa-check"></i><b>4.3</b> Usando funciones</a></li>
+<li class="chapter" data-level="4.4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#ejercicios-7"><i class="fa fa-check"></i><b>4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="transform.html"><a href="transform.html"><i class="fa fa-check"></i><b>5</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="5.1" data-path="transform.html"><a href="transform.html#introducción-2"><i class="fa fa-check"></i><b>5.1</b> Introducción</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="transform.html"><a href="transform.html#prerequisitos"><i class="fa fa-check"></i><b>5.1.1</b> Prerequisitos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="transform.html"><a href="transform.html#vuelos"><i class="fa fa-check"></i><b>5.1.2</b> vuelos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="transform.html"><a href="transform.html#lo-básico-de-dplyr"><i class="fa fa-check"></i><b>5.1.3</b> Lo básico de <strong>dplyr</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="transform.html"><a href="transform.html#filtrar-filas-con-filter"><i class="fa fa-check"></i><b>5.2</b> Filtrar filas con <code>filter()</code></a><ul>
+<li class="chapter" data-level="5.2.1" data-path="transform.html"><a href="transform.html#comparaciones"><i class="fa fa-check"></i><b>5.2.1</b> Comparaciones</a></li>
+<li class="chapter" data-level="5.2.2" data-path="transform.html"><a href="transform.html#operadores-lógicos"><i class="fa fa-check"></i><b>5.2.2</b> Operadores lógicos</a></li>
+<li class="chapter" data-level="5.2.3" data-path="transform.html"><a href="transform.html#valores-faltantes"><i class="fa fa-check"></i><b>5.2.3</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.2.4" data-path="transform.html"><a href="transform.html#ejercicios-8"><i class="fa fa-check"></i><b>5.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="transform.html"><a href="transform.html#reordenar-las-filas-con-arrange"><i class="fa fa-check"></i><b>5.3</b> Reordenar las filas con <code>arrange()</code></a><ul>
+<li class="chapter" data-level="5.3.1" data-path="transform.html"><a href="transform.html#ejercicios-9"><i class="fa fa-check"></i><b>5.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="transform.html"><a href="transform.html#select"><i class="fa fa-check"></i><b>5.4</b> Seleccionar columnas con <code>select()</code></a><ul>
+<li class="chapter" data-level="5.4.1" data-path="transform.html"><a href="transform.html#ejercicios-10"><i class="fa fa-check"></i><b>5.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="transform.html"><a href="transform.html#añadir-nuevas-variables-con-mutate"><i class="fa fa-check"></i><b>5.5</b> Añadir nuevas variables con <code>mutate()</code></a><ul>
+<li class="chapter" data-level="5.5.1" data-path="transform.html"><a href="transform.html#mutate-funs"><i class="fa fa-check"></i><b>5.5.1</b> Funciones de creación útiles</a></li>
+<li class="chapter" data-level="5.5.2" data-path="transform.html"><a href="transform.html#ejercicios-11"><i class="fa fa-check"></i><b>5.5.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="transform.html"><a href="transform.html#resúmenes-agrupados-con-summarise"><i class="fa fa-check"></i><b>5.6</b> Resúmenes agrupados con <code>summarise()</code></a><ul>
+<li class="chapter" data-level="5.6.1" data-path="transform.html"><a href="transform.html#combinación-de-múltiples-operaciones-con-el-pipe"><i class="fa fa-check"></i><b>5.6.1</b> Combinación de múltiples operaciones con el <em>pipe</em></a></li>
+<li class="chapter" data-level="5.6.2" data-path="transform.html"><a href="transform.html#valores-faltantes-1"><i class="fa fa-check"></i><b>5.6.2</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.6.3" data-path="transform.html"><a href="transform.html#conteos"><i class="fa fa-check"></i><b>5.6.3</b> Conteos</a></li>
+<li class="chapter" data-level="5.6.4" data-path="transform.html"><a href="transform.html#summarise-funs"><i class="fa fa-check"></i><b>5.6.4</b> Funciones de resumen útiles</a></li>
+<li class="chapter" data-level="5.6.5" data-path="transform.html"><a href="transform.html#agrupación-por-múltiples-variables"><i class="fa fa-check"></i><b>5.6.5</b> Agrupación por múltiples variables</a></li>
+<li class="chapter" data-level="5.6.6" data-path="transform.html"><a href="transform.html#desagrupar"><i class="fa fa-check"></i><b>5.6.6</b> Desagrupar</a></li>
+<li class="chapter" data-level="5.6.7" data-path="transform.html"><a href="transform.html#ejercicios-12"><i class="fa fa-check"></i><b>5.6.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="transform.html"><a href="transform.html#transformaciones-agrupadas-y-filtros"><i class="fa fa-check"></i><b>5.7</b> Transformaciones agrupadas (y filtros)</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="transform.html"><a href="transform.html#ejercicios-13"><i class="fa fa-check"></i><b>5.7.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html"><i class="fa fa-check"></i><b>6</b> Flujo de trabajo: <em>Scripts</em></a><ul>
+<li class="chapter" data-level="6.1" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejecutando-código"><i class="fa fa-check"></i><b>6.1</b> Ejecutando código</a></li>
+<li class="chapter" data-level="6.2" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#diagnósticos-de-rstudio"><i class="fa fa-check"></i><b>6.2</b> Diagnósticos de RStudio</a></li>
+<li class="chapter" data-level="6.3" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejercicios-14"><i class="fa fa-check"></i><b>6.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html"><i class="fa fa-check"></i><b>7</b> Análisis exploratorio de datos (<em>EDA</em>)</a><ul>
+<li class="chapter" data-level="7.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#introducción-3"><i class="fa fa-check"></i><b>7.1</b> Introducción</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#requisitos-indispensables"><i class="fa fa-check"></i><b>7.1.1</b> Requisitos indispensables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#preguntas"><i class="fa fa-check"></i><b>7.2</b> Preguntas</a></li>
+<li class="chapter" data-level="7.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#variación"><i class="fa fa-check"></i><b>7.3</b> Variación</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#visualizando-distribuciones"><i class="fa fa-check"></i><b>7.3.1</b> Visualizando distribuciones</a></li>
+<li class="chapter" data-level="7.3.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-típicos"><i class="fa fa-check"></i><b>7.3.2</b> Valores típicos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-inusuales"><i class="fa fa-check"></i><b>7.3.3</b> Valores inusuales</a></li>
+<li class="chapter" data-level="7.3.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-15"><i class="fa fa-check"></i><b>7.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-faltantes-2"><i class="fa fa-check"></i><b>7.4</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-16"><i class="fa fa-check"></i><b>7.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#covariación"><i class="fa fa-check"></i><b>7.5</b> Covariación</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#cat-cont"><i class="fa fa-check"></i><b>7.5.1</b> Una variable categórica y una variable continua</a></li>
+<li class="chapter" data-level="7.5.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-categóricas"><i class="fa fa-check"></i><b>7.5.2</b> Dos variables categóricas</a></li>
+<li class="chapter" data-level="7.5.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-continuas"><i class="fa fa-check"></i><b>7.5.3</b> Dos variables continuas</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#patrones-y-modelos"><i class="fa fa-check"></i><b>7.6</b> Patrones y modelos</a></li>
+<li class="chapter" data-level="7.7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#argumentos-en-ggplot2"><i class="fa fa-check"></i><b>7.7</b> Argumentos en ggplot2</a></li>
+<li class="chapter" data-level="7.8" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#aprendiendo-más"><i class="fa fa-check"></i><b>7.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html"><i class="fa fa-check"></i><b>8</b> Flujo de trabajo: proyectos</a><ul>
+<li class="chapter" data-level="8.1" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#qué-es-real"><i class="fa fa-check"></i><b>8.1</b> ¿Qué es real?</a></li>
+<li class="chapter" data-level="8.2" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#dónde-vive-tu-análisis"><i class="fa fa-check"></i><b>8.2</b> ¿Dónde vive tu análisis?</a></li>
+<li class="chapter" data-level="8.3" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#rutas-y-directorios"><i class="fa fa-check"></i><b>8.3</b> Rutas y directorios</a></li>
+<li class="chapter" data-level="8.4" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#proyectos-en-rstudio"><i class="fa fa-check"></i><b>8.4</b> Proyectos en RStudio</a></li>
+<li class="chapter" data-level="8.5" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#resumen"><i class="fa fa-check"></i><b>8.5</b> Resumen</a></li>
+</ul></li>
+<li class="part"><span><b>II Manejar o domar datos</b></span></li>
+<li class="chapter" data-level="9" data-path="domardatos-intro.html"><a href="domardatos-intro.html"><i class="fa fa-check"></i><b>9</b> Introducción</a></li>
+<li class="chapter" data-level="10" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>10</b> Tibbles</a><ul>
+<li class="chapter" data-level="10.1" data-path="tibbles.html"><a href="tibbles.html#introducción-4"><i class="fa fa-check"></i><b>10.1</b> Introducción</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="tibbles.html"><a href="tibbles.html#prerrequisitos-2"><i class="fa fa-check"></i><b>10.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tibbles.html"><a href="tibbles.html#creando-tibbles"><i class="fa fa-check"></i><b>10.2</b> Creando tibbles</a></li>
+<li class="chapter" data-level="10.3" data-path="tibbles.html"><a href="tibbles.html#tibbles-vs.data.frame"><i class="fa fa-check"></i><b>10.3</b> Tibbles vs. data.frame</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="tibbles.html"><a href="tibbles.html#impresión-en-la-consola"><i class="fa fa-check"></i><b>10.3.1</b> Impresión en la consola</a></li>
+<li class="chapter" data-level="10.3.2" data-path="tibbles.html"><a href="tibbles.html#selección-de-subconjuntos"><i class="fa fa-check"></i><b>10.3.2</b> Selección de subconjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="tibbles.html"><a href="tibbles.html#interactuando-con-código-antiguo"><i class="fa fa-check"></i><b>10.4</b> Interactuando con código antiguo</a></li>
+<li class="chapter" data-level="10.5" data-path="tibbles.html"><a href="tibbles.html#ejercicios-20"><i class="fa fa-check"></i><b>10.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="importación-de-datos.html"><a href="importación-de-datos.html"><i class="fa fa-check"></i><b>11</b> Importación de datos</a><ul>
+<li class="chapter" data-level="11.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#introducción-5"><i class="fa fa-check"></i><b>11.1</b> Introducción</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#prerrequisitos-3"><i class="fa fa-check"></i><b>11.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comenzando"><i class="fa fa-check"></i><b>11.2</b> Comenzando</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comparación-con-r-base"><i class="fa fa-check"></i><b>11.2.1</b> Comparación con R base</a></li>
+<li class="chapter" data-level="11.2.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-21"><i class="fa fa-check"></i><b>11.2.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-vector"><i class="fa fa-check"></i><b>11.3</b> Segmentar un vector</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#números"><i class="fa fa-check"></i><b>11.3.1</b> Números</a></li>
+<li class="chapter" data-level="11.3.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-strings"><i class="fa fa-check"></i><b>11.3.2</b> Cadenas de texto (<em>strings</em>)</a></li>
+<li class="chapter" data-level="11.3.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-factors"><i class="fa fa-check"></i><b>11.3.3</b> Factores</a></li>
+<li class="chapter" data-level="11.3.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-datetimes"><i class="fa fa-check"></i><b>11.3.4</b> Fechas, fechas-horas, y horas</a></li>
+<li class="chapter" data-level="11.3.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-22"><i class="fa fa-check"></i><b>11.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-archivo"><i class="fa fa-check"></i><b>11.4</b> Segmentar un archivo</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#estrategia"><i class="fa fa-check"></i><b>11.4.1</b> Estrategia</a></li>
+<li class="chapter" data-level="11.4.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#problemas"><i class="fa fa-check"></i><b>11.4.2</b> Problemas</a></li>
+<li class="chapter" data-level="11.4.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otras-estrategias"><i class="fa fa-check"></i><b>11.4.3</b> Otras estrategias</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#escribir-a-un-archivo"><i class="fa fa-check"></i><b>11.5</b> Escribir a un archivo</a></li>
+<li class="chapter" data-level="11.6" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otros-tipos-de-datos"><i class="fa fa-check"></i><b>11.6</b> Otros tipos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="datos-ordenados.html"><a href="datos-ordenados.html"><i class="fa fa-check"></i><b>12</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#introducción-6"><i class="fa fa-check"></i><b>12.1</b> Introducción</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#prerrequisitos-4"><i class="fa fa-check"></i><b>12.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-ordenados-1"><i class="fa fa-check"></i><b>12.2</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-23"><i class="fa fa-check"></i><b>12.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#pivotar"><i class="fa fa-check"></i><b>12.3</b> Pivotar</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-largos"><i class="fa fa-check"></i><b>12.3.1</b> Datos “largos”</a></li>
+<li class="chapter" data-level="12.3.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-anchos"><i class="fa fa-check"></i><b>12.3.2</b> Datos “anchos”</a></li>
+<li class="chapter" data-level="12.3.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-24"><i class="fa fa-check"></i><b>12.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar-y-unir"><i class="fa fa-check"></i><b>12.4</b> Separar y unir</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar"><i class="fa fa-check"></i><b>12.4.1</b> Separar</a></li>
+<li class="chapter" data-level="12.4.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#unir"><i class="fa fa-check"></i><b>12.4.2</b> Unir</a></li>
+<li class="chapter" data-level="12.4.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-25"><i class="fa fa-check"></i><b>12.4.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="datos-ordenados.html"><a href="datos-ordenados.html#valores-faltantes-3"><i class="fa fa-check"></i><b>12.5</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-26"><i class="fa fa-check"></i><b>12.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="datos-ordenados.html"><a href="datos-ordenados.html#estudio-de-caso"><i class="fa fa-check"></i><b>12.6</b> Estudio de caso</a><ul>
+<li class="chapter" data-level="12.6.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-27"><i class="fa fa-check"></i><b>12.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-no-ordenados"><i class="fa fa-check"></i><b>12.7</b> Datos no ordenados</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="datos-relacionales.html"><a href="datos-relacionales.html"><i class="fa fa-check"></i><b>13</b> Datos relacionales</a><ul>
+<li class="chapter" data-level="13.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#introducción-7"><i class="fa fa-check"></i><b>13.1</b> Introducción</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#prerrequisitos-5"><i class="fa fa-check"></i><b>13.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#nycflights13-relational"><i class="fa fa-check"></i><b>13.2</b> Datos sobre vuelos</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-28"><i class="fa fa-check"></i><b>13.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#claves"><i class="fa fa-check"></i><b>13.3</b> Claves</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-29"><i class="fa fa-check"></i><b>13.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#mutating-joins"><i class="fa fa-check"></i><b>13.4</b> Uniones de transformación</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#entendiendo-las-uniones"><i class="fa fa-check"></i><b>13.4.1</b> Entendiendo las uniones</a></li>
+<li class="chapter" data-level="13.4.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#inner-join"><i class="fa fa-check"></i><b>13.4.2</b> Unión interior</a></li>
+<li class="chapter" data-level="13.4.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#outer-join"><i class="fa fa-check"></i><b>13.4.3</b> Uniones exteriores</a></li>
+<li class="chapter" data-level="13.4.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-matches"><i class="fa fa-check"></i><b>13.4.4</b> Claves duplicadas</a></li>
+<li class="chapter" data-level="13.4.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-by"><i class="fa fa-check"></i><b>13.4.5</b> Definiendo las columnas clave</a></li>
+<li class="chapter" data-level="13.4.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-30"><i class="fa fa-check"></i><b>13.4.6</b> Ejercicios</a></li>
+<li class="chapter" data-level="13.4.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#otras-implementaciones"><i class="fa fa-check"></i><b>13.4.7</b> Otras implementaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#filtering-joins"><i class="fa fa-check"></i><b>13.5</b> Uniones de filtro</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-31"><i class="fa fa-check"></i><b>13.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#problemas-con-las-uniones"><i class="fa fa-check"></i><b>13.6</b> Problemas con las uniones</a></li>
+<li class="chapter" data-level="13.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#set-operations"><i class="fa fa-check"></i><b>13.7</b> Operaciones de conjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html"><i class="fa fa-check"></i><b>14</b> Cadenas de caracteres</a><ul>
+<li class="chapter" data-level="14.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#introducción-8"><i class="fa fa-check"></i><b>14.1</b> Introducción</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#prerequisitos-1"><i class="fa fa-check"></i><b>14.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#cadenas-elementos-básicos"><i class="fa fa-check"></i><b>14.2</b> Cadenas: elementos básicos</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#largo-de-cadena"><i class="fa fa-check"></i><b>14.2.1</b> Largo de cadena</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#combinar-cadenas"><i class="fa fa-check"></i><b>14.2.2</b> Combinar cadenas</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#dividir-cadenas"><i class="fa fa-check"></i><b>14.2.3</b> Dividir cadenas</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#locales"><i class="fa fa-check"></i><b>14.2.4</b> <em>Locales</em></a></li>
+<li class="chapter" data-level="14.2.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-32"><i class="fa fa-check"></i><b>14.2.5</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.2.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencia-de-patrones-con-expresiones-regulares"><i class="fa fa-check"></i><b>14.2.6</b> Buscar coincidencia de patrones con expresiones regulares</a></li>
+<li class="chapter" data-level="14.2.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-básicas"><i class="fa fa-check"></i><b>14.2.7</b> Coincidencias básicas</a></li>
+<li class="chapter" data-level="14.2.8" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#anclas"><i class="fa fa-check"></i><b>14.2.8</b> Anclas</a></li>
+<li class="chapter" data-level="14.2.9" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#clases-de-caracteres-y-alternativas"><i class="fa fa-check"></i><b>14.2.9</b> Clases de caracteres y alternativas</a></li>
+<li class="chapter" data-level="14.2.10" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#repetición"><i class="fa fa-check"></i><b>14.2.10</b> Repetición</a></li>
+<li class="chapter" data-level="14.2.11" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#agrupamiento-y-referencias-previas"><i class="fa fa-check"></i><b>14.2.11</b> Agrupamiento y referencias previas</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#herramientas"><i class="fa fa-check"></i><b>14.3</b> Herramientas</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#detectar-coincidencias"><i class="fa fa-check"></i><b>14.3.1</b> Detectar coincidencias</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-38"><i class="fa fa-check"></i><b>14.3.2</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.3.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#extraer-coincidencias"><i class="fa fa-check"></i><b>14.3.3</b> Extraer coincidencias</a></li>
+<li class="chapter" data-level="14.3.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-agrupadas"><i class="fa fa-check"></i><b>14.3.4</b> Coincidencias agrupadas</a></li>
+<li class="chapter" data-level="14.3.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#remplazar-coincidencias"><i class="fa fa-check"></i><b>14.3.5</b> Remplazar coincidencias</a></li>
+<li class="chapter" data-level="14.3.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#divisiones"><i class="fa fa-check"></i><b>14.3.6</b> Divisiones</a></li>
+<li class="chapter" data-level="14.3.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencias"><i class="fa fa-check"></i><b>14.3.7</b> Buscar coincidencias</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otro-tipo-de-patrones"><i class="fa fa-check"></i><b>14.4</b> Otro tipo de patrones</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-43"><i class="fa fa-check"></i><b>14.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otros-usos-de-las-expresiones-regulares."><i class="fa fa-check"></i><b>14.5</b> Otros usos de las expresiones regulares.</a></li>
+<li class="chapter" data-level="14.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#stringi"><i class="fa fa-check"></i><b>14.6</b> stringi</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-44"><i class="fa fa-check"></i><b>14.6.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="factores.html"><a href="factores.html"><i class="fa fa-check"></i><b>15</b> Factores</a><ul>
+<li class="chapter" data-level="15.1" data-path="factores.html"><a href="factores.html#introducción-9"><i class="fa fa-check"></i><b>15.1</b> Introducción</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="factores.html"><a href="factores.html#prerrequisitos-6"><i class="fa fa-check"></i><b>15.1.1</b> Prerrequisitos</a></li>
+<li class="chapter" data-level="15.1.2" data-path="factores.html"><a href="factores.html#aprendiendo-más-1"><i class="fa fa-check"></i><b>15.1.2</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="factores.html"><a href="factores.html#creando-factores"><i class="fa fa-check"></i><b>15.2</b> Creando factores</a></li>
+<li class="chapter" data-level="15.3" data-path="factores.html"><a href="factores.html#encuesta-social-general"><i class="fa fa-check"></i><b>15.3</b> Encuesta Social General</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="factores.html"><a href="factores.html#ejercicios-45"><i class="fa fa-check"></i><b>15.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="factores.html"><a href="factores.html#modificar-el-orden-de-los-factores"><i class="fa fa-check"></i><b>15.4</b> Modificar el orden de los factores</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="factores.html"><a href="factores.html#ejercicios-46"><i class="fa fa-check"></i><b>15.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="factores.html"><a href="factores.html#modificar-los-niveles-de-los-factores"><i class="fa fa-check"></i><b>15.5</b> Modificar los niveles de los factores</a><ul>
+<li class="chapter" data-level="15.5.1" data-path="factores.html"><a href="factores.html#ejercicios-47"><i class="fa fa-check"></i><b>15.5.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html"><i class="fa fa-check"></i><b>16</b> Fechas y horas</a><ul>
+<li class="chapter" data-level="16.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#introducción-10"><i class="fa fa-check"></i><b>16.1</b> Introducción</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#requisitos-previos"><i class="fa fa-check"></i><b>16.1.1</b> Requisitos previos</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#creando-fechashoras"><i class="fa fa-check"></i><b>16.2</b> Creando fechas/horas</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-cadenas-de-caracteres"><i class="fa fa-check"></i><b>16.2.1</b> Desde cadenas de caracteres</a></li>
+<li class="chapter" data-level="16.2.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-componentes-individuales"><i class="fa fa-check"></i><b>16.2.2</b> Desde componentes individuales</a></li>
+<li class="chapter" data-level="16.2.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-otros-tipos"><i class="fa fa-check"></i><b>16.2.3</b> Desde otros tipos</a></li>
+<li class="chapter" data-level="16.2.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-48"><i class="fa fa-check"></i><b>16.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#componentes-de-fecha-hora"><i class="fa fa-check"></i><b>16.3</b> Componentes de fecha-hora</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#obteniendo-los-componentes"><i class="fa fa-check"></i><b>16.3.1</b> Obteniendo los componentes</a></li>
+<li class="chapter" data-level="16.3.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#redondeo"><i class="fa fa-check"></i><b>16.3.2</b> Redondeo</a></li>
+<li class="chapter" data-level="16.3.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#configurando-componentes"><i class="fa fa-check"></i><b>16.3.3</b> Configurando componentes</a></li>
+<li class="chapter" data-level="16.3.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-49"><i class="fa fa-check"></i><b>16.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#lapsos-de-tiempo"><i class="fa fa-check"></i><b>16.4</b> Lapsos de tiempo</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#duraciones"><i class="fa fa-check"></i><b>16.4.1</b> Duraciones</a></li>
+<li class="chapter" data-level="16.4.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#períodos"><i class="fa fa-check"></i><b>16.4.2</b> Períodos</a></li>
+<li class="chapter" data-level="16.4.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#intervalos"><i class="fa fa-check"></i><b>16.4.3</b> Intervalos</a></li>
+<li class="chapter" data-level="16.4.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#resumen-1"><i class="fa fa-check"></i><b>16.4.4</b> Resumen</a></li>
+<li class="chapter" data-level="16.4.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-50"><i class="fa fa-check"></i><b>16.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#husos-horarios"><i class="fa fa-check"></i><b>16.5</b> Husos horarios</a></li>
+</ul></li>
+<li class="part"><span><b>III Programar</b></span></li>
+<li class="chapter" data-level="17" data-path="programar-intro.html"><a href="programar-intro.html"><i class="fa fa-check"></i><b>17</b> Introducción</a><ul>
+<li class="chapter" data-level="17.1" data-path="programar-intro.html"><a href="programar-intro.html#aprendiendo-más-2"><i class="fa fa-check"></i><b>17.1</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>18</b> Pipes</a><ul>
+<li class="chapter" data-level="18.1" data-path="pipes.html"><a href="pipes.html#introducción-11"><i class="fa fa-check"></i><b>18.1</b> Introducción</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="pipes.html"><a href="pipes.html#prerequisitos-2"><i class="fa fa-check"></i><b>18.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="pipes.html"><a href="pipes.html#alternativas-a-los-pipes"><i class="fa fa-check"></i><b>18.2</b> Alternativas a los pipes</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="pipes.html"><a href="pipes.html#pasos-intermedios"><i class="fa fa-check"></i><b>18.2.1</b> Pasos intermedios</a></li>
+<li class="chapter" data-level="18.2.2" data-path="pipes.html"><a href="pipes.html#sobrescribir-el-original"><i class="fa fa-check"></i><b>18.2.2</b> Sobrescribir el original</a></li>
+<li class="chapter" data-level="18.2.3" data-path="pipes.html"><a href="pipes.html#composición-de-funciones"><i class="fa fa-check"></i><b>18.2.3</b> Composición de funciones</a></li>
+<li class="chapter" data-level="18.2.4" data-path="pipes.html"><a href="pipes.html#uso-de-pipe"><i class="fa fa-check"></i><b>18.2.4</b> Uso de pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="pipes.html"><a href="pipes.html#cuándo-no-usar-el-pipe"><i class="fa fa-check"></i><b>18.3</b> Cuándo no usar el pipe</a></li>
+<li class="chapter" data-level="18.4" data-path="pipes.html"><a href="pipes.html#otras-herramientas-de-magrittr"><i class="fa fa-check"></i><b>18.4</b> Otras herramientas de magrittr</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>19</b> Funciones</a><ul>
+<li class="chapter" data-level="19.1" data-path="funciones.html"><a href="funciones.html#introducción-12"><i class="fa fa-check"></i><b>19.1</b> Introducción</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="funciones.html"><a href="funciones.html#prerrequisitos-7"><i class="fa fa-check"></i><b>19.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="funciones.html"><a href="funciones.html#cuándo-deberías-escribir-una-función"><i class="fa fa-check"></i><b>19.2</b> ¿Cuándo deberías escribir una función?</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="funciones.html"><a href="funciones.html#ejercicios-51"><i class="fa fa-check"></i><b>19.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="funciones.html"><a href="funciones.html#las-funciones-son-para-los-seres-humanos-y-para-las-computadoras"><i class="fa fa-check"></i><b>19.3</b> Las funciones son para los seres humanos y para las computadoras</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="funciones.html"><a href="funciones.html#ejercicios-52"><i class="fa fa-check"></i><b>19.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="funciones.html"><a href="funciones.html#ejecución-condicional"><i class="fa fa-check"></i><b>19.4</b> Ejecución condicional</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="funciones.html"><a href="funciones.html#condiciones"><i class="fa fa-check"></i><b>19.4.1</b> Condiciones</a></li>
+<li class="chapter" data-level="19.4.2" data-path="funciones.html"><a href="funciones.html#condiciones-múltiples"><i class="fa fa-check"></i><b>19.4.2</b> Condiciones múltiples</a></li>
+<li class="chapter" data-level="19.4.3" data-path="funciones.html"><a href="funciones.html#estilo-del-código"><i class="fa fa-check"></i><b>19.4.3</b> Estilo del código</a></li>
+<li class="chapter" data-level="19.4.4" data-path="funciones.html"><a href="funciones.html#ejercicios-53"><i class="fa fa-check"></i><b>19.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="funciones.html"><a href="funciones.html#argumentos-de-funciones"><i class="fa fa-check"></i><b>19.5</b> Argumentos de funciones</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="funciones.html"><a href="funciones.html#elección-de-nombres"><i class="fa fa-check"></i><b>19.5.1</b> Elección de nombres</a></li>
+<li class="chapter" data-level="19.5.2" data-path="funciones.html"><a href="funciones.html#chequear-valores"><i class="fa fa-check"></i><b>19.5.2</b> Chequear valores</a></li>
+<li class="chapter" data-level="19.5.3" data-path="funciones.html"><a href="funciones.html#punto-punto-punto"><i class="fa fa-check"></i><b>19.5.3</b> Punto-punto-punto (…)</a></li>
+<li class="chapter" data-level="19.5.4" data-path="funciones.html"><a href="funciones.html#evaluación-diferida"><i class="fa fa-check"></i><b>19.5.4</b> Evaluación diferida</a></li>
+<li class="chapter" data-level="19.5.5" data-path="funciones.html"><a href="funciones.html#ejercicios-54"><i class="fa fa-check"></i><b>19.5.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.6" data-path="funciones.html"><a href="funciones.html#valores-de-retorno"><i class="fa fa-check"></i><b>19.6</b> Valores de retorno</a><ul>
+<li class="chapter" data-level="19.6.1" data-path="funciones.html"><a href="funciones.html#sentencias-de-retorno-explícitas"><i class="fa fa-check"></i><b>19.6.1</b> Sentencias de retorno explícitas</a></li>
+<li class="chapter" data-level="19.6.2" data-path="funciones.html"><a href="funciones.html#escribir-funciones-aptas-para-un-pipe"><i class="fa fa-check"></i><b>19.6.2</b> Escribir funciones aptas para un pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="19.7" data-path="funciones.html"><a href="funciones.html#entorno"><i class="fa fa-check"></i><b>19.7</b> Entorno</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>20</b> Vectores</a><ul>
+<li class="chapter" data-level="20.1" data-path="vectores.html"><a href="vectores.html#introducción-13"><i class="fa fa-check"></i><b>20.1</b> Introducción</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="vectores.html"><a href="vectores.html#prerrequisitos-8"><i class="fa fa-check"></i><b>20.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="vectores.html"><a href="vectores.html#vectores-básicos"><i class="fa fa-check"></i><b>20.2</b> Vectores básicos</a></li>
+<li class="chapter" data-level="20.3" data-path="vectores.html"><a href="vectores.html#tipos-importantes-de-vectores-atómicos"><i class="fa fa-check"></i><b>20.3</b> Tipos importantes de vectores atómicos</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="vectores.html"><a href="vectores.html#lógico"><i class="fa fa-check"></i><b>20.3.1</b> Lógico</a></li>
+<li class="chapter" data-level="20.3.2" data-path="vectores.html"><a href="vectores.html#numérico"><i class="fa fa-check"></i><b>20.3.2</b> Numérico</a></li>
+<li class="chapter" data-level="20.3.3" data-path="vectores.html"><a href="vectores.html#caracter"><i class="fa fa-check"></i><b>20.3.3</b> Caracter</a></li>
+<li class="chapter" data-level="20.3.4" data-path="vectores.html"><a href="vectores.html#valores-faltantes-4"><i class="fa fa-check"></i><b>20.3.4</b> Valores faltantes</a></li>
+<li class="chapter" data-level="20.3.5" data-path="vectores.html"><a href="vectores.html#ejercicios-55"><i class="fa fa-check"></i><b>20.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="vectores.html"><a href="vectores.html#usando-vectores-atómicos"><i class="fa fa-check"></i><b>20.4</b> Usando vectores atómicos</a><ul>
+<li class="chapter" data-level="20.4.1" data-path="vectores.html"><a href="vectores.html#coerción"><i class="fa fa-check"></i><b>20.4.1</b> Coerción</a></li>
+<li class="chapter" data-level="20.4.2" data-path="vectores.html"><a href="vectores.html#funciones-de-prueba"><i class="fa fa-check"></i><b>20.4.2</b> Funciones de prueba</a></li>
+<li class="chapter" data-level="20.4.3" data-path="vectores.html"><a href="vectores.html#escalares-y-reglas-de-reciclado"><i class="fa fa-check"></i><b>20.4.3</b> Escalares y reglas de reciclado</a></li>
+<li class="chapter" data-level="20.4.4" data-path="vectores.html"><a href="vectores.html#nombrar-vectores"><i class="fa fa-check"></i><b>20.4.4</b> Nombrar vectores</a></li>
+<li class="chapter" data-level="20.4.5" data-path="vectores.html"><a href="vectores.html#vector-subsetting"><i class="fa fa-check"></i><b>20.4.5</b> Creación de subconjuntos (<em>subsetting</em>)</a></li>
+<li class="chapter" data-level="20.4.6" data-path="vectores.html"><a href="vectores.html#ejercicios-56"><i class="fa fa-check"></i><b>20.4.6</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="vectores.html"><a href="vectores.html#vectores-recursivos-listas"><i class="fa fa-check"></i><b>20.5</b> Vectores Recursivos (listas)</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="vectores.html"><a href="vectores.html#visualizando-listas"><i class="fa fa-check"></i><b>20.5.1</b> Visualizando listas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="vectores.html"><a href="vectores.html#subconjuntos-subsetting"><i class="fa fa-check"></i><b>20.5.2</b> Subconjuntos (<em>Subsetting</em>)</a></li>
+<li class="chapter" data-level="20.5.3" data-path="vectores.html"><a href="vectores.html#listas-de-condimentos"><i class="fa fa-check"></i><b>20.5.3</b> Listas de Condimentos</a></li>
+<li class="chapter" data-level="20.5.4" data-path="vectores.html"><a href="vectores.html#ejercicios-57"><i class="fa fa-check"></i><b>20.5.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.6" data-path="vectores.html"><a href="vectores.html#atributos"><i class="fa fa-check"></i><b>20.6</b> Atributos</a></li>
+<li class="chapter" data-level="20.7" data-path="vectores.html"><a href="vectores.html#vectores-aumentados"><i class="fa fa-check"></i><b>20.7</b> Vectores aumentados</a><ul>
+<li class="chapter" data-level="20.7.1" data-path="vectores.html"><a href="vectores.html#factores-1"><i class="fa fa-check"></i><b>20.7.1</b> Factores</a></li>
+<li class="chapter" data-level="20.7.2" data-path="vectores.html"><a href="vectores.html#fechas-y-fechas-hora"><i class="fa fa-check"></i><b>20.7.2</b> Fechas y fechas-hora</a></li>
+<li class="chapter" data-level="20.7.3" data-path="vectores.html"><a href="vectores.html#tibbles-1"><i class="fa fa-check"></i><b>20.7.3</b> Tibbles</a></li>
+<li class="chapter" data-level="20.7.4" data-path="vectores.html"><a href="vectores.html#ejercicios-58"><i class="fa fa-check"></i><b>20.7.4</b> Ejercicios:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>21</b> Iteración</a><ul>
+<li class="chapter" data-level="21.1" data-path="iteración.html"><a href="iteración.html#introducción-14"><i class="fa fa-check"></i><b>21.1</b> Introducción</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="iteración.html"><a href="iteración.html#prerrequisitos-9"><i class="fa fa-check"></i><b>21.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="iteración.html"><a href="iteración.html#bucles-for"><i class="fa fa-check"></i><b>21.2</b> Bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.2.1" data-path="iteración.html"><a href="iteración.html#ejercicios-59"><i class="fa fa-check"></i><b>21.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="iteración.html"><a href="iteración.html#variaciones-de-bucles-for"><i class="fa fa-check"></i><b>21.3</b> Variaciones de bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.3.1" data-path="iteración.html"><a href="iteración.html#modificar-un-objeto-existente"><i class="fa fa-check"></i><b>21.3.1</b> Modificar un objeto existente</a></li>
+<li class="chapter" data-level="21.3.2" data-path="iteración.html"><a href="iteración.html#patrones-de-bucle"><i class="fa fa-check"></i><b>21.3.2</b> Patrones de bucle</a></li>
+<li class="chapter" data-level="21.3.3" data-path="iteración.html"><a href="iteración.html#longitud-de-output-desconocida"><i class="fa fa-check"></i><b>21.3.3</b> Longitud de <em>output</em> desconocida</a></li>
+<li class="chapter" data-level="21.3.4" data-path="iteración.html"><a href="iteración.html#longitud-de-secuencia-desconocida"><i class="fa fa-check"></i><b>21.3.4</b> Longitud de secuencia desconocida</a></li>
+<li class="chapter" data-level="21.3.5" data-path="iteración.html"><a href="iteración.html#ejercicios-60"><i class="fa fa-check"></i><b>21.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="iteración.html"><a href="iteración.html#bucles-for-vs.funcionales"><i class="fa fa-check"></i><b>21.4</b> Bucles <em>for</em> vs. funcionales</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="iteración.html"><a href="iteración.html#ejercicios-61"><i class="fa fa-check"></i><b>21.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="iteración.html"><a href="iteración.html#las-funciones-map"><i class="fa fa-check"></i><b>21.5</b> Las funciones <em>map</em></a><ul>
+<li class="chapter" data-level="21.5.1" data-path="iteración.html"><a href="iteración.html#atajos"><i class="fa fa-check"></i><b>21.5.1</b> Atajos</a></li>
+<li class="chapter" data-level="21.5.2" data-path="iteración.html"><a href="iteración.html#r-base"><i class="fa fa-check"></i><b>21.5.2</b> R Base</a></li>
+<li class="chapter" data-level="21.5.3" data-path="iteración.html"><a href="iteración.html#ejercicios-62"><i class="fa fa-check"></i><b>21.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="iteración.html"><a href="iteración.html#manejando-los-errores"><i class="fa fa-check"></i><b>21.6</b> Manejando los errores</a></li>
+<li class="chapter" data-level="21.7" data-path="iteración.html"><a href="iteración.html#usar-map-sobre-múltiples-argumentos"><i class="fa fa-check"></i><b>21.7</b> Usar <em>map</em> sobre múltiples argumentos</a><ul>
+<li class="chapter" data-level="21.7.1" data-path="iteración.html"><a href="iteración.html#invocando-distintas-funciones"><i class="fa fa-check"></i><b>21.7.1</b> Invocando distintas funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="21.8" data-path="iteración.html"><a href="iteración.html#walk"><i class="fa fa-check"></i><b>21.8</b> Walk</a></li>
+<li class="chapter" data-level="21.9" data-path="iteración.html"><a href="iteración.html#otros-patrones-para-los-bucles-for"><i class="fa fa-check"></i><b>21.9</b> Otros patrones para los bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.9.1" data-path="iteración.html"><a href="iteración.html#funciones-predicativas"><i class="fa fa-check"></i><b>21.9.1</b> Funciones predicativas</a></li>
+<li class="chapter" data-level="21.9.2" data-path="iteración.html"><a href="iteración.html#reducir-y-acumular"><i class="fa fa-check"></i><b>21.9.2</b> Reducir y acumular</a></li>
+<li class="chapter" data-level="21.9.3" data-path="iteración.html"><a href="iteración.html#ejercicios-63"><i class="fa fa-check"></i><b>21.9.3</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Modelar</b></span></li>
+<li class="chapter" data-level="22" data-path="model-intro.html"><a href="model-intro.html"><i class="fa fa-check"></i><b>22</b> Introducción</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-intro.html"><a href="model-intro.html#generación-de-hipótesis-vs.confirmación-de-hipótesis"><i class="fa fa-check"></i><b>22.1</b> Generación de hipótesis vs. confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html"><i class="fa fa-check"></i><b>23</b> Modelos: conceptos básicos</a><ul>
+<li class="chapter" data-level="23.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#introducción-15"><i class="fa fa-check"></i><b>23.1</b> Introducción</a><ul>
+<li class="chapter" data-level="23.1.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#prerrequisitos-10"><i class="fa fa-check"></i><b>23.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="23.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#un-modelo-simple"><i class="fa fa-check"></i><b>23.2</b> Un modelo simple</a><ul>
+<li class="chapter" data-level="23.2.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-64"><i class="fa fa-check"></i><b>23.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#visualizando-modelos"><i class="fa fa-check"></i><b>23.3</b> Visualizando modelos</a><ul>
+<li class="chapter" data-level="23.3.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#predicciones"><i class="fa fa-check"></i><b>23.3.1</b> Predicciones</a></li>
+<li class="chapter" data-level="23.3.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#residuos"><i class="fa fa-check"></i><b>23.3.2</b> Residuos</a></li>
+<li class="chapter" data-level="23.3.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-65"><i class="fa fa-check"></i><b>23.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#fórmulas-y-familias-de-modelos"><i class="fa fa-check"></i><b>23.4</b> Fórmulas y familias de modelos</a><ul>
+<li class="chapter" data-level="23.4.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#variables-categóricas"><i class="fa fa-check"></i><b>23.4.1</b> Variables categóricas</a></li>
+<li class="chapter" data-level="23.4.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-continuas-y-categóricas"><i class="fa fa-check"></i><b>23.4.2</b> Interacciones (continuas y categóricas)</a></li>
+<li class="chapter" data-level="23.4.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-dos-variables-continuas"><i class="fa fa-check"></i><b>23.4.3</b> Interacciones (dos variables continuas)</a></li>
+<li class="chapter" data-level="23.4.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#transformaciones"><i class="fa fa-check"></i><b>23.4.4</b> Transformaciones</a></li>
+<li class="chapter" data-level="23.4.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-66"><i class="fa fa-check"></i><b>23.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#valores-faltantes-5"><i class="fa fa-check"></i><b>23.5</b> Valores faltantes</a></li>
+<li class="chapter" data-level="23.6" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#otras-familias-de-modelos"><i class="fa fa-check"></i><b>23.6</b> Otras familias de modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html"><i class="fa fa-check"></i><b>24</b> Construcción de modelos</a><ul>
+<li class="chapter" data-level="24.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#introducción-16"><i class="fa fa-check"></i><b>24.1</b> Introducción</a><ul>
+<li class="chapter" data-level="24.1.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#prerrequisitos-11"><i class="fa fa-check"></i><b>24.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="24.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#diamond-prices"><i class="fa fa-check"></i><b>24.2</b> ¿Por qué los diamantes de baja calidad son más caros?</a><ul>
+<li class="chapter" data-level="24.2.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#precio-y-quilates"><i class="fa fa-check"></i><b>24.2.1</b> Precio y quilates</a></li>
+<li class="chapter" data-level="24.2.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#un-modelo-más-complicado"><i class="fa fa-check"></i><b>24.2.2</b> Un modelo más complicado</a></li>
+<li class="chapter" data-level="24.2.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-67"><i class="fa fa-check"></i><b>24.2.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#qué-afecta-el-número-de-vuelos-diarios"><i class="fa fa-check"></i><b>24.3</b> ¿Qué afecta el número de vuelos diarios?</a><ul>
+<li class="chapter" data-level="24.3.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#día-de-la-semana"><i class="fa fa-check"></i><b>24.3.1</b> Día de la semana</a></li>
+<li class="chapter" data-level="24.3.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#efecto-estacional-del-sábado"><i class="fa fa-check"></i><b>24.3.2</b> Efecto estacional del sábado</a></li>
+<li class="chapter" data-level="24.3.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#variables-calculadas"><i class="fa fa-check"></i><b>24.3.3</b> Variables calculadas</a></li>
+<li class="chapter" data-level="24.3.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#época-del-año-un-enfoque-alternativo"><i class="fa fa-check"></i><b>24.3.4</b> Época del año: un enfoque alternativo</a></li>
+<li class="chapter" data-level="24.3.5" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-68"><i class="fa fa-check"></i><b>24.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#aprende-más-sobre-los-modelos"><i class="fa fa-check"></i><b>24.4</b> Aprende más sobre los modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="muchos-modelos.html"><a href="muchos-modelos.html"><i class="fa fa-check"></i><b>25</b> Muchos modelos</a><ul>
+<li class="chapter" data-level="25.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#introducción-17"><i class="fa fa-check"></i><b>25.1</b> Introducción</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#prerrequisitos-12"><i class="fa fa-check"></i><b>25.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#gapminder"><i class="fa fa-check"></i><b>25.2</b> gapminder</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#datos-anidados"><i class="fa fa-check"></i><b>25.2.1</b> Datos anidados</a></li>
+<li class="chapter" data-level="25.2.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista"><i class="fa fa-check"></i><b>25.2.2</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.2.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando"><i class="fa fa-check"></i><b>25.2.3</b> Desanidando</a></li>
+<li class="chapter" data-level="25.2.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#calidad-del-modelo"><i class="fa fa-check"></i><b>25.2.4</b> Calidad del modelo</a></li>
+<li class="chapter" data-level="25.2.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-69"><i class="fa fa-check"></i><b>25.2.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista-1"><i class="fa fa-check"></i><b>25.3</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#creando-columnas-lista"><i class="fa fa-check"></i><b>25.4</b> Creando columnas-lista</a><ul>
+<li class="chapter" data-level="25.4.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#con-anidación"><i class="fa fa-check"></i><b>25.4.1</b> Con anidación</a></li>
+<li class="chapter" data-level="25.4.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-funciones-vectorizadas"><i class="fa fa-check"></i><b>25.4.2</b> A partir de funciones vectorizadas</a></li>
+<li class="chapter" data-level="25.4.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-medidas-de-resumen-con-más-de-un-valor"><i class="fa fa-check"></i><b>25.4.3</b> A partir de medidas de resumen con más de un valor</a></li>
+<li class="chapter" data-level="25.4.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-una-lista-nombrada"><i class="fa fa-check"></i><b>25.4.4</b> A partir de una lista nombrada</a></li>
+<li class="chapter" data-level="25.4.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-70"><i class="fa fa-check"></i><b>25.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#simplificando-columnas-lista"><i class="fa fa-check"></i><b>25.5</b> Simplificando columnas-lista</a><ul>
+<li class="chapter" data-level="25.5.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#lista-a-vector"><i class="fa fa-check"></i><b>25.5.1</b> Lista a vector</a></li>
+<li class="chapter" data-level="25.5.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando-1"><i class="fa fa-check"></i><b>25.5.2</b> Desanidando</a></li>
+<li class="chapter" data-level="25.5.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-71"><i class="fa fa-check"></i><b>25.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.6" data-path="muchos-modelos.html"><a href="muchos-modelos.html#haciendo-datos-ordenados-con-broom"><i class="fa fa-check"></i><b>25.6</b> Haciendo datos ordenados con broom</a></li>
+</ul></li>
+<li class="part"><span><b>V Comunicar</b></span></li>
+<li class="chapter" data-level="26" data-path="introducción-18.html"><a href="introducción-18.html"><i class="fa fa-check"></i><b>26</b> Introducción</a></li>
+<li class="chapter" data-level="27" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>27</b> R Markdown</a><ul>
+<li class="chapter" data-level="27.1" data-path="r-markdown.html"><a href="r-markdown.html#introducción-19"><i class="fa fa-check"></i><b>27.1</b> Introducción</a><ul>
+<li class="chapter" data-level="27.1.1" data-path="r-markdown.html"><a href="r-markdown.html#prerequisitos-3"><i class="fa fa-check"></i><b>27.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="27.2" data-path="r-markdown.html"><a href="r-markdown.html#r-markdown-básico"><i class="fa fa-check"></i><b>27.2</b> R Markdown básico</a><ul>
+<li class="chapter" data-level="27.2.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-72"><i class="fa fa-check"></i><b>27.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="r-markdown.html"><a href="r-markdown.html#formateo-de-texto-con-markdown"><i class="fa fa-check"></i><b>27.3</b> Formateo de texto con Markdown</a><ul>
+<li class="chapter" data-level="27.3.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-73"><i class="fa fa-check"></i><b>27.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.4" data-path="r-markdown.html"><a href="r-markdown.html#bloques-de-código"><i class="fa fa-check"></i><b>27.4</b> Bloques de código</a><ul>
+<li class="chapter" data-level="27.4.1" data-path="r-markdown.html"><a href="r-markdown.html#nombres-en-bloques"><i class="fa fa-check"></i><b>27.4.1</b> Nombres en bloques</a></li>
+<li class="chapter" data-level="27.4.2" data-path="r-markdown.html"><a href="r-markdown.html#opciones-en-bloques"><i class="fa fa-check"></i><b>27.4.2</b> Opciones en bloques</a></li>
+<li class="chapter" data-level="27.4.3" data-path="r-markdown.html"><a href="r-markdown.html#tablas"><i class="fa fa-check"></i><b>27.4.3</b> Tablas</a></li>
+<li class="chapter" data-level="27.4.4" data-path="r-markdown.html"><a href="r-markdown.html#caching"><i class="fa fa-check"></i><b>27.4.4</b> Caching</a></li>
+<li class="chapter" data-level="27.4.5" data-path="r-markdown.html"><a href="r-markdown.html#opciones-globales"><i class="fa fa-check"></i><b>27.4.5</b> Opciones globales</a></li>
+<li class="chapter" data-level="27.4.6" data-path="r-markdown.html"><a href="r-markdown.html#código-en-la-línea"><i class="fa fa-check"></i><b>27.4.6</b> Código en la línea</a></li>
+<li class="chapter" data-level="27.4.7" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-74"><i class="fa fa-check"></i><b>27.4.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.5" data-path="r-markdown.html"><a href="r-markdown.html#solucionando-problemas"><i class="fa fa-check"></i><b>27.5</b> Solucionando problemas</a></li>
+<li class="chapter" data-level="27.6" data-path="r-markdown.html"><a href="r-markdown.html#encabezado-yaml"><i class="fa fa-check"></i><b>27.6</b> Encabezado YAML</a><ul>
+<li class="chapter" data-level="27.6.1" data-path="r-markdown.html"><a href="r-markdown.html#parámetros"><i class="fa fa-check"></i><b>27.6.1</b> Parámetros</a></li>
+<li class="chapter" data-level="27.6.2" data-path="r-markdown.html"><a href="r-markdown.html#bibliografías-y-citas"><i class="fa fa-check"></i><b>27.6.2</b> Bibliografías y citas</a></li>
+</ul></li>
+<li class="chapter" data-level="27.7" data-path="r-markdown.html"><a href="r-markdown.html#aprendiendo-más-3"><i class="fa fa-check"></i><b>27.7</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html"><i class="fa fa-check"></i><b>28</b> Comunicar con gráficos</a><ul>
+<li class="chapter" data-level="28.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#introducción-20"><i class="fa fa-check"></i><b>28.1</b> Introducción</a><ul>
+<li class="chapter" data-level="28.1.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#prerrequisitos-13"><i class="fa fa-check"></i><b>28.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#etiquetas"><i class="fa fa-check"></i><b>28.2</b> Etiquetas</a><ul>
+<li class="chapter" data-level="28.2.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-75"><i class="fa fa-check"></i><b>28.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#anotaciones"><i class="fa fa-check"></i><b>28.3</b> Anotaciones</a><ul>
+<li class="chapter" data-level="28.3.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-76"><i class="fa fa-check"></i><b>28.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#escalas"><i class="fa fa-check"></i><b>28.4</b> Escalas</a><ul>
+<li class="chapter" data-level="28.4.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#marcas-de-los-ejes-y-leyendas"><i class="fa fa-check"></i><b>28.4.1</b> Marcas de los ejes y leyendas</a></li>
+<li class="chapter" data-level="28.4.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#diseño-de-leyendas"><i class="fa fa-check"></i><b>28.4.2</b> Diseño de leyendas</a></li>
+<li class="chapter" data-level="28.4.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#reemplazando-una-escala"><i class="fa fa-check"></i><b>28.4.3</b> Reemplazando una escala</a></li>
+<li class="chapter" data-level="28.4.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-77"><i class="fa fa-check"></i><b>28.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#haciendo-zoom"><i class="fa fa-check"></i><b>28.5</b> Haciendo Zoom</a></li>
+<li class="chapter" data-level="28.6" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#temas"><i class="fa fa-check"></i><b>28.6</b> Temas</a></li>
+<li class="chapter" data-level="28.7" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#guardando-tus-gráficos"><i class="fa fa-check"></i><b>28.7</b> Guardando tus gráficos</a><ul>
+<li class="chapter" data-level="28.7.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#redimensionar-una-figura"><i class="fa fa-check"></i><b>28.7.1</b> Redimensionar una figura</a></li>
+<li class="chapter" data-level="28.7.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#otras-opciones-importantes"><i class="fa fa-check"></i><b>28.7.2</b> Otras opciones importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="28.8" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#aprendiendo-más-4"><i class="fa fa-check"></i><b>28.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html"><i class="fa fa-check"></i><b>29</b> Formatos de R Markdown</a><ul>
+<li class="chapter" data-level="29.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#introducción-21"><i class="fa fa-check"></i><b>29.1</b> Introducción</a></li>
+<li class="chapter" data-level="29.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#opciones-de-salida"><i class="fa fa-check"></i><b>29.2</b> Opciones de salida</a></li>
+<li class="chapter" data-level="29.3" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#documentos"><i class="fa fa-check"></i><b>29.3</b> Documentos</a></li>
+<li class="chapter" data-level="29.4" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#notebooks"><i class="fa fa-check"></i><b>29.4</b> Notebooks</a></li>
+<li class="chapter" data-level="29.5" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#presentaciones"><i class="fa fa-check"></i><b>29.5</b> Presentaciones</a></li>
+<li class="chapter" data-level="29.6" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#dashboards"><i class="fa fa-check"></i><b>29.6</b> Dashboards</a></li>
+<li class="chapter" data-level="29.7" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#interactividad"><i class="fa fa-check"></i><b>29.7</b> Interactividad</a><ul>
+<li class="chapter" data-level="29.7.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#htmlwidgets"><i class="fa fa-check"></i><b>29.7.1</b> htmlwidgets</a></li>
+<li class="chapter" data-level="29.7.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#shiny"><i class="fa fa-check"></i><b>29.7.2</b> Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="29.8" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#sitios-web"><i class="fa fa-check"></i><b>29.8</b> Sitios Web</a></li>
+<li class="chapter" data-level="29.9" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#otros-formatos"><i class="fa fa-check"></i><b>29.9</b> Otros Formatos</a></li>
+<li class="chapter" data-level="29.10" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#aprende-más"><i class="fa fa-check"></i><b>29.10</b> Aprende más</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="flujo-de-trabajo-en-r-markdown.html"><a href="flujo-de-trabajo-en-r-markdown.html"><i class="fa fa-check"></i><b>30</b> Flujo de trabajo en R Markdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R para Ciencia de Datos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelos-conceptos-básicos" class="section level1">
+<h1><span class="header-section-number">23</span> Modelos: conceptos básicos</h1>
+<div id="introducción-15" class="section level2">
+<h2><span class="header-section-number">23.1</span> Introducción</h2>
+<p>El objetivo de un modelo es proveer un resumen de baja dimensión de un conjunto de datos (o <em>dataset</em>, en inglés). En el contexto de este libro vamos a usar modelos para particionar los datos en patrones y residuos. Patrones fuertes esconderán tendencias sutiles, por lo que usaremos modelos para remover capas de estructuras mientras exploramos el conjunto de datos.</p>
+<p>Sin embargo, antes de que podamos comenzar a usar modelos en conjuntos de datos interesantes y reales, necesitarás los conceptos básicos de cómo funcionan los modelos. Por dicha razón, este capítulo es único porque usa solamente datos simulados. Estos conjunto de datos son muy simples y no muy interesantes, pero nos ayudarán a entender la esencia del modelado antes de que apliques las mismas técnicas con datos reales en el próximo capítulo.</p>
+<p>Hay dos partes en un modelo:</p>
+<ol style="list-style-type: decimal">
+<li><p>Primero, defines una <strong>familia de modelos</strong> que expresa un patrón
+que quieras capturar. El patrón debe ser preciso, pero también genérico.
+Por ejemplo, el patrón podría ser una línea recta, o una curva cuadrática.
+Expresarás la familia de modelos con una ecuación como <code>y = a_1 * x + a_2</code> o
+<code>y = a_1 * x ^ a_2</code>. Aquí, <code>x</code> e <code>y</code> son variables conocidas de tus
+datos, y <code>a_1</code> y <code>a_2</code> son parámetros que pueden variar al capturar
+diferentes patrones.</p></li>
+<li><p>Luego, generas un <strong>modelo ajustado</strong> al encontrar un modelo de la
+familia que sea lo más cercano a tus datos. Esto toma la familia de modelos
+genérica y la vuelve específica, como <code>y = 3 * x + 7</code> o <code>y = 9 * x ^ 2</code>.</p></li>
+</ol>
+<p>Es importante enteder que el modelo ajustado es solamente el modelo más cercano a la familia de modelos. Esto implica que tu tienes el “mejor” modelo (de acuerdo a cierto criterio); no implica que tu tienes un buen modelo y ciertamente no implica que ese modelo es “verdadero”. George Box lo explica muy bien en su famoso aforismo:</p>
+<blockquote>
+<p>Todos los modelos están mal, algunos son útiles.</p>
+</blockquote>
+<p>Vale la pena leer el contexto más completo de la cita:</p>
+<blockquote>
+<p>Ahora sería muy notable si cualquier sistema existente en el mundo real
+pudiera ser representado exactamente por algún modelo simple. Sin embargo,
+modelos simples astutamente escogidos a menudo proporcionan aproximaciones notablemente útiles.</p>
+<p>Por ejemplo, la ley PV = RT que relaciona la presión P, el volumen V y la temperatura
+T de un gas “ideal” a través de una constante R no es exactamente verdadera para cualquier gas real, pero frecuentmente provee una aproximación útil y, además, su estructura
+es informativa ya que proviene de un punto de vista físico del comportamiento de las
+moléculas de un gas.</p>
+<p>Para tal modelo, no hay necesidad de preguntarse “¿Es el modelo verdadero?”.
+Si la “verdad” debe ser la “verdad completa”, la respuesta debe ser “No”. La única
+pregunta de interés es “¿Es el modelo esclarecedor y útil?”.</p>
+</blockquote>
+<p>El objetivo de un modelo no es descubrir la verdad, sino descubrir una aproximación simple que sea útil.</p>
+<div id="prerrequisitos-10" class="section level3">
+<h3><span class="header-section-number">23.1.1</span> Prerrequisitos</h3>
+<p>En este capítulo usaremos el paquete <strong>modelr</strong> que encapsula (del inglés <em>wrapper</em>) las funciones de modelado de R base para que funcionen naturalmente en un <em>pipe</em>.</p>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb627-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb627-3" data-line-number="3"><span class="kw">library</span>(modelr)</a>
+<a class="sourceLine" id="cb627-4" data-line-number="4"><span class="kw">options</span>(<span class="dt">na.action =</span> na.warn)</a></code></pre></div>
+</div>
+</div>
+<div id="un-modelo-simple" class="section level2">
+<h2><span class="header-section-number">23.2</span> Un modelo simple</h2>
+<p>Miremos el conjunto de datos simulado <code>sim1</code>, incluído dentro del paquete <strong>modelr</strong>. Este contiene dos variables continuas, <code>x</code> e <code>y</code>. Grafiquémoslas para ver como están relacionadas:</p>
+<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb628-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb628-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-1-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Puedes ver un fuerte patrón en los datos. Usemos un modelo para capturar dicho patrón y hacerlo explícito. Es nuestro trabajo proporcionar la forma básica del modelo. En este caso, la relación parece ser lineal, es decir: <code>y = a_0 + a_1 * x</code>. Comencemos por tener una idea de cómo son los modelos de esa familia generando aleatoriamente unos pocos y superponiéndolos sobre los datos. Para este caso simple, podemos usar <code>geom_abline()</code> que toma una pendiente e intercepto (u ordenada al origen) como parámetros. Más adelante, aprenderemos técnicas más generales que funcionan con cualquier modelo.</p>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1">modelos &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb629-2" data-line-number="2">  <span class="dt">a1 =</span> <span class="kw">runif</span>(<span class="dv">250</span>, <span class="dv">-20</span>, <span class="dv">40</span>),</a>
+<a class="sourceLine" id="cb629-3" data-line-number="3">  <span class="dt">a2 =</span> <span class="kw">runif</span>(<span class="dv">250</span>, <span class="dv">-5</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb629-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb629-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb629-6" data-line-number="6"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb629-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="kw">aes</span>(<span class="dt">intercept =</span> a1, <span class="dt">slope =</span> a2), <span class="dt">data =</span> modelos, <span class="dt">alpha =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="dv">4</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb629-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-2-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Hay 250 modelos en el gráfico, ¡pero muchos son realmente malos! Necesitamos encontrar los modelos buenos especificando nuestra intuición de que un buen modelo está “cerca” de los datos. Necesitamos una manera de cuantificar la distancia entre los datos y un modelo. Entonces podemos ajustar el modelo encontrando el valor de <code>a_0</code> y<code>a_1</code> que genera el modelo con la menor distancia a estos datos.</p>
+<p>Un lugar fácil para comenzar es encontrar la distancia vertical entre cada punto y el modelo, como lo muestra el siguiente diagrama. (Nota que he cambiado ligeramente los valores x para que puedas ver las distancias individuales.)</p>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>La distancia es solo la diferencia entre el valor dado por el modelo (la <strong>predicción</strong>), y el valor real y en los datos (la <strong>respuesta</strong>).</p>
+<p>Para calcular esta distancia, primero transformamos nuestra familia de modelos en una función de R. Esta función toma los parámetros del modelo y los datos como inputs, y retorna el valor predicho por el modelo como output:</p>
+<div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb630-1" data-line-number="1">model1 &lt;-<span class="st"> </span><span class="cf">function</span>(a, data) {</a>
+<a class="sourceLine" id="cb630-2" data-line-number="2">  a[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>data<span class="op">$</span>x <span class="op">*</span><span class="st"> </span>a[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb630-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb630-4" data-line-number="4"><span class="kw">model1</span>(<span class="kw">c</span>(<span class="dv">7</span>, <span class="fl">1.5</span>), sim1)</a>
+<a class="sourceLine" id="cb630-5" data-line-number="5"><span class="co">#&gt;  [1]  8.5  8.5  8.5 10.0 10.0 10.0 11.5 11.5 11.5 13.0 13.0 13.0 14.5 14.5 14.5</span></a>
+<a class="sourceLine" id="cb630-6" data-line-number="6"><span class="co">#&gt; [16] 16.0 16.0 16.0 17.5 17.5 17.5 19.0 19.0 19.0 20.5 20.5 20.5 22.0 22.0 22.0</span></a></code></pre></div>
+<p>Luego, necesitaremos calcular la distancia entre lo predicho y los valores reales. En otras palabras, el siguiente gráfico muestra 30 distancias: ¿Cómo las colapsamos en un único número?</p>
+<p>Una forma habitual de hacer esto en estadística es usar la “raíz del error cuadrático medio” (del inglés <em>root-mean-squared deviation</em>). Calculamos la diferencia entre los valores reales y los predichos, los elevamos al cuadrado, luego se promedian y tomamos la raíz cuadrada. Esta distancia cuenta con propiedades matemáticas interesantes, pero no nos referiremos a ellas en este capítulo. ¡Tendrás que creer en mi palabra!</p>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1">measure_distance &lt;-<span class="st"> </span><span class="cf">function</span>(mod, data) {</a>
+<a class="sourceLine" id="cb631-2" data-line-number="2">  diff &lt;-<span class="st"> </span>data<span class="op">$</span>y <span class="op">-</span><span class="st"> </span><span class="kw">model1</span>(mod, data)</a>
+<a class="sourceLine" id="cb631-3" data-line-number="3">  <span class="kw">sqrt</span>(<span class="kw">mean</span>(diff<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb631-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb631-5" data-line-number="5"><span class="kw">measure_distance</span>(<span class="kw">c</span>(<span class="dv">7</span>, <span class="fl">1.5</span>), sim1)</a>
+<a class="sourceLine" id="cb631-6" data-line-number="6"><span class="co">#&gt; [1] 2.67</span></a></code></pre></div>
+<p>Ahora podemos usar purrr para calcular la distancia de todos los modelos definidos anteriormente. Necesitamos una función auxiliar debido a que nuestra función de distancia espera que el modelo sea un vector numérico de longitud 2.</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">sim1_dist &lt;-<span class="st"> </span><span class="cf">function</span>(a1, a2) {</a>
+<a class="sourceLine" id="cb632-2" data-line-number="2">  <span class="kw">measure_distance</span>(<span class="kw">c</span>(a1, a2), sim1)</a>
+<a class="sourceLine" id="cb632-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb632-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb632-5" data-line-number="5">modelos &lt;-<span class="st"> </span>modelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb632-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dist =</span> purrr<span class="op">::</span><span class="kw">map2_dbl</span>(a1, a2, sim1_dist))</a>
+<a class="sourceLine" id="cb632-7" data-line-number="7">modelos</a>
+<a class="sourceLine" id="cb632-8" data-line-number="8"><span class="co">#&gt; # A tibble: 250 x 3</span></a>
+<a class="sourceLine" id="cb632-9" data-line-number="9"><span class="co">#&gt;       a1      a2  dist</span></a>
+<a class="sourceLine" id="cb632-10" data-line-number="10"><span class="co">#&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb632-11" data-line-number="11"><span class="co">#&gt; 1 -15.2   0.0889  30.8</span></a>
+<a class="sourceLine" id="cb632-12" data-line-number="12"><span class="co">#&gt; 2  30.1  -0.827   13.2</span></a>
+<a class="sourceLine" id="cb632-13" data-line-number="13"><span class="co">#&gt; 3  16.0   2.27    13.2</span></a>
+<a class="sourceLine" id="cb632-14" data-line-number="14"><span class="co">#&gt; 4 -10.6   1.38    18.7</span></a>
+<a class="sourceLine" id="cb632-15" data-line-number="15"><span class="co">#&gt; 5 -19.6  -1.04    41.8</span></a>
+<a class="sourceLine" id="cb632-16" data-line-number="16"><span class="co">#&gt; 6   7.98  4.59    19.3</span></a>
+<a class="sourceLine" id="cb632-17" data-line-number="17"><span class="co">#&gt; # … with 244 more rows</span></a></code></pre></div>
+<p>A continuación, vamos a superponer los mejores 10 modelos en los datos. He coloreado los modelos usando <code>-dist</code>: esto es una forma fácil de asegurarse de que los mejores modelos (es decir, aquellos con la menor distancia) tengan los colores más brillantes.</p>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb633-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb633-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;grey30&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb633-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_abline</span>(</a>
+<a class="sourceLine" id="cb633-4" data-line-number="4">    <span class="kw">aes</span>(<span class="dt">intercept =</span> a1, <span class="dt">slope =</span> a2, <span class="dt">colour =</span> <span class="op">-</span>dist),</a>
+<a class="sourceLine" id="cb633-5" data-line-number="5">    <span class="dt">data =</span> <span class="kw">filter</span>(modelos, <span class="kw">rank</span>(dist) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb633-6" data-line-number="6">  )</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>También podemos pensar estos modelos como observaciones y visualizar un diagrama de dispersión (o <em>scatterplot</em>, en inglés) de <code>a1</code> versus <code>a2</code>, nuevamente coloreado usando <code>-dist</code>. No podremos ver directamente cómo el modelo contrasta con los datos, pero podemos ver muchos modelos a la vez. Nuevamente, he destacado los mejores 10 modelos, esta vez dibujando círculos rojos bajo ellos.</p>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb634-1" data-line-number="1"><span class="kw">ggplot</span>(modelos, <span class="kw">aes</span>(a1, a2)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb634-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">filter</span>(modelos, <span class="kw">rank</span>(dist) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>), <span class="dt">size =</span> <span class="dv">4</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb634-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> <span class="op">-</span>dist))</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>En lugar de probar con múltples modelos aleatorios, se puede sistematizar y generar una cuadrícula de puntos igualmente espaciados (esto se llama búsqueda en cuadrícula). He seleccionado los parámetros de la cuadrícula por aproximación, mirando donde se ubican los mejores modelos en el gráfico anterior.</p>
+<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb635-1" data-line-number="1">grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(</a>
+<a class="sourceLine" id="cb635-2" data-line-number="2">  <span class="dt">a1 =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">20</span>, <span class="dt">length =</span> <span class="dv">25</span>),</a>
+<a class="sourceLine" id="cb635-3" data-line-number="3">  <span class="dt">a2 =</span> <span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dt">length =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb635-4" data-line-number="4">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb635-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dist =</span> purrr<span class="op">::</span><span class="kw">map2_dbl</span>(a1, a2, sim1_dist))</a>
+<a class="sourceLine" id="cb635-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb635-7" data-line-number="7">grid <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb635-8" data-line-number="8"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(a1, a2)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb635-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> <span class="kw">filter</span>(grid, <span class="kw">rank</span>(dist) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>), <span class="dt">size =</span> <span class="dv">4</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb635-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> <span class="op">-</span>dist))</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Cuando superpones los mejores 10 modelos en los datos originales, se ven bastante bien:</p>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb636-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;grey30&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb636-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_abline</span>(</a>
+<a class="sourceLine" id="cb636-4" data-line-number="4">    <span class="kw">aes</span>(<span class="dt">intercept =</span> a1, <span class="dt">slope =</span> a2, <span class="dt">colour =</span> <span class="op">-</span>dist),</a>
+<a class="sourceLine" id="cb636-5" data-line-number="5">    <span class="dt">data =</span> <span class="kw">filter</span>(grid, <span class="kw">rank</span>(dist) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb636-6" data-line-number="6">  )</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Podrás imaginarte que de forma iterativa puedo hacer la cuadrícula más y más fina hasta reducir los resultados al mejor modelo. Existe una forma mejor de resolver el problema: una herramienta de minimización llamada búsqueda de Newton-Raphson. La intuición detrás de Newton-Raphson es bastante simple: tomas un punto de partida y buscas la pendiente más fuerte en torno a ese punto. Puedes bajar por esa pendiente un poco, para luego repetir el proceso varias veces, hasta que no se puede descender más. En R, esto se puede hacer con la función <code>optim()</code>:</p>
+<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb637-1" data-line-number="1">best &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), measure_distance, <span class="dt">data =</span> sim1)</a>
+<a class="sourceLine" id="cb637-2" data-line-number="2">best<span class="op">$</span>par</a>
+<a class="sourceLine" id="cb637-3" data-line-number="3"><span class="co">#&gt; [1] 4.22 2.05</span></a>
+<a class="sourceLine" id="cb637-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb637-5" data-line-number="5"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb637-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;grey30&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb637-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> best<span class="op">$</span>par[<span class="dv">1</span>], <span class="dt">slope =</span> best<span class="op">$</span>par[<span class="dv">2</span>])</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>No te preocupes demasiado acerca de los detalles de cómo funciona <code>optim()</code>. La intuición es lo importante en esta parte. Si tienes una función que define la mínima distancia entre un modelo y un conjunto de datos, un algoritmo que pueda minimizar la distancia modificando los parámetros del modelo te permitirá encontrar el mejor modelo. Lo interesante de este enfoque es que funciona con cualquier familia de modelos respecto de la cual se pueda escribir una ecuación que los describa.</p>
+<p>Existe otro enfoque que podemos usar para este modelo, debido a que es un caso especial de una familia más amplia: los modelos lineales. Un modelo lineal es de la forma <code>y = a_1 + a_2 * x_1 + a_3 * x_2 + ... + a_n * x_(n+1)</code>. Este modelo simple es equivalente a un modelo lineal generalizado en el que n tiene valor 2 y <code>x_1</code> es <code>x</code>. R cuenta con una herramienta diseñada especialmente para ajustar modelos lineales llamada <code>lm()</code>. <code>lm()</code> tiene un modo especial de especificar la familia del modelo: las fórmulas. Las fórmulas son similares a <code>y ~ x</code>, que <code>lm()</code> traducirá a una función de la forma <code>y = a_1 + a_2 * x</code>. Podemos ajustar el modelo y mirar la salida:</p>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb638-1" data-line-number="1">sim1_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> sim1)</a>
+<a class="sourceLine" id="cb638-2" data-line-number="2"><span class="kw">coef</span>(sim1_mod)</a>
+<a class="sourceLine" id="cb638-3" data-line-number="3"><span class="co">#&gt; (Intercept)           x </span></a>
+<a class="sourceLine" id="cb638-4" data-line-number="4"><span class="co">#&gt;        4.22        2.05</span></a></code></pre></div>
+<p>¡Estos son exactamente los mismos valores obtenidos con <code>optim()</code>! Detrás del escenario <code>lm()</code> no usa <code>optim()</code>, sin embargo saca ventaja de la estructura matemática de los modelos lineales. Usando algunas conexiones entre geometría, cálculo y álgebra lineal, <code>lm()</code> encuentra directamente el mejor modelo en un paso, usando un algoritmo sofisticado. Este enfoque es a la vez raṕido y garantiza que existe un mínimo global.</p>
+<div id="ejercicios-64" class="section level3">
+<h3><span class="header-section-number">23.2.1</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li>Una desventaja del modelo lineal es ser sensible a valores inusuales
+debido a que la distancia incorpora un término al cuadrado. Ajusta un
+modelo a los datos simulados que se presentan a continuación y visualiza
+los resultados. Corre el modelo varias veces para generar diferentes conjuntos
+de datos simulados. ¿Qué puedes observar respecto del modelo?</li>
+</ol>
+<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb639-1" data-line-number="1">sim1a &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb639-2" data-line-number="2"> <span class="dt">x =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">each =</span> <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb639-3" data-line-number="3"> <span class="dt">y =</span> x <span class="op">*</span><span class="st"> </span><span class="fl">1.5</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span> <span class="op">+</span><span class="st"> </span><span class="kw">rt</span>(<span class="kw">length</span>(x), <span class="dt">df =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb639-4" data-line-number="4">)</a></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Una forma de obtener un modelo lineal más robusto es usar una métrica distinta
+para la distancia. Por ejemplo, en lugar de la raíz de la distancia media cuadrática
+(del inglés <em>root-mean-squared distance</em>) se podría usar la media de la distancia absoluta:</li>
+</ol>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb640-1" data-line-number="1">measure_distance &lt;-<span class="st"> </span><span class="cf">function</span>(mod, data) {</a>
+<a class="sourceLine" id="cb640-2" data-line-number="2"> diff &lt;-<span class="st"> </span>data<span class="op">$</span>y <span class="op">-</span><span class="st"> </span><span class="kw">model1</span>(mod, data)</a>
+<a class="sourceLine" id="cb640-3" data-line-number="3"> <span class="kw">mean</span>(<span class="kw">abs</span>(diff))</a>
+<a class="sourceLine" id="cb640-4" data-line-number="4">}</a></code></pre></div>
+<p>Usa <code>optim()</code> para ajustar este modelo a los datos simulados anteriormente y
+compara el resultado con el modelo lineal.</p>
+<ol style="list-style-type: decimal">
+<li>Un desafío al realizar optimización numérica es que únicamente garantiza
+encontrar un óptimo local. ¿Qué problema se presenta al optimizar un modelo de
+tres parámetros como el que se presenta a continuación?</li>
+</ol>
+<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" data-line-number="1">model1 &lt;-<span class="st"> </span><span class="cf">function</span>(a, data) {</a>
+<a class="sourceLine" id="cb641-2" data-line-number="2"> a[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>data<span class="op">$</span>x <span class="op">*</span><span class="st"> </span>a[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>a[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb641-3" data-line-number="3">}</a></code></pre></div>
+</div>
+</div>
+<div id="visualizando-modelos" class="section level2">
+<h2><span class="header-section-number">23.3</span> Visualizando modelos</h2>
+<p>Para modelos simples, como el presentado anteriormente, puedes descubrir el patrón que captura el modelo si inspeccionas cuidadosamente la familia del modelo y los coeficientes ajustados. Si alguna vez tomaste un curso de modelado estadístico, te será habitual gastar mucho tiempo en esa tarea. Aquí, sin embargo, tomaremos otro camino. Vamos a enfocarnos en entender un modelo mirando las predicciones que genera. Esto tiene una gran ventaja: cada tipo de modelo predictivo realiza predicciones (¿qué otra podría realizar?) de modo que podemos usar el mismo conjunto de técnicas para entender cualquier tipo de modelo predictivo.</p>
+<p>También es útil observar lo que el modelo no captura, los llamados residuos que se obtienen restando las predicciones a los datos. Los residuos son poderosos porque nos permiten usar modelos para quitar patrones fuertes y así observar tendencias sutiles que se mantengan luego de quitar los patrones más evidentes.</p>
+<div id="predicciones" class="section level3">
+<h3><span class="header-section-number">23.3.1</span> Predicciones</h3>
+<p>Para visualizar las predicciones de un modelo, podemos partir por generar una grilla de valores equidistantes que cubra la región donde se encuentran los datos. La forma más fácil de hacerlo es usando <code>modelr::data_grid()</code>. El primer argumento es un data frame y, por cada argumento adicional, encuentra las variables únicas y luego genera todas las combinaciones:</p>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" data-line-number="1">grid &lt;-<span class="st"> </span>sim1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb642-2" data-line-number="2"><span class="st">  </span><span class="kw">data_grid</span>(x)</a>
+<a class="sourceLine" id="cb642-3" data-line-number="3">grid</a>
+<a class="sourceLine" id="cb642-4" data-line-number="4"><span class="co">#&gt; # A tibble: 10 x 1</span></a>
+<a class="sourceLine" id="cb642-5" data-line-number="5"><span class="co">#&gt;       x</span></a>
+<a class="sourceLine" id="cb642-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb642-7" data-line-number="7"><span class="co">#&gt; 1     1</span></a>
+<a class="sourceLine" id="cb642-8" data-line-number="8"><span class="co">#&gt; 2     2</span></a>
+<a class="sourceLine" id="cb642-9" data-line-number="9"><span class="co">#&gt; 3     3</span></a>
+<a class="sourceLine" id="cb642-10" data-line-number="10"><span class="co">#&gt; 4     4</span></a>
+<a class="sourceLine" id="cb642-11" data-line-number="11"><span class="co">#&gt; 5     5</span></a>
+<a class="sourceLine" id="cb642-12" data-line-number="12"><span class="co">#&gt; 6     6</span></a>
+<a class="sourceLine" id="cb642-13" data-line-number="13"><span class="co">#&gt; # … with 4 more rows</span></a></code></pre></div>
+<p>(Esto será más interesante cuando se agreguen más variables al modelo.)</p>
+<p>Luego agregamos las predicciones. Usaremos <code>modelr::add_predictions()</code> que toma un data frame y un modelo. Esto agrega las predicciones del modelo en una nueva columna en el data frame:</p>
+<div class="sourceCode" id="cb643"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" data-line-number="1">grid &lt;-<span class="st"> </span>grid <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb643-2" data-line-number="2"><span class="st">  </span><span class="kw">add_predictions</span>(sim1_mod)</a>
+<a class="sourceLine" id="cb643-3" data-line-number="3">grid</a>
+<a class="sourceLine" id="cb643-4" data-line-number="4"><span class="co">#&gt; # A tibble: 10 x 2</span></a>
+<a class="sourceLine" id="cb643-5" data-line-number="5"><span class="co">#&gt;       x  pred</span></a>
+<a class="sourceLine" id="cb643-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb643-7" data-line-number="7"><span class="co">#&gt; 1     1  6.27</span></a>
+<a class="sourceLine" id="cb643-8" data-line-number="8"><span class="co">#&gt; 2     2  8.32</span></a>
+<a class="sourceLine" id="cb643-9" data-line-number="9"><span class="co">#&gt; 3     3 10.4 </span></a>
+<a class="sourceLine" id="cb643-10" data-line-number="10"><span class="co">#&gt; 4     4 12.4 </span></a>
+<a class="sourceLine" id="cb643-11" data-line-number="11"><span class="co">#&gt; 5     5 14.5 </span></a>
+<a class="sourceLine" id="cb643-12" data-line-number="12"><span class="co">#&gt; 6     6 16.5 </span></a>
+<a class="sourceLine" id="cb643-13" data-line-number="13"><span class="co">#&gt; # … with 4 more rows</span></a></code></pre></div>
+<p>(También puedes usar esta función para agregar prediccionees al conjunto de datos original.)</p>
+<p>A continuación, graficamos las predicciones. Te preguntarás acerca de todo este trabajo adicional en comparación a usar <code>geom_abline()</code>. Pero la ventaja de este enfoque es que funciona con <em>cualquier</em> modelo en R, desde los más simples a los más complejos. La única limitante son tus habilidades de visualización. Para más ideas respecto de como visualizar modelos complejos, puedes consultar <a href="http://vita.had.co.nz/papers/model-vis.html" class="uri">http://vita.had.co.nz/papers/model-vis.html</a>.</p>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb644-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb644-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> pred), <span class="dt">data =</span> grid, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="residuos" class="section level3">
+<h3><span class="header-section-number">23.3.2</span> Residuos</h3>
+<p>La otra cara de las predicciones son los residuos. Las predicciones te informan de los patrones que el modelo captura y los residuos te dicen lo que el modelo ignora. Los residuos son las distancias entre lo observado y los valores predichos que calculamos anteriormente.</p>
+<p>Agregamos los residuos a los datos con <code>add_residuals()</code>, que funciona de manera similar a <code>add_predictions()</code>. Nota, sin embargo, que usamos el data frame original y no no una grilla manufacturada. Esto es porque para calcular los residuos se necesitan los valores de “y”.</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" data-line-number="1">sim1 &lt;-<span class="st"> </span>sim1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb645-2" data-line-number="2"><span class="st">  </span><span class="kw">add_residuals</span>(sim1_mod)</a>
+<a class="sourceLine" id="cb645-3" data-line-number="3">sim1</a>
+<a class="sourceLine" id="cb645-4" data-line-number="4"><span class="co">#&gt; # A tibble: 30 x 3</span></a>
+<a class="sourceLine" id="cb645-5" data-line-number="5"><span class="co">#&gt;       x     y  resid</span></a>
+<a class="sourceLine" id="cb645-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb645-7" data-line-number="7"><span class="co">#&gt; 1     1  4.20 -2.07 </span></a>
+<a class="sourceLine" id="cb645-8" data-line-number="8"><span class="co">#&gt; 2     1  7.51  1.24 </span></a>
+<a class="sourceLine" id="cb645-9" data-line-number="9"><span class="co">#&gt; 3     1  2.13 -4.15 </span></a>
+<a class="sourceLine" id="cb645-10" data-line-number="10"><span class="co">#&gt; 4     2  8.99  0.665</span></a>
+<a class="sourceLine" id="cb645-11" data-line-number="11"><span class="co">#&gt; 5     2 10.2   1.92 </span></a>
+<a class="sourceLine" id="cb645-12" data-line-number="12"><span class="co">#&gt; 6     2 11.3   2.97 </span></a>
+<a class="sourceLine" id="cb645-13" data-line-number="13"><span class="co">#&gt; # … with 24 more rows</span></a></code></pre></div>
+<p>Existen diferentes formas de entender qué nos dicen los residuos respecto del modelo. Una forma es dibujar un polígono de frecuencia que nos ayude a entender cómo se propagan los residuos:</p>
+<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb646-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(resid)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb646-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Esto ayuda a calibrar la calidad del modelo: ¿qué tan lejos se encuentran las predicciones de los valores observados? Nota que el promedio del residuo es siempre cero.</p>
+<p>A menudo vas a querer crear gráficos usando los residuos en lugar del predictor original. Verás mucho de eso en el capítulo siguiente:</p>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" data-line-number="1"><span class="kw">ggplot</span>(sim1, <span class="kw">aes</span>(x, resid)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb647-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_ref_line</span>(<span class="dt">h =</span> <span class="dv">0</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb647-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Esto parece ser ruido aleatorio, lo que sugiere que el modelo ha hecho un buen trabajo capturando los patrones del conjunto de datos.</p>
+</div>
+<div id="ejercicios-65" class="section level3">
+<h3><span class="header-section-number">23.3.3</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>En lugar de usar <code>lm()</code> para ajustar una línea recta, puedes usar <code>loess()</code>
+para ajustar una curva suave. Repite el proceso de ajustar el modelo,
+generar la cuadrícula, predicciones y visualización con <code>sim1</code> usando <code>loess()</code>
+en vez de <code>lm()</code>. ¿Cómo se compara el resultado a <code>geom_smooth()</code>.</p></li>
+<li><p><code>add_predictions()</code> está pareada con <code>gather_predictions()</code> y
+<code>spread_predictions()</code>. ¿Cómo difieren estas tres funciones?</p></li>
+<li><p>¿Qué hace <code>geom_ref_line()</code>? ¿De qué paquete proviene? ¿Por qué es útil e importante
+incluir una línea de referencia en los gráficos que muestran residuos?</p></li>
+<li><p>¿Por qué quisieras mirar un polígono de frecuencias con los residuos absolutos? ¿Cuáles son las
+ventajas y desventajas de los residuos crudos?</p></li>
+</ol>
+</div>
+</div>
+<div id="fórmulas-y-familias-de-modelos" class="section level2">
+<h2><span class="header-section-number">23.4</span> Fórmulas y familias de modelos</h2>
+<p>Ya habrás visto fórmulas anteriormente cuando usamos <code>facet_wrap()</code> y <code>facet_grid()</code>. En R, las fórmulas proveen un modo general de obtener “comportamientos especiales”. En lugar de evaluar los valores de las variables directamente, se capturan los valores para que sean interpretados por una función.</p>
+<p>La mayoría de los las funciones de modelado en R usan una conversión estándar para las fórmulas y las funciones. Ya habrás visto una conversión simple <code>y ~ x</code> que se convierte en <code>y = a_1 + a_2 * x</code>. Si quieres ver lo que hace R, puedes usar la función <code>model_matrix()</code>. Esta toma un data frame y una fórmula para entregar un tibble que define la ecuación del modelo: cada columna en la salida está asociada con un coeficiente del modelo, la función es siempre <code>y = a_1 * salida_1 + a_2 * salida_2</code>. Para el caso simple <code>y ~ x1</code> esto nos muestra algo interesante:</p>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb648-2" data-line-number="2">  <span class="op">~</span>y, <span class="op">~</span>x1, <span class="op">~</span>x2,</a>
+<a class="sourceLine" id="cb648-3" data-line-number="3">  <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb648-4" data-line-number="4">  <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">6</span></a>
+<a class="sourceLine" id="cb648-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb648-6" data-line-number="6"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span>x1)</a>
+<a class="sourceLine" id="cb648-7" data-line-number="7"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
+<a class="sourceLine" id="cb648-8" data-line-number="8"><span class="co">#&gt;   `(Intercept)`    x1</span></a>
+<a class="sourceLine" id="cb648-9" data-line-number="9"><span class="co">#&gt;           &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb648-10" data-line-number="10"><span class="co">#&gt; 1             1     2</span></a>
+<a class="sourceLine" id="cb648-11" data-line-number="11"><span class="co">#&gt; 2             1     1</span></a></code></pre></div>
+<p>La forma en que R agrega el intercepto (u ordenada al origen) al modelo es mediante una columna de unos. Por defecto, R siempre agregará esta columna. Si no quieres esto, necesitas excluirla explícitamente usando <code>-1</code>:</p>
+<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb649-1" data-line-number="1"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span>x1 <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb649-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 1</span></a>
+<a class="sourceLine" id="cb649-3" data-line-number="3"><span class="co">#&gt;      x1</span></a>
+<a class="sourceLine" id="cb649-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb649-5" data-line-number="5"><span class="co">#&gt; 1     2</span></a>
+<a class="sourceLine" id="cb649-6" data-line-number="6"><span class="co">#&gt; 2     1</span></a></code></pre></div>
+<p>La matriz del modelo crece de manera nada sorprendente si incluyes más variables al modelo:</p>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb650-1" data-line-number="1"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2)</a>
+<a class="sourceLine" id="cb650-2" data-line-number="2"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
+<a class="sourceLine" id="cb650-3" data-line-number="3"><span class="co">#&gt;   `(Intercept)`    x1    x2</span></a>
+<a class="sourceLine" id="cb650-4" data-line-number="4"><span class="co">#&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb650-5" data-line-number="5"><span class="co">#&gt; 1             1     2     5</span></a>
+<a class="sourceLine" id="cb650-6" data-line-number="6"><span class="co">#&gt; 2             1     1     6</span></a></code></pre></div>
+<p>Esta notación para las fórmulas a veces se le llama “notación de Wilkinson-Rogers”, la cual fue descrita inicialmente en <em>Symbolic Description of Factorial Models for Analysis of Variance</em>, escrito por G. N. Wilkinson y C. E. Rogers <a href="https://www.jstor.org/stable/2346786" class="uri">https://www.jstor.org/stable/2346786</a>. Es conveniente excavar un poco y leer el artículo original si quieres entender los detalles del álgebra de modelado.</p>
+<p>Las siguientes secciones detallan cómo esta notación de fórmulas funciona con variables categóricas, interacciones y transformaciones.</p>
+<div id="variables-categóricas" class="section level3">
+<h3><span class="header-section-number">23.4.1</span> Variables categóricas</h3>
+<p>Generar una función a partir de una fórmula es directo cuando el predictor es una variable continua, pero las cosas son más complicadas cuando el predictor es una variable categórica. Imagina que tienes una fórmula como <code>y ~ sexo</code>, donde el sexo puede ser hombre o mujer. No tiene sentido convertir a una fórmula del tipo <code>y = x_0 + x_1 * sexo</code> debido a que <code>sexo</code> no es un número - ¡no se puede multiplicar! En su lugar, lo que R hace es convertir a <code>y = x_0 + x_1 * sexo_hombre</code> donde <code>sexo_hombre</code> tiene valor 1 si <code>sexo</code> corresponde a hombre y cero a mujer:</p>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb651-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb651-2" data-line-number="2">  <span class="op">~</span>genero, <span class="op">~</span>respuesta,</a>
+<a class="sourceLine" id="cb651-3" data-line-number="3">  <span class="st">&quot;masculino&quot;</span>, <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb651-4" data-line-number="4">  <span class="st">&quot;femenino&quot;</span>, <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb651-5" data-line-number="5">  <span class="st">&quot;masculino&quot;</span>, <span class="dv">1</span></a>
+<a class="sourceLine" id="cb651-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb651-7" data-line-number="7"><span class="kw">model_matrix</span>(df, respuesta <span class="op">~</span><span class="st"> </span>genero)</a>
+<a class="sourceLine" id="cb651-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
+<a class="sourceLine" id="cb651-9" data-line-number="9"><span class="co">#&gt;   `(Intercept)` generomasculino</span></a>
+<a class="sourceLine" id="cb651-10" data-line-number="10"><span class="co">#&gt;           &lt;dbl&gt;           &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb651-11" data-line-number="11"><span class="co">#&gt; 1             1               1</span></a>
+<a class="sourceLine" id="cb651-12" data-line-number="12"><span class="co">#&gt; 2             1               0</span></a>
+<a class="sourceLine" id="cb651-13" data-line-number="13"><span class="co">#&gt; 3             1               1</span></a></code></pre></div>
+<p>Quizá te preguntes por qué R no crea la columna <code>generofemenino</code>. El problema es que eso crearía una columna perfectamente predecible a partir de las otras columnas (es decir, <code>generofemenino = 1 - generomasculino</code>). Desafortunadamete los detalles exactos de por qué esto es un problema van más allá del alcance del libro, pero básicamente crea una familia de modelos que es muy flexible y genera infinitos modelos igualmente cercanos a los datos.</p>
+<p>Afortunadamente, sin embargo, si te enfocas en visualizar las predicciones no necesitas preocuparte de la parametrización exacta. Veamos algunos datos y modelos para hacer algo concreto. Aquí está el dataset <code>sim2</code> de modelr:</p>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" data-line-number="1"><span class="kw">ggplot</span>(sim2) <span class="op">+</span></a>
+<a class="sourceLine" id="cb652-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(x, y))</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-26-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Podemos ajustar un modelo a esto y generar predicciones:</p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb653-1" data-line-number="1">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> sim2)</a>
+<a class="sourceLine" id="cb653-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb653-3" data-line-number="3">grid &lt;-<span class="st"> </span>sim2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb653-4" data-line-number="4"><span class="st">  </span><span class="kw">data_grid</span>(x) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb653-5" data-line-number="5"><span class="st">  </span><span class="kw">add_predictions</span>(mod2)</a>
+<a class="sourceLine" id="cb653-6" data-line-number="6">grid</a>
+<a class="sourceLine" id="cb653-7" data-line-number="7"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
+<a class="sourceLine" id="cb653-8" data-line-number="8"><span class="co">#&gt;   x      pred</span></a>
+<a class="sourceLine" id="cb653-9" data-line-number="9"><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb653-10" data-line-number="10"><span class="co">#&gt; 1 a      1.15</span></a>
+<a class="sourceLine" id="cb653-11" data-line-number="11"><span class="co">#&gt; 2 b      8.12</span></a>
+<a class="sourceLine" id="cb653-12" data-line-number="12"><span class="co">#&gt; 3 c      6.13</span></a>
+<a class="sourceLine" id="cb653-13" data-line-number="13"><span class="co">#&gt; 4 d      1.91</span></a></code></pre></div>
+<p>Efectivamente, un modelo con una variable <code>x</code> categórica va a predecir el valor medio para cada categoría. (¿Por qué? porque la media minimiza la raíz de la distancia media cuadrática.) Es fácil de ver si superponemos la predicción sobre los datos originales:</p>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" data-line-number="1"><span class="kw">ggplot</span>(sim2, <span class="kw">aes</span>(x)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb654-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb654-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> grid, <span class="kw">aes</span>(<span class="dt">y =</span> pred), <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">size =</span> <span class="dv">4</span>)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-28-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>No es posible hacer predicciones sobre niveles no observados. A veces harás esto por accidente, por lo que es bueno reconocer el siguiente mensaje de error:</p>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb655-1" data-line-number="1"><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="st">&quot;e&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb655-2" data-line-number="2"><span class="st">  </span><span class="kw">add_predictions</span>(mod2)</a>
+<a class="sourceLine" id="cb655-3" data-line-number="3"><span class="co">#&gt; Error in model.frame.default(Terms, newdata, na.action = na.action, xlev = object$xlevels): factor x has new level e</span></a></code></pre></div>
+</div>
+<div id="interacciones-continuas-y-categóricas" class="section level3">
+<h3><span class="header-section-number">23.4.2</span> Interacciones (continuas y categóricas)</h3>
+<p>¿Qué ocurre si combinas una variable continua y una categórica? <code>sim3</code> contiene un predictor categórico y otro predictor continuo. Podemos visualizarlos con un gráfico simple:</p>
+<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb656-1" data-line-number="1"><span class="kw">ggplot</span>(sim3, <span class="kw">aes</span>(x1, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb656-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> x2))</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-30-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Existen dos posibles modelos que se pueden ajustar a estos datos:</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)</a>
+<a class="sourceLine" id="cb657-2" data-line-number="2">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)</a></code></pre></div>
+<p>Cuando agregas variables con <code>+</code> el modelo va a estimar cada efecto independientemente de los demás. Es posible agregar al ajuste lo que se conoce como interacción usando <code>*</code>. Por ejemplo, <code>y ~ x1 * x2</code> se traduce en <code>y = a_0 + a_1 * x_1 + a_2 * x_2 + a_12 * x_1 * x_2</code>. Observa que si usas <code>*</code>, tanto el efecto interacción como los efectos individuales se incluyen en el modelo.</p>
+<p>Para visualizar estos modelos necesitamos dos nuevos trucos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Tenemos dos predictores, por lo que necesitamos pasar ambas variables a <code>data_grid()</code>.
+Esto encontrará todos los valores únicos de <code>x1</code> y <code>x2</code> y luego generará todas las combinaciones,</p></li>
+<li><p>Para generar predicciones de ambos modelos simultáneamente, podemos usar <code>gather_predictions()</code> que
+incorpora cada predicción como una fila. El complemento de <code>gather_predictions()</code> es <code>spread_predictions()</code>
+que incluye cada predicción en una nueva columna.</p></li>
+</ol>
+<p>Esto combinado nos da:</p>
+<div class="sourceCode" id="cb658"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb658-1" data-line-number="1">grid &lt;-<span class="st"> </span>sim3 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb658-2" data-line-number="2"><span class="st">  </span><span class="kw">data_grid</span>(x1, x2) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb658-3" data-line-number="3"><span class="st">  </span><span class="kw">gather_predictions</span>(mod1, mod2)</a>
+<a class="sourceLine" id="cb658-4" data-line-number="4">grid</a>
+<a class="sourceLine" id="cb658-5" data-line-number="5"><span class="co">#&gt; # A tibble: 80 x 4</span></a>
+<a class="sourceLine" id="cb658-6" data-line-number="6"><span class="co">#&gt;   model    x1 x2     pred</span></a>
+<a class="sourceLine" id="cb658-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt; &lt;int&gt; &lt;fct&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb658-8" data-line-number="8"><span class="co">#&gt; 1 mod1      1 a      1.67</span></a>
+<a class="sourceLine" id="cb658-9" data-line-number="9"><span class="co">#&gt; 2 mod1      1 b      4.56</span></a>
+<a class="sourceLine" id="cb658-10" data-line-number="10"><span class="co">#&gt; 3 mod1      1 c      6.48</span></a>
+<a class="sourceLine" id="cb658-11" data-line-number="11"><span class="co">#&gt; 4 mod1      1 d      4.03</span></a>
+<a class="sourceLine" id="cb658-12" data-line-number="12"><span class="co">#&gt; 5 mod1      2 a      1.48</span></a>
+<a class="sourceLine" id="cb658-13" data-line-number="13"><span class="co">#&gt; 6 mod1      2 b      4.37</span></a>
+<a class="sourceLine" id="cb658-14" data-line-number="14"><span class="co">#&gt; # … with 74 more rows</span></a></code></pre></div>
+<p>Podemos visualizar los resultados de ambos modelos en un gráfico usando separando en facetas:</p>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb659-1" data-line-number="1"><span class="kw">ggplot</span>(sim3, <span class="kw">aes</span>(x1, y, <span class="dt">colour =</span> x2)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb659-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb659-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> grid, <span class="kw">aes</span>(<span class="dt">y =</span> pred)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb659-4" data-line-number="4"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>model)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Observa que el modelo que usa <code>+</code> tiene la misma pendiente para cada recta, pero distintos interceptos (u ordenadas al origen). El modelo que usa <code>*</code> tiene distinta pendiente e intercepto.</p>
+<p>¿Qué modelo es el más adecuado para los datos? Podemos mirar los residuos. Aquí hemos separado facetas por modelo y por <code>x2</code>ya que facilita ver el patrón dentro de cada grupo.</p>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" data-line-number="1">sim3 &lt;-<span class="st"> </span>sim3 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-2" data-line-number="2"><span class="st">  </span><span class="kw">gather_residuals</span>(mod1, mod2)</a>
+<a class="sourceLine" id="cb660-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb660-4" data-line-number="4"><span class="kw">ggplot</span>(sim3, <span class="kw">aes</span>(x1, resid, <span class="dt">colour =</span> x2)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb660-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb660-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_grid</span>(model <span class="op">~</span><span class="st"> </span>x2)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-34-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Existe un patrón poco obvio en los residuos de <code>mod2</code>. Los residuos de <code>mod1</code> muestran que el modelo tiene algunos patrones ignorados en <code>b</code>, y un poco menos ignorados en <code>c</code> y <code>d</code>. Quizá te preguntas si existe una forma precisa de determinar si acaso <code>mod1</code> o <code>mod2</code> es mejor. Existe, pero requiere un respaldo matemático fuerte y no nos preocuparemos de eso. Lo que aquí interesa es evaluar cualitativamente si el modelo ha capturado los patrones que nos interesan.</p>
+</div>
+<div id="interacciones-dos-variables-continuas" class="section level3">
+<h3><span class="header-section-number">23.4.3</span> Interacciones (dos variables continuas)</h3>
+<p>Demos un vistazo al modelo equivalente para dos variables continuas. Para comenzar, se procede de igual modo que el ejemplo anterior:</p>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb661-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2, <span class="dt">data =</span> sim4)</a>
+<a class="sourceLine" id="cb661-2" data-line-number="2">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2, <span class="dt">data =</span> sim4)</a>
+<a class="sourceLine" id="cb661-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb661-4" data-line-number="4">grid &lt;-<span class="st"> </span>sim4 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb661-5" data-line-number="5"><span class="st">  </span><span class="kw">data_grid</span>(</a>
+<a class="sourceLine" id="cb661-6" data-line-number="6">    <span class="dt">x1 =</span> <span class="kw">seq_range</span>(x1, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb661-7" data-line-number="7">    <span class="dt">x2 =</span> <span class="kw">seq_range</span>(x2, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb661-8" data-line-number="8">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb661-9" data-line-number="9"><span class="st">  </span><span class="kw">gather_predictions</span>(mod1, mod2)</a>
+<a class="sourceLine" id="cb661-10" data-line-number="10">grid</a>
+<a class="sourceLine" id="cb661-11" data-line-number="11"><span class="co">#&gt; # A tibble: 50 x 4</span></a>
+<a class="sourceLine" id="cb661-12" data-line-number="12"><span class="co">#&gt;   model    x1    x2   pred</span></a>
+<a class="sourceLine" id="cb661-13" data-line-number="13"><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb661-14" data-line-number="14"><span class="co">#&gt; 1 mod1   -1    -1    0.996</span></a>
+<a class="sourceLine" id="cb661-15" data-line-number="15"><span class="co">#&gt; 2 mod1   -1    -0.5 -0.395</span></a>
+<a class="sourceLine" id="cb661-16" data-line-number="16"><span class="co">#&gt; 3 mod1   -1     0   -1.79 </span></a>
+<a class="sourceLine" id="cb661-17" data-line-number="17"><span class="co">#&gt; 4 mod1   -1     0.5 -3.18 </span></a>
+<a class="sourceLine" id="cb661-18" data-line-number="18"><span class="co">#&gt; 5 mod1   -1     1   -4.57 </span></a>
+<a class="sourceLine" id="cb661-19" data-line-number="19"><span class="co">#&gt; 6 mod1   -0.5  -1    1.91 </span></a>
+<a class="sourceLine" id="cb661-20" data-line-number="20"><span class="co">#&gt; # … with 44 more rows</span></a></code></pre></div>
+<p>Observa el uso de <code>seq_range()</code> dentro de <code>data_grid()</code>. En lugar de usar cada valor único de <code>x</code>, usamos una cuadrícula uniformemente espaciada de cinco valores entre los números mínimo y máximo. Quizá no es lo más importante aquí, pero es una técnica útil en general. Existen otros dos argumentos en <code>seq_range()</code>:</p>
+<ul>
+<li><code>pretty = TRUE</code> generará una secuencia “bonita”, por ejemplo algo agradable al ojo humano. Esto es útil si quieres generar tablas a partir del output:</li>
+</ul>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb662-1" data-line-number="1"><span class="kw">seq_range</span>(<span class="kw">c</span>(<span class="fl">0.0123</span>, <span class="fl">0.923423</span>), <span class="dt">n =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb662-2" data-line-number="2"><span class="co">#&gt; [1] 0.0123 0.2401 0.4679 0.6956 0.9234</span></a>
+<a class="sourceLine" id="cb662-3" data-line-number="3"><span class="kw">seq_range</span>(<span class="kw">c</span>(<span class="fl">0.0123</span>, <span class="fl">0.923423</span>), <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">pretty =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb662-4" data-line-number="4"><span class="co">#&gt; [1] 0.0 0.2 0.4 0.6 0.8 1.0</span></a></code></pre></div>
+<ul>
+<li><code>trim = 0.1</code> eliminará el 10% de los valores en el extremo de la cola. Esto es útil si las variables
+tienen una distribución con una cola larga y te quieres enfocar en generar valores cerca del centro:</li>
+</ul>
+<div class="sourceCode" id="cb663"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb663-1" data-line-number="1">x1 &lt;-<span class="st"> </span><span class="kw">rcauchy</span>(<span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb663-2" data-line-number="2"><span class="kw">seq_range</span>(x1, <span class="dt">n =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb663-3" data-line-number="3"><span class="co">#&gt; [1] -115.9  -83.5  -51.2  -18.8   13.5</span></a>
+<a class="sourceLine" id="cb663-4" data-line-number="4"><span class="kw">seq_range</span>(x1, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">trim =</span> <span class="fl">0.10</span>)</a>
+<a class="sourceLine" id="cb663-5" data-line-number="5"><span class="co">#&gt; [1] -13.84  -8.71  -3.58   1.55   6.68</span></a>
+<a class="sourceLine" id="cb663-6" data-line-number="6"><span class="kw">seq_range</span>(x1, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">trim =</span> <span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb663-7" data-line-number="7"><span class="co">#&gt; [1] -2.1735 -1.0594  0.0547  1.1687  2.2828</span></a>
+<a class="sourceLine" id="cb663-8" data-line-number="8"><span class="kw">seq_range</span>(x1, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">trim =</span> <span class="fl">0.50</span>)</a>
+<a class="sourceLine" id="cb663-9" data-line-number="9"><span class="co">#&gt; [1] -0.725 -0.268  0.189  0.647  1.104</span></a></code></pre></div>
+<ul>
+<li><code>expand = 0.1</code> es en cierta medida el opuesto de <code>trim()</code> ya que expande el rango en un 10%.</li>
+</ul>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb664-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb664-2" data-line-number="2"><span class="kw">seq_range</span>(x2, <span class="dt">n =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb664-3" data-line-number="3"><span class="co">#&gt; [1] 0.00 0.25 0.50 0.75 1.00</span></a>
+<a class="sourceLine" id="cb664-4" data-line-number="4"><span class="kw">seq_range</span>(x2, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">expand =</span> <span class="fl">0.10</span>)</a>
+<a class="sourceLine" id="cb664-5" data-line-number="5"><span class="co">#&gt; [1] -0.050  0.225  0.500  0.775  1.050</span></a>
+<a class="sourceLine" id="cb664-6" data-line-number="6"><span class="kw">seq_range</span>(x2, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">expand =</span> <span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb664-7" data-line-number="7"><span class="co">#&gt; [1] -0.125  0.188  0.500  0.812  1.125</span></a>
+<a class="sourceLine" id="cb664-8" data-line-number="8"><span class="kw">seq_range</span>(x2, <span class="dt">n =</span> <span class="dv">5</span>, <span class="dt">expand =</span> <span class="fl">0.50</span>)</a>
+<a class="sourceLine" id="cb664-9" data-line-number="9"><span class="co">#&gt; [1] -0.250  0.125  0.500  0.875  1.250</span></a></code></pre></div>
+<p>A continuación intentemos visualizar el modelo. Tenemos dos predictores continuos, por lo que te imaginarás el modelo como una superficie 3d. Podemos mostrar esto usando <code>geom_tile()</code>:</p>
+<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb665-1" data-line-number="1"><span class="kw">ggplot</span>(grid, <span class="kw">aes</span>(x1, x2)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb665-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> pred)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb665-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>model)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-39-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>¡Esto no sugiere que los modelos sean muy distintos! Pero eso es en parte una ilusión: nuestros ojos y cerebros no son muy buenos en comparar sombras de color de forma adecuada. En lugar de mirar la superficie desde arriba, podríamos mirarla desde los costados, mostrando múltiples cortes:</p>
+<div class="sourceCode" id="cb666"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb666-1" data-line-number="1"><span class="kw">ggplot</span>(grid, <span class="kw">aes</span>(x1, pred, <span class="dt">colour =</span> x2, <span class="dt">group =</span> x2)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb666-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb666-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>model)</a>
+<a class="sourceLine" id="cb666-4" data-line-number="4"><span class="kw">ggplot</span>(grid, <span class="kw">aes</span>(x2, pred, <span class="dt">colour =</span> x1, <span class="dt">group =</span> x1)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb666-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb666-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>model)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-40-1.png" width="70%" style="display: block; margin: auto;" /><img src="23-model-basics_files/figure-html/unnamed-chunk-40-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Esto muestra la interacción entre dos variables continuas que básicamente opera del mismo modo que una variable continua y una categórica. Una interacción dice que no existe un resultado fijo: necesitas considerar los valores de <code>x1</code> y <code>x2</code> simultáneamente para predecir <code>y</code>.</p>
+<p>Podrás ver que con apenas dos variables continuas, obtener un buen resultado de visualización es difícil. Pero esto es razonable: ¡no deberías esperar que con tres o más variables sea más fácil entender la interacción! Nuevamente, estamos parcialmente a salvo porque estamos usando modelos para la exploración y crearás tus propios modelos en el tiempo. El modelo no debe ser perfecto, tiene que ayudar a revelar información acerca de los datos.</p>
+<p>Pasé un tiempo mirando los residuos para ver si acaso <code>mod2</code> es mejor que <code>mod1</code>. Creo que lo es, pero es algo sutil. Tendrás la oportunidad de explorar esto en los ejercicios.</p>
+</div>
+<div id="transformaciones" class="section level3">
+<h3><span class="header-section-number">23.4.4</span> Transformaciones</h3>
+<p>Puedes hacer transformaciones dentro de la fórmula del modelo. Por ejemplo <code>log(y) ~ sqrt(x1) + x2</code> se transforma en <code>log(y) = a_1 + a_2 * sqrt(x1) + a_3 * x2</code>. Si la transformación involucra <code>+</code>, <code>*</code>, <code>^</code> o <code>-</code>, necesitas dejar eso dentro de <code>I()</code> para que R no lo tome como parte de la especificación del modelo. Por ejemplo, <code>y ~ x + I(x ^ 2)</code> se traduce en <code>y = a_1 + a_2 * x + a_3 * x^2</code>. Si olvidas incluir <code>I()</code> y especificas <code>y ~ x ^ 2 + x</code>, R va a calcular <code>y ~ x * x + x</code>. <code>x * x</code> lo que resulta en la interacción de <code>x</code> consigo misma, lo que se reduce a <code>x</code>. R automáticamente elimina las variables redundantes, por lo que <code>x + x</code> se convierte en <code>x</code>, lo que significa que <code>y ~ x ^ 2 + x</code> especifica la función <code>y = a_1 + a_2 * x</code>. ¡Eso probablemente no es lo que querías!</p>
+<p>Nuevamente, si te confunde lo que el modelo hace, puedes usar <code>model_matrix()</code> para ver exactamente lo que la ecuación <code>lm()</code> está ajustando:</p>
+<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb667-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb667-2" data-line-number="2">  <span class="op">~</span>y, <span class="op">~</span>x,</a>
+<a class="sourceLine" id="cb667-3" data-line-number="3">  <span class="dv">1</span>, <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb667-4" data-line-number="4">  <span class="dv">2</span>, <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb667-5" data-line-number="5">  <span class="dv">3</span>, <span class="dv">3</span></a>
+<a class="sourceLine" id="cb667-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb667-7" data-line-number="7"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>x)</a>
+<a class="sourceLine" id="cb667-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 2</span></a>
+<a class="sourceLine" id="cb667-9" data-line-number="9"><span class="co">#&gt;   `(Intercept)`     x</span></a>
+<a class="sourceLine" id="cb667-10" data-line-number="10"><span class="co">#&gt;           &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb667-11" data-line-number="11"><span class="co">#&gt; 1             1     1</span></a>
+<a class="sourceLine" id="cb667-12" data-line-number="12"><span class="co">#&gt; 2             1     2</span></a>
+<a class="sourceLine" id="cb667-13" data-line-number="13"><span class="co">#&gt; 3             1     3</span></a>
+<a class="sourceLine" id="cb667-14" data-line-number="14"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span><span class="kw">I</span>(x<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>x)</a>
+<a class="sourceLine" id="cb667-15" data-line-number="15"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
+<a class="sourceLine" id="cb667-16" data-line-number="16"><span class="co">#&gt;   `(Intercept)` `I(x^2)`     x</span></a>
+<a class="sourceLine" id="cb667-17" data-line-number="17"><span class="co">#&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb667-18" data-line-number="18"><span class="co">#&gt; 1             1        1     1</span></a>
+<a class="sourceLine" id="cb667-19" data-line-number="19"><span class="co">#&gt; 2             1        4     2</span></a>
+<a class="sourceLine" id="cb667-20" data-line-number="20"><span class="co">#&gt; 3             1        9     3</span></a></code></pre></div>
+<p>Las transformaciones son útiles porque puedes aproximar funciones no lineales. Si tuviste clases de cálculo, habrás escuchado acerca del teorema de Taylor que dice que puedes aproximar una función suave como la suma de infinitos polinomios. Esto significa que puedes usar una función polinomial para acercarte a una distancia arbitrariamente pequeña de una función suave ajustando una ecuación como <code>y = a_1 + a_2 * x + a_3 * x^2 + a_4 * x^3</code>. Escribir esta secuencia a mano es tedioso, pero R provee la función auxiliar <code>poly()</code>:</p>
+<div class="sourceCode" id="cb668"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb668-1" data-line-number="1"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb668-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
+<a class="sourceLine" id="cb668-3" data-line-number="3"><span class="co">#&gt;   `(Intercept)` `poly(x, 2)1` `poly(x, 2)2`</span></a>
+<a class="sourceLine" id="cb668-4" data-line-number="4"><span class="co">#&gt;           &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb668-5" data-line-number="5"><span class="co">#&gt; 1             1     -7.07e- 1         0.408</span></a>
+<a class="sourceLine" id="cb668-6" data-line-number="6"><span class="co">#&gt; 2             1     -7.85e-17        -0.816</span></a>
+<a class="sourceLine" id="cb668-7" data-line-number="7"><span class="co">#&gt; 3             1      7.07e- 1         0.408</span></a></code></pre></div>
+<p>Sin embargo, existe un problema mayor al usar <code>poly()</code>: fuera del rango de los datos, los polinomios rápidamente se disparan a infinito positivo o negativo. Una alternativa más segura es usar spline natural, <code>splines::ns()</code>.</p>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb669-1" data-line-number="1"><span class="kw">library</span>(splines)</a>
+<a class="sourceLine" id="cb669-2" data-line-number="2"><span class="kw">model_matrix</span>(df, y <span class="op">~</span><span class="st"> </span><span class="kw">ns</span>(x, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb669-3" data-line-number="3"><span class="co">#&gt; # A tibble: 3 x 3</span></a>
+<a class="sourceLine" id="cb669-4" data-line-number="4"><span class="co">#&gt;   `(Intercept)` `ns(x, 2)1` `ns(x, 2)2`</span></a>
+<a class="sourceLine" id="cb669-5" data-line-number="5"><span class="co">#&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb669-6" data-line-number="6"><span class="co">#&gt; 1             1       0           0    </span></a>
+<a class="sourceLine" id="cb669-7" data-line-number="7"><span class="co">#&gt; 2             1       0.566      -0.211</span></a>
+<a class="sourceLine" id="cb669-8" data-line-number="8"><span class="co">#&gt; 3             1       0.344       0.771</span></a></code></pre></div>
+<p>Veamos esto cuando intentamos aproximar una función no lineal:</p>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb670-1" data-line-number="1">sim5 &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb670-2" data-line-number="2">  <span class="dt">x =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">3.5</span> <span class="op">*</span><span class="st"> </span>pi, <span class="dt">length =</span> <span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb670-3" data-line-number="3">  <span class="dt">y =</span> <span class="dv">4</span> <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(x))</a>
+<a class="sourceLine" id="cb670-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb670-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb670-6" data-line-number="6"><span class="kw">ggplot</span>(sim5, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb670-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-44-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Voy a ajustar cinco modelos a los datos.</p>
+<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb671-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dv">1</span>), <span class="dt">data =</span> sim5)</a>
+<a class="sourceLine" id="cb671-2" data-line-number="2">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dv">2</span>), <span class="dt">data =</span> sim5)</a>
+<a class="sourceLine" id="cb671-3" data-line-number="3">mod3 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dv">3</span>), <span class="dt">data =</span> sim5)</a>
+<a class="sourceLine" id="cb671-4" data-line-number="4">mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dv">4</span>), <span class="dt">data =</span> sim5)</a>
+<a class="sourceLine" id="cb671-5" data-line-number="5">mod5 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dv">5</span>), <span class="dt">data =</span> sim5)</a>
+<a class="sourceLine" id="cb671-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb671-7" data-line-number="7">grid &lt;-<span class="st"> </span>sim5 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb671-8" data-line-number="8"><span class="st">  </span><span class="kw">data_grid</span>(<span class="dt">x =</span> <span class="kw">seq_range</span>(x, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">expand =</span> <span class="fl">0.1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb671-9" data-line-number="9"><span class="st">  </span><span class="kw">gather_predictions</span>(mod1, mod2, mod3, mod4, mod5, <span class="dt">.pred =</span> <span class="st">&quot;y&quot;</span>)</a>
+<a class="sourceLine" id="cb671-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb671-11" data-line-number="11"><span class="kw">ggplot</span>(sim5, <span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb671-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb671-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data =</span> grid, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb671-14" data-line-number="14"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>model)</a></code></pre></div>
+<p><img src="23-model-basics_files/figure-html/unnamed-chunk-45-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Observa que la extrapolación fuera del rango de los datos es claramente mala. Esta es la desventaja de aproximar una función mediante un polinomio. Pero este es un problema real con cualquier modelo: el modelo nunca te dirá si el comportamiento es verdadero cuando extrapolas fuera del rango de los datos que has observado. Deberás apoyarte en la teoría y la ciencia.</p>
+</div>
+<div id="ejercicios-66" class="section level3">
+<h3><span class="header-section-number">23.4.5</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>¿Qué pasa si repites el análisis de <code>sim2</code> usando un modelo sin intercepto? ¿Qué ocurre con la
+ecuación del modelo? ¿Qué ocurre con las predicciones?</p></li>
+<li><p>Usa <code>model_matrix()</code> para explorar las ecuaciones generadas por los modelos ajustados a <code>sim3</code> y
+<code>sim4</code>. ¿Por qué <code>*</code> es un atajo para la interacción?</p></li>
+<li><p>Usando los principios básicos, convierte las fórmulas de los siguientes modelos en funciones.
+(Sugerencia: comienza por convertir las variables categóricas en ceros y unos.)</p></li>
+</ol>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb672-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)</a>
+<a class="sourceLine" id="cb672-2" data-line-number="2">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">*</span><span class="st"> </span>x2, <span class="dt">data =</span> sim3)</a></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Para <code>sim4</code>, ¿Es mejor <code>mod1</code> o <code>mod2</code>? Yo creo que <code>mod2</code> es ligeramente mejor
+removiendo las tendencias, pero es bastante sutil. ¿Puedes generar un gráfico
+que de sustento a esta hipótesis?</li>
+</ol>
+</div>
+</div>
+<div id="valores-faltantes-5" class="section level2">
+<h2><span class="header-section-number">23.5</span> Valores faltantes</h2>
+<p>Los valores faltantes obviamente no proporcionan información respecto de la relación entre las variables, por lo que modelar funciones va a eliminar todas las filas con valores faltantes. R por defecto lo hace de forma silenciosa, pero <code>options(na.action = na.warn)</code> (ejecutado en los prerrequisitos) asegura que la salida incluya una advertencia.</p>
+<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb673-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb673-2" data-line-number="2">  <span class="op">~</span>x, <span class="op">~</span>y,</a>
+<a class="sourceLine" id="cb673-3" data-line-number="3">  <span class="dv">1</span>, <span class="fl">2.2</span>,</a>
+<a class="sourceLine" id="cb673-4" data-line-number="4">  <span class="dv">2</span>, <span class="ot">NA</span>,</a>
+<a class="sourceLine" id="cb673-5" data-line-number="5">  <span class="dv">3</span>, <span class="fl">3.5</span>,</a>
+<a class="sourceLine" id="cb673-6" data-line-number="6">  <span class="dv">4</span>, <span class="fl">8.3</span>,</a>
+<a class="sourceLine" id="cb673-7" data-line-number="7">  <span class="ot">NA</span>, <span class="dv">10</span></a>
+<a class="sourceLine" id="cb673-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb673-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb673-10" data-line-number="10">mod &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df)</a>
+<a class="sourceLine" id="cb673-11" data-line-number="11"><span class="co">#&gt; Warning: Dropping 2 rows with missing values</span></a></code></pre></div>
+<p>Para suprimir los mensajes de advertencia, incluye <code>na.action = na.exclude</code>:</p>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb674-1" data-line-number="1">mod &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df, <span class="dt">na.action =</span> na.exclude)</a></code></pre></div>
+<p>Siempre puedes consultar cuántas observaciones se usaron con <code>nobs()</code>:</p>
+<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb675-1" data-line-number="1"><span class="kw">nobs</span>(mod)</a>
+<a class="sourceLine" id="cb675-2" data-line-number="2"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
+</div>
+<div id="otras-familias-de-modelos" class="section level2">
+<h2><span class="header-section-number">23.6</span> Otras familias de modelos</h2>
+<p>Este capítulo se centró de forma exclusiva en la familia de modelos lineales, la cual asume una relación de la forma <code>y = a_1 * x1 + a_2 * x2 + ... + a_n * xn</code>. Además, los modelos lineales asumen que los residuos siguen una distribución normal, algo de lo que no hemos hablado. Existe un amplio conjunto de familias de modelos que extienden la familia de modelos lineales de varias formas interesantes. Algunos son:</p>
+<ul>
+<li><p><strong>Modelos lineales generalizados</strong>, es decir, <code>stats::glm()</code>. Los modelos lineales asumen que la respuesta es una
+variable continua y que el error sigue una distribución normal. Los modelos lineales generalizados extienden
+los modelos lineales para incluir respuestas no continuas (es decir, datos binarios o conteos). Definen una distancia métrica basada en la idea estadística de verosimilitud.</p></li>
+<li><p><strong>Modelos generalizados aditivos</strong>, es decir, <code>mgcv::gam()</code>, extienden los modelos lineales generalizados
+para incorporar funciones suaves arbitrarias. Esto significa que puedes escribir una fórmula del tipo
+<code>y ~ s(x)</code> que se transforma en una ecuación de la forma <code>y = f(x)</code> y dejar que <code>gam()</code> estime la función
+(sujeto a algunas restricciones de suavidad para que el problema sea manejable).</p></li>
+<li><p><strong>Modelos lineales penalizados</strong>, es decir, <code>glmnet::glmnet()</code>, incorporan un término de penalización a la
+distancia y así penalizan modelos complejos (definidos por la distancia entre el vector de parámetros y el
+origen). Esto tiende a entregar modelos que generalizan mejor respecto de nuevos conjuntos de datos para
+la misma población.</p></li>
+<li><p><strong>Modelos lineales robustos</strong>, es decir, <code>MASS:rlm()</code>, modifican la distancia para restar importancia a los
+puntos que quedan muy alejados. Esto resulta en modelos menos sensibles a valores extremos, con el
+inconveniente de que no son muy buenos cuando no hay valores extremos.</p></li>
+<li><p><strong>Árboles</strong>, es decir, <code>rpart::rpart()</code>, atacan un problema de un modo totalmente distinto a los
+modelos lineales. Ajustan un modelo constante por partes, dividiendo los datos en partes progresivamente
+más y más pequeñas. Los árboles no son tremendamente efectivos por sí solos, pero son muy poderosos cuando se usan en modelos agregados como <strong>bosques aleatorios</strong>, del inglés <em>random forests</em>), (es decir,
+<code>randomForest::randomForest()</code>) o <strong>máquinas aceleradoras de gradiente</strong>, del inglés <em>gradient boosting
+machines</em> (es decir, <code>xgboost::xgboost</code>.).</p></li>
+</ul>
+<p>Estos modelos son todos similares desde una perspectiva de programación. Una vez que hayas manejado los modelos lineales, te resultará sencillo entender la mecánica de otras clases de modelos. Ser un modelador hábil consiste en tener buenos principios generales y una gran caja de herramientas técnicas. Ahora que has aprendido algunas herramientas y algunas clases de modelos, puedes continuar aprendiendo sobre otras clases en otras fuentes.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="model-intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="construcción-de-modelos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cienciadedatos/r4ds/edit/master/23-model-basics.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

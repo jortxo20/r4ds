@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>16 Fechas y horas | R para Ciencia de Datos</title>
+  <meta name="description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="16 Fechas y horas | R para Ciencia de Datos" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://es.r4ds.hadley.nz/" />
+  <meta property="og:image" content="http://es.r4ds.hadley.nz/cover.png" />
+  <meta property="og:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="github-repo" content="cienciadedatos/r4ds" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="16 Fechas y horas | R para Ciencia de Datos" />
+  
+  <meta name="twitter:description" content="Este texto te enseñará cómo hacer ciencia de datos con R: aprenderás a importar datos, llevarlos a la estructura más conveniente, transformarlos, visualizarlos y modelarlos. Así podrás poner en pŕactica las habilidades necesarias para hacer ciencia de datos. Tal como los químicos aprenden a limpiar tubos de ensayo y ordenar un laboratorio, aprenderás a limpiar datos y crear gráficos— junto a muchas otras habilidades que permiten que la ciencia de datos tenga lugar. En este libro encontrarás las mejores prácticas para desarrollar dichas tareas usando R. También aprenderás a usar la gramática de gráficos, programación letrada e investigación reproducible para ahorrar tiempo. Además, aprenderás a manejar recursos cognitivos para facilitar el hacer descubrimientos al momento de manipular, visualizar y explorar datos." />
+  <meta name="twitter:image" content="http://es.r4ds.hadley.nz/cover.png" />
+
+<meta name="author" content="Garrett Grolemund" />
+<meta name="author" content="Hadley Wickham" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="factores.html"/>
+<link rel="next" href="programar-intro.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="r4ds.min.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">R para Ciencia de Datos</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenida</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-traducción"><i class="fa fa-check"></i>Sobre la traducción</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-la-versión-original-en-inglés"><i class="fa fa-check"></i>Sobre la versión original en inglés</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="introducción.html"><a href="introducción.html#lo-que-aprenderás"><i class="fa fa-check"></i><b>1.1</b> Lo que aprenderás</a></li>
+<li class="chapter" data-level="1.2" data-path="introducción.html"><a href="introducción.html#cómo-está-organizado-este-libro"><i class="fa fa-check"></i><b>1.2</b> Cómo está organizado este libro</a></li>
+<li class="chapter" data-level="1.3" data-path="introducción.html"><a href="introducción.html#qué-no-vas-a-aprender"><i class="fa fa-check"></i><b>1.3</b> Qué no vas a aprender</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="introducción.html"><a href="introducción.html#big-data"><i class="fa fa-check"></i><b>1.3.1</b> Big data</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introducción.html"><a href="introducción.html#python-julia-y-amigos"><i class="fa fa-check"></i><b>1.3.2</b> Python, Julia y amigos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introducción.html"><a href="introducción.html#datos-no-rectangulares"><i class="fa fa-check"></i><b>1.3.3</b> Datos no rectangulares</a></li>
+<li class="chapter" data-level="1.3.4" data-path="introducción.html"><a href="introducción.html#confirmación-de-hipótesis"><i class="fa fa-check"></i><b>1.3.4</b> Confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="introducción.html"><a href="introducción.html#prerrequisitos"><i class="fa fa-check"></i><b>1.4</b> Prerrequisitos</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introducción.html"><a href="introducción.html#r"><i class="fa fa-check"></i><b>1.4.1</b> R</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introducción.html"><a href="introducción.html#rstudio"><i class="fa fa-check"></i><b>1.4.2</b> RStudio</a></li>
+<li class="chapter" data-level="1.4.3" data-path="introducción.html"><a href="introducción.html#el-tidyverse"><i class="fa fa-check"></i><b>1.4.3</b> El Tidyverse</a></li>
+<li class="chapter" data-level="1.4.4" data-path="introducción.html"><a href="introducción.html#el-paquete-datos"><i class="fa fa-check"></i><b>1.4.4</b> El paquete <code>datos</code></a></li>
+<li class="chapter" data-level="1.4.5" data-path="introducción.html"><a href="introducción.html#otros-paquetes"><i class="fa fa-check"></i><b>1.4.5</b> Otros paquetes</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="introducción.html"><a href="introducción.html#ejecutar-código-en-r"><i class="fa fa-check"></i><b>1.5</b> Ejecutar código en R</a></li>
+<li class="chapter" data-level="1.6" data-path="introducción.html"><a href="introducción.html#pedir-ayuda-y-aprender-más"><i class="fa fa-check"></i><b>1.6</b> Pedir ayuda y aprender más</a></li>
+<li class="chapter" data-level="1.7" data-path="introducción.html"><a href="introducción.html#agradecimientos"><i class="fa fa-check"></i><b>1.7</b> Agradecimientos</a></li>
+<li class="chapter" data-level="1.8" data-path="introducción.html"><a href="introducción.html#colofón"><i class="fa fa-check"></i><b>1.8</b> Colofón</a></li>
+</ul></li>
+<li class="part"><span><b>I Explorar</b></span></li>
+<li class="chapter" data-level="2" data-path="explorar-introduccion.html"><a href="explorar-introduccion.html"><i class="fa fa-check"></i><b>2</b> Introducción</a></li>
+<li class="chapter" data-level="3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Visualización de datos</a><ul>
+<li class="chapter" data-level="3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#introducción-1"><i class="fa fa-check"></i><b>3.1</b> Introducción</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#prerrequisitos-1"><i class="fa fa-check"></i><b>3.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#primeros-pasos"><i class="fa fa-check"></i><b>3.2</b> Primeros pasos</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#el-data-frame-millas"><i class="fa fa-check"></i><b>3.2.1</b> El data frame <code>millas</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#creando-un-gráfico-con-ggplot"><i class="fa fa-check"></i><b>3.2.2</b> Creando un gráfico con ggplot</a></li>
+<li class="chapter" data-level="3.2.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#una-plantilla-de-gráficos"><i class="fa fa-check"></i><b>3.2.3</b> Una plantilla de gráficos</a></li>
+<li class="chapter" data-level="3.2.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios"><i class="fa fa-check"></i><b>3.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#mapeos-estéticos"><i class="fa fa-check"></i><b>3.3</b> Mapeos estéticos</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-1"><i class="fa fa-check"></i><b>3.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#problemas-comunes"><i class="fa fa-check"></i><b>3.4</b> Problemas comunes</a></li>
+<li class="chapter" data-level="3.5" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#separar-en-facetas"><i class="fa fa-check"></i><b>3.5</b> Separar en facetas</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-2"><i class="fa fa-check"></i><b>3.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#objetos-geométricos"><i class="fa fa-check"></i><b>3.6</b> Objetos geométricos</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-3"><i class="fa fa-check"></i><b>3.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#transformaciones-estadísticas"><i class="fa fa-check"></i><b>3.7</b> Transformaciones estadísticas</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-4"><i class="fa fa-check"></i><b>3.7.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ajustes-de-posición"><i class="fa fa-check"></i><b>3.8</b> Ajustes de posición</a><ul>
+<li class="chapter" data-level="3.8.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-5"><i class="fa fa-check"></i><b>3.8.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#sistemas-de-coordenadas"><i class="fa fa-check"></i><b>3.9</b> Sistemas de coordenadas</a><ul>
+<li class="chapter" data-level="3.9.1" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#ejercicios-6"><i class="fa fa-check"></i><b>3.9.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="visualización-de-datos.html"><a href="visualización-de-datos.html#la-gramática-de-gráficos-en-capas"><i class="fa fa-check"></i><b>3.10</b> La gramática de gráficos en capas</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html"><i class="fa fa-check"></i><b>4</b> Flujo de trabajo: conocimientos básicos</a><ul>
+<li class="chapter" data-level="4.1" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#conocimientos-básicos-de-programación"><i class="fa fa-check"></i><b>4.1</b> Conocimientos básicos de programación</a></li>
+<li class="chapter" data-level="4.2" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#la-importancia-de-los-nombres"><i class="fa fa-check"></i><b>4.2</b> La importancia de los nombres</a></li>
+<li class="chapter" data-level="4.3" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#usando-funciones"><i class="fa fa-check"></i><b>4.3</b> Usando funciones</a></li>
+<li class="chapter" data-level="4.4" data-path="flujo-de-trabajo-conocimientos-básicos.html"><a href="flujo-de-trabajo-conocimientos-básicos.html#ejercicios-7"><i class="fa fa-check"></i><b>4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="transform.html"><a href="transform.html"><i class="fa fa-check"></i><b>5</b> Transformación de datos</a><ul>
+<li class="chapter" data-level="5.1" data-path="transform.html"><a href="transform.html#introducción-2"><i class="fa fa-check"></i><b>5.1</b> Introducción</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="transform.html"><a href="transform.html#prerequisitos"><i class="fa fa-check"></i><b>5.1.1</b> Prerequisitos</a></li>
+<li class="chapter" data-level="5.1.2" data-path="transform.html"><a href="transform.html#vuelos"><i class="fa fa-check"></i><b>5.1.2</b> vuelos</a></li>
+<li class="chapter" data-level="5.1.3" data-path="transform.html"><a href="transform.html#lo-básico-de-dplyr"><i class="fa fa-check"></i><b>5.1.3</b> Lo básico de <strong>dplyr</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="transform.html"><a href="transform.html#filtrar-filas-con-filter"><i class="fa fa-check"></i><b>5.2</b> Filtrar filas con <code>filter()</code></a><ul>
+<li class="chapter" data-level="5.2.1" data-path="transform.html"><a href="transform.html#comparaciones"><i class="fa fa-check"></i><b>5.2.1</b> Comparaciones</a></li>
+<li class="chapter" data-level="5.2.2" data-path="transform.html"><a href="transform.html#operadores-lógicos"><i class="fa fa-check"></i><b>5.2.2</b> Operadores lógicos</a></li>
+<li class="chapter" data-level="5.2.3" data-path="transform.html"><a href="transform.html#valores-faltantes"><i class="fa fa-check"></i><b>5.2.3</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.2.4" data-path="transform.html"><a href="transform.html#ejercicios-8"><i class="fa fa-check"></i><b>5.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="transform.html"><a href="transform.html#reordenar-las-filas-con-arrange"><i class="fa fa-check"></i><b>5.3</b> Reordenar las filas con <code>arrange()</code></a><ul>
+<li class="chapter" data-level="5.3.1" data-path="transform.html"><a href="transform.html#ejercicios-9"><i class="fa fa-check"></i><b>5.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="transform.html"><a href="transform.html#select"><i class="fa fa-check"></i><b>5.4</b> Seleccionar columnas con <code>select()</code></a><ul>
+<li class="chapter" data-level="5.4.1" data-path="transform.html"><a href="transform.html#ejercicios-10"><i class="fa fa-check"></i><b>5.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="transform.html"><a href="transform.html#añadir-nuevas-variables-con-mutate"><i class="fa fa-check"></i><b>5.5</b> Añadir nuevas variables con <code>mutate()</code></a><ul>
+<li class="chapter" data-level="5.5.1" data-path="transform.html"><a href="transform.html#mutate-funs"><i class="fa fa-check"></i><b>5.5.1</b> Funciones de creación útiles</a></li>
+<li class="chapter" data-level="5.5.2" data-path="transform.html"><a href="transform.html#ejercicios-11"><i class="fa fa-check"></i><b>5.5.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="transform.html"><a href="transform.html#resúmenes-agrupados-con-summarise"><i class="fa fa-check"></i><b>5.6</b> Resúmenes agrupados con <code>summarise()</code></a><ul>
+<li class="chapter" data-level="5.6.1" data-path="transform.html"><a href="transform.html#combinación-de-múltiples-operaciones-con-el-pipe"><i class="fa fa-check"></i><b>5.6.1</b> Combinación de múltiples operaciones con el <em>pipe</em></a></li>
+<li class="chapter" data-level="5.6.2" data-path="transform.html"><a href="transform.html#valores-faltantes-1"><i class="fa fa-check"></i><b>5.6.2</b> Valores faltantes</a></li>
+<li class="chapter" data-level="5.6.3" data-path="transform.html"><a href="transform.html#conteos"><i class="fa fa-check"></i><b>5.6.3</b> Conteos</a></li>
+<li class="chapter" data-level="5.6.4" data-path="transform.html"><a href="transform.html#summarise-funs"><i class="fa fa-check"></i><b>5.6.4</b> Funciones de resumen útiles</a></li>
+<li class="chapter" data-level="5.6.5" data-path="transform.html"><a href="transform.html#agrupación-por-múltiples-variables"><i class="fa fa-check"></i><b>5.6.5</b> Agrupación por múltiples variables</a></li>
+<li class="chapter" data-level="5.6.6" data-path="transform.html"><a href="transform.html#desagrupar"><i class="fa fa-check"></i><b>5.6.6</b> Desagrupar</a></li>
+<li class="chapter" data-level="5.6.7" data-path="transform.html"><a href="transform.html#ejercicios-12"><i class="fa fa-check"></i><b>5.6.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="transform.html"><a href="transform.html#transformaciones-agrupadas-y-filtros"><i class="fa fa-check"></i><b>5.7</b> Transformaciones agrupadas (y filtros)</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="transform.html"><a href="transform.html#ejercicios-13"><i class="fa fa-check"></i><b>5.7.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html"><i class="fa fa-check"></i><b>6</b> Flujo de trabajo: <em>Scripts</em></a><ul>
+<li class="chapter" data-level="6.1" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejecutando-código"><i class="fa fa-check"></i><b>6.1</b> Ejecutando código</a></li>
+<li class="chapter" data-level="6.2" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#diagnósticos-de-rstudio"><i class="fa fa-check"></i><b>6.2</b> Diagnósticos de RStudio</a></li>
+<li class="chapter" data-level="6.3" data-path="flujo-de-trabajo-scripts.html"><a href="flujo-de-trabajo-scripts.html#ejercicios-14"><i class="fa fa-check"></i><b>6.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html"><i class="fa fa-check"></i><b>7</b> Análisis exploratorio de datos (<em>EDA</em>)</a><ul>
+<li class="chapter" data-level="7.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#introducción-3"><i class="fa fa-check"></i><b>7.1</b> Introducción</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#requisitos-indispensables"><i class="fa fa-check"></i><b>7.1.1</b> Requisitos indispensables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#preguntas"><i class="fa fa-check"></i><b>7.2</b> Preguntas</a></li>
+<li class="chapter" data-level="7.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#variación"><i class="fa fa-check"></i><b>7.3</b> Variación</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#visualizando-distribuciones"><i class="fa fa-check"></i><b>7.3.1</b> Visualizando distribuciones</a></li>
+<li class="chapter" data-level="7.3.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-típicos"><i class="fa fa-check"></i><b>7.3.2</b> Valores típicos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-inusuales"><i class="fa fa-check"></i><b>7.3.3</b> Valores inusuales</a></li>
+<li class="chapter" data-level="7.3.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-15"><i class="fa fa-check"></i><b>7.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#valores-faltantes-2"><i class="fa fa-check"></i><b>7.4</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#ejercicios-16"><i class="fa fa-check"></i><b>7.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#covariación"><i class="fa fa-check"></i><b>7.5</b> Covariación</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#cat-cont"><i class="fa fa-check"></i><b>7.5.1</b> Una variable categórica y una variable continua</a></li>
+<li class="chapter" data-level="7.5.2" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-categóricas"><i class="fa fa-check"></i><b>7.5.2</b> Dos variables categóricas</a></li>
+<li class="chapter" data-level="7.5.3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#dos-variables-continuas"><i class="fa fa-check"></i><b>7.5.3</b> Dos variables continuas</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#patrones-y-modelos"><i class="fa fa-check"></i><b>7.6</b> Patrones y modelos</a></li>
+<li class="chapter" data-level="7.7" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#argumentos-en-ggplot2"><i class="fa fa-check"></i><b>7.7</b> Argumentos en ggplot2</a></li>
+<li class="chapter" data-level="7.8" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html#aprendiendo-más"><i class="fa fa-check"></i><b>7.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html"><i class="fa fa-check"></i><b>8</b> Flujo de trabajo: proyectos</a><ul>
+<li class="chapter" data-level="8.1" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#qué-es-real"><i class="fa fa-check"></i><b>8.1</b> ¿Qué es real?</a></li>
+<li class="chapter" data-level="8.2" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#dónde-vive-tu-análisis"><i class="fa fa-check"></i><b>8.2</b> ¿Dónde vive tu análisis?</a></li>
+<li class="chapter" data-level="8.3" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#rutas-y-directorios"><i class="fa fa-check"></i><b>8.3</b> Rutas y directorios</a></li>
+<li class="chapter" data-level="8.4" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#proyectos-en-rstudio"><i class="fa fa-check"></i><b>8.4</b> Proyectos en RStudio</a></li>
+<li class="chapter" data-level="8.5" data-path="flujo-de-trabajo-proyectos.html"><a href="flujo-de-trabajo-proyectos.html#resumen"><i class="fa fa-check"></i><b>8.5</b> Resumen</a></li>
+</ul></li>
+<li class="part"><span><b>II Manejar o domar datos</b></span></li>
+<li class="chapter" data-level="9" data-path="domardatos-intro.html"><a href="domardatos-intro.html"><i class="fa fa-check"></i><b>9</b> Introducción</a></li>
+<li class="chapter" data-level="10" data-path="tibbles.html"><a href="tibbles.html"><i class="fa fa-check"></i><b>10</b> Tibbles</a><ul>
+<li class="chapter" data-level="10.1" data-path="tibbles.html"><a href="tibbles.html#introducción-4"><i class="fa fa-check"></i><b>10.1</b> Introducción</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="tibbles.html"><a href="tibbles.html#prerrequisitos-2"><i class="fa fa-check"></i><b>10.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="tibbles.html"><a href="tibbles.html#creando-tibbles"><i class="fa fa-check"></i><b>10.2</b> Creando tibbles</a></li>
+<li class="chapter" data-level="10.3" data-path="tibbles.html"><a href="tibbles.html#tibbles-vs.data.frame"><i class="fa fa-check"></i><b>10.3</b> Tibbles vs. data.frame</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="tibbles.html"><a href="tibbles.html#impresión-en-la-consola"><i class="fa fa-check"></i><b>10.3.1</b> Impresión en la consola</a></li>
+<li class="chapter" data-level="10.3.2" data-path="tibbles.html"><a href="tibbles.html#selección-de-subconjuntos"><i class="fa fa-check"></i><b>10.3.2</b> Selección de subconjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="tibbles.html"><a href="tibbles.html#interactuando-con-código-antiguo"><i class="fa fa-check"></i><b>10.4</b> Interactuando con código antiguo</a></li>
+<li class="chapter" data-level="10.5" data-path="tibbles.html"><a href="tibbles.html#ejercicios-20"><i class="fa fa-check"></i><b>10.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="importación-de-datos.html"><a href="importación-de-datos.html"><i class="fa fa-check"></i><b>11</b> Importación de datos</a><ul>
+<li class="chapter" data-level="11.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#introducción-5"><i class="fa fa-check"></i><b>11.1</b> Introducción</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#prerrequisitos-3"><i class="fa fa-check"></i><b>11.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comenzando"><i class="fa fa-check"></i><b>11.2</b> Comenzando</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#comparación-con-r-base"><i class="fa fa-check"></i><b>11.2.1</b> Comparación con R base</a></li>
+<li class="chapter" data-level="11.2.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-21"><i class="fa fa-check"></i><b>11.2.2</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-vector"><i class="fa fa-check"></i><b>11.3</b> Segmentar un vector</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#números"><i class="fa fa-check"></i><b>11.3.1</b> Números</a></li>
+<li class="chapter" data-level="11.3.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-strings"><i class="fa fa-check"></i><b>11.3.2</b> Cadenas de texto (<em>strings</em>)</a></li>
+<li class="chapter" data-level="11.3.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-factors"><i class="fa fa-check"></i><b>11.3.3</b> Factores</a></li>
+<li class="chapter" data-level="11.3.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#readr-datetimes"><i class="fa fa-check"></i><b>11.3.4</b> Fechas, fechas-horas, y horas</a></li>
+<li class="chapter" data-level="11.3.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#ejercicios-22"><i class="fa fa-check"></i><b>11.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="importación-de-datos.html"><a href="importación-de-datos.html#segmentar-un-archivo"><i class="fa fa-check"></i><b>11.4</b> Segmentar un archivo</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="importación-de-datos.html"><a href="importación-de-datos.html#estrategia"><i class="fa fa-check"></i><b>11.4.1</b> Estrategia</a></li>
+<li class="chapter" data-level="11.4.2" data-path="importación-de-datos.html"><a href="importación-de-datos.html#problemas"><i class="fa fa-check"></i><b>11.4.2</b> Problemas</a></li>
+<li class="chapter" data-level="11.4.3" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otras-estrategias"><i class="fa fa-check"></i><b>11.4.3</b> Otras estrategias</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="importación-de-datos.html"><a href="importación-de-datos.html#escribir-a-un-archivo"><i class="fa fa-check"></i><b>11.5</b> Escribir a un archivo</a></li>
+<li class="chapter" data-level="11.6" data-path="importación-de-datos.html"><a href="importación-de-datos.html#otros-tipos-de-datos"><i class="fa fa-check"></i><b>11.6</b> Otros tipos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="datos-ordenados.html"><a href="datos-ordenados.html"><i class="fa fa-check"></i><b>12</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#introducción-6"><i class="fa fa-check"></i><b>12.1</b> Introducción</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#prerrequisitos-4"><i class="fa fa-check"></i><b>12.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-ordenados-1"><i class="fa fa-check"></i><b>12.2</b> Datos ordenados</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-23"><i class="fa fa-check"></i><b>12.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#pivotar"><i class="fa fa-check"></i><b>12.3</b> Pivotar</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-largos"><i class="fa fa-check"></i><b>12.3.1</b> Datos “largos”</a></li>
+<li class="chapter" data-level="12.3.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-anchos"><i class="fa fa-check"></i><b>12.3.2</b> Datos “anchos”</a></li>
+<li class="chapter" data-level="12.3.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-24"><i class="fa fa-check"></i><b>12.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar-y-unir"><i class="fa fa-check"></i><b>12.4</b> Separar y unir</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#separar"><i class="fa fa-check"></i><b>12.4.1</b> Separar</a></li>
+<li class="chapter" data-level="12.4.2" data-path="datos-ordenados.html"><a href="datos-ordenados.html#unir"><i class="fa fa-check"></i><b>12.4.2</b> Unir</a></li>
+<li class="chapter" data-level="12.4.3" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-25"><i class="fa fa-check"></i><b>12.4.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="datos-ordenados.html"><a href="datos-ordenados.html#valores-faltantes-3"><i class="fa fa-check"></i><b>12.5</b> Valores faltantes</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-26"><i class="fa fa-check"></i><b>12.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="datos-ordenados.html"><a href="datos-ordenados.html#estudio-de-caso"><i class="fa fa-check"></i><b>12.6</b> Estudio de caso</a><ul>
+<li class="chapter" data-level="12.6.1" data-path="datos-ordenados.html"><a href="datos-ordenados.html#ejercicios-27"><i class="fa fa-check"></i><b>12.6.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="datos-ordenados.html"><a href="datos-ordenados.html#datos-no-ordenados"><i class="fa fa-check"></i><b>12.7</b> Datos no ordenados</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="datos-relacionales.html"><a href="datos-relacionales.html"><i class="fa fa-check"></i><b>13</b> Datos relacionales</a><ul>
+<li class="chapter" data-level="13.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#introducción-7"><i class="fa fa-check"></i><b>13.1</b> Introducción</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#prerrequisitos-5"><i class="fa fa-check"></i><b>13.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#nycflights13-relational"><i class="fa fa-check"></i><b>13.2</b> Datos sobre vuelos</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-28"><i class="fa fa-check"></i><b>13.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#claves"><i class="fa fa-check"></i><b>13.3</b> Claves</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-29"><i class="fa fa-check"></i><b>13.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#mutating-joins"><i class="fa fa-check"></i><b>13.4</b> Uniones de transformación</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#entendiendo-las-uniones"><i class="fa fa-check"></i><b>13.4.1</b> Entendiendo las uniones</a></li>
+<li class="chapter" data-level="13.4.2" data-path="datos-relacionales.html"><a href="datos-relacionales.html#inner-join"><i class="fa fa-check"></i><b>13.4.2</b> Unión interior</a></li>
+<li class="chapter" data-level="13.4.3" data-path="datos-relacionales.html"><a href="datos-relacionales.html#outer-join"><i class="fa fa-check"></i><b>13.4.3</b> Uniones exteriores</a></li>
+<li class="chapter" data-level="13.4.4" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-matches"><i class="fa fa-check"></i><b>13.4.4</b> Claves duplicadas</a></li>
+<li class="chapter" data-level="13.4.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#join-by"><i class="fa fa-check"></i><b>13.4.5</b> Definiendo las columnas clave</a></li>
+<li class="chapter" data-level="13.4.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-30"><i class="fa fa-check"></i><b>13.4.6</b> Ejercicios</a></li>
+<li class="chapter" data-level="13.4.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#otras-implementaciones"><i class="fa fa-check"></i><b>13.4.7</b> Otras implementaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="datos-relacionales.html"><a href="datos-relacionales.html#filtering-joins"><i class="fa fa-check"></i><b>13.5</b> Uniones de filtro</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="datos-relacionales.html"><a href="datos-relacionales.html#ejercicios-31"><i class="fa fa-check"></i><b>13.5.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="datos-relacionales.html"><a href="datos-relacionales.html#problemas-con-las-uniones"><i class="fa fa-check"></i><b>13.6</b> Problemas con las uniones</a></li>
+<li class="chapter" data-level="13.7" data-path="datos-relacionales.html"><a href="datos-relacionales.html#set-operations"><i class="fa fa-check"></i><b>13.7</b> Operaciones de conjuntos</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html"><i class="fa fa-check"></i><b>14</b> Cadenas de caracteres</a><ul>
+<li class="chapter" data-level="14.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#introducción-8"><i class="fa fa-check"></i><b>14.1</b> Introducción</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#prerequisitos-1"><i class="fa fa-check"></i><b>14.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#cadenas-elementos-básicos"><i class="fa fa-check"></i><b>14.2</b> Cadenas: elementos básicos</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#largo-de-cadena"><i class="fa fa-check"></i><b>14.2.1</b> Largo de cadena</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#combinar-cadenas"><i class="fa fa-check"></i><b>14.2.2</b> Combinar cadenas</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#dividir-cadenas"><i class="fa fa-check"></i><b>14.2.3</b> Dividir cadenas</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#locales"><i class="fa fa-check"></i><b>14.2.4</b> <em>Locales</em></a></li>
+<li class="chapter" data-level="14.2.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-32"><i class="fa fa-check"></i><b>14.2.5</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.2.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencia-de-patrones-con-expresiones-regulares"><i class="fa fa-check"></i><b>14.2.6</b> Buscar coincidencia de patrones con expresiones regulares</a></li>
+<li class="chapter" data-level="14.2.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-básicas"><i class="fa fa-check"></i><b>14.2.7</b> Coincidencias básicas</a></li>
+<li class="chapter" data-level="14.2.8" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#anclas"><i class="fa fa-check"></i><b>14.2.8</b> Anclas</a></li>
+<li class="chapter" data-level="14.2.9" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#clases-de-caracteres-y-alternativas"><i class="fa fa-check"></i><b>14.2.9</b> Clases de caracteres y alternativas</a></li>
+<li class="chapter" data-level="14.2.10" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#repetición"><i class="fa fa-check"></i><b>14.2.10</b> Repetición</a></li>
+<li class="chapter" data-level="14.2.11" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#agrupamiento-y-referencias-previas"><i class="fa fa-check"></i><b>14.2.11</b> Agrupamiento y referencias previas</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#herramientas"><i class="fa fa-check"></i><b>14.3</b> Herramientas</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#detectar-coincidencias"><i class="fa fa-check"></i><b>14.3.1</b> Detectar coincidencias</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-38"><i class="fa fa-check"></i><b>14.3.2</b> Ejercicios</a></li>
+<li class="chapter" data-level="14.3.3" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#extraer-coincidencias"><i class="fa fa-check"></i><b>14.3.3</b> Extraer coincidencias</a></li>
+<li class="chapter" data-level="14.3.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#coincidencias-agrupadas"><i class="fa fa-check"></i><b>14.3.4</b> Coincidencias agrupadas</a></li>
+<li class="chapter" data-level="14.3.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#remplazar-coincidencias"><i class="fa fa-check"></i><b>14.3.5</b> Remplazar coincidencias</a></li>
+<li class="chapter" data-level="14.3.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#divisiones"><i class="fa fa-check"></i><b>14.3.6</b> Divisiones</a></li>
+<li class="chapter" data-level="14.3.7" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#buscar-coincidencias"><i class="fa fa-check"></i><b>14.3.7</b> Buscar coincidencias</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otro-tipo-de-patrones"><i class="fa fa-check"></i><b>14.4</b> Otro tipo de patrones</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-43"><i class="fa fa-check"></i><b>14.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#otros-usos-de-las-expresiones-regulares."><i class="fa fa-check"></i><b>14.5</b> Otros usos de las expresiones regulares.</a></li>
+<li class="chapter" data-level="14.6" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#stringi"><i class="fa fa-check"></i><b>14.6</b> stringi</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="cadenas-de-caracteres.html"><a href="cadenas-de-caracteres.html#ejercicios-44"><i class="fa fa-check"></i><b>14.6.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="factores.html"><a href="factores.html"><i class="fa fa-check"></i><b>15</b> Factores</a><ul>
+<li class="chapter" data-level="15.1" data-path="factores.html"><a href="factores.html#introducción-9"><i class="fa fa-check"></i><b>15.1</b> Introducción</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="factores.html"><a href="factores.html#prerrequisitos-6"><i class="fa fa-check"></i><b>15.1.1</b> Prerrequisitos</a></li>
+<li class="chapter" data-level="15.1.2" data-path="factores.html"><a href="factores.html#aprendiendo-más-1"><i class="fa fa-check"></i><b>15.1.2</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="factores.html"><a href="factores.html#creando-factores"><i class="fa fa-check"></i><b>15.2</b> Creando factores</a></li>
+<li class="chapter" data-level="15.3" data-path="factores.html"><a href="factores.html#encuesta-social-general"><i class="fa fa-check"></i><b>15.3</b> Encuesta Social General</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="factores.html"><a href="factores.html#ejercicios-45"><i class="fa fa-check"></i><b>15.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="factores.html"><a href="factores.html#modificar-el-orden-de-los-factores"><i class="fa fa-check"></i><b>15.4</b> Modificar el orden de los factores</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="factores.html"><a href="factores.html#ejercicios-46"><i class="fa fa-check"></i><b>15.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="factores.html"><a href="factores.html#modificar-los-niveles-de-los-factores"><i class="fa fa-check"></i><b>15.5</b> Modificar los niveles de los factores</a><ul>
+<li class="chapter" data-level="15.5.1" data-path="factores.html"><a href="factores.html#ejercicios-47"><i class="fa fa-check"></i><b>15.5.1</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html"><i class="fa fa-check"></i><b>16</b> Fechas y horas</a><ul>
+<li class="chapter" data-level="16.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#introducción-10"><i class="fa fa-check"></i><b>16.1</b> Introducción</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#requisitos-previos"><i class="fa fa-check"></i><b>16.1.1</b> Requisitos previos</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#creando-fechashoras"><i class="fa fa-check"></i><b>16.2</b> Creando fechas/horas</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-cadenas-de-caracteres"><i class="fa fa-check"></i><b>16.2.1</b> Desde cadenas de caracteres</a></li>
+<li class="chapter" data-level="16.2.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-componentes-individuales"><i class="fa fa-check"></i><b>16.2.2</b> Desde componentes individuales</a></li>
+<li class="chapter" data-level="16.2.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#desde-otros-tipos"><i class="fa fa-check"></i><b>16.2.3</b> Desde otros tipos</a></li>
+<li class="chapter" data-level="16.2.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-48"><i class="fa fa-check"></i><b>16.2.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#componentes-de-fecha-hora"><i class="fa fa-check"></i><b>16.3</b> Componentes de fecha-hora</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#obteniendo-los-componentes"><i class="fa fa-check"></i><b>16.3.1</b> Obteniendo los componentes</a></li>
+<li class="chapter" data-level="16.3.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#redondeo"><i class="fa fa-check"></i><b>16.3.2</b> Redondeo</a></li>
+<li class="chapter" data-level="16.3.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#configurando-componentes"><i class="fa fa-check"></i><b>16.3.3</b> Configurando componentes</a></li>
+<li class="chapter" data-level="16.3.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-49"><i class="fa fa-check"></i><b>16.3.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#lapsos-de-tiempo"><i class="fa fa-check"></i><b>16.4</b> Lapsos de tiempo</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#duraciones"><i class="fa fa-check"></i><b>16.4.1</b> Duraciones</a></li>
+<li class="chapter" data-level="16.4.2" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#períodos"><i class="fa fa-check"></i><b>16.4.2</b> Períodos</a></li>
+<li class="chapter" data-level="16.4.3" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#intervalos"><i class="fa fa-check"></i><b>16.4.3</b> Intervalos</a></li>
+<li class="chapter" data-level="16.4.4" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#resumen-1"><i class="fa fa-check"></i><b>16.4.4</b> Resumen</a></li>
+<li class="chapter" data-level="16.4.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#ejercicios-50"><i class="fa fa-check"></i><b>16.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="fechas-y-horas.html"><a href="fechas-y-horas.html#husos-horarios"><i class="fa fa-check"></i><b>16.5</b> Husos horarios</a></li>
+</ul></li>
+<li class="part"><span><b>III Programar</b></span></li>
+<li class="chapter" data-level="17" data-path="programar-intro.html"><a href="programar-intro.html"><i class="fa fa-check"></i><b>17</b> Introducción</a><ul>
+<li class="chapter" data-level="17.1" data-path="programar-intro.html"><a href="programar-intro.html#aprendiendo-más-2"><i class="fa fa-check"></i><b>17.1</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="pipes.html"><a href="pipes.html"><i class="fa fa-check"></i><b>18</b> Pipes</a><ul>
+<li class="chapter" data-level="18.1" data-path="pipes.html"><a href="pipes.html#introducción-11"><i class="fa fa-check"></i><b>18.1</b> Introducción</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="pipes.html"><a href="pipes.html#prerequisitos-2"><i class="fa fa-check"></i><b>18.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="pipes.html"><a href="pipes.html#alternativas-a-los-pipes"><i class="fa fa-check"></i><b>18.2</b> Alternativas a los pipes</a><ul>
+<li class="chapter" data-level="18.2.1" data-path="pipes.html"><a href="pipes.html#pasos-intermedios"><i class="fa fa-check"></i><b>18.2.1</b> Pasos intermedios</a></li>
+<li class="chapter" data-level="18.2.2" data-path="pipes.html"><a href="pipes.html#sobrescribir-el-original"><i class="fa fa-check"></i><b>18.2.2</b> Sobrescribir el original</a></li>
+<li class="chapter" data-level="18.2.3" data-path="pipes.html"><a href="pipes.html#composición-de-funciones"><i class="fa fa-check"></i><b>18.2.3</b> Composición de funciones</a></li>
+<li class="chapter" data-level="18.2.4" data-path="pipes.html"><a href="pipes.html#uso-de-pipe"><i class="fa fa-check"></i><b>18.2.4</b> Uso de pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="pipes.html"><a href="pipes.html#cuándo-no-usar-el-pipe"><i class="fa fa-check"></i><b>18.3</b> Cuándo no usar el pipe</a></li>
+<li class="chapter" data-level="18.4" data-path="pipes.html"><a href="pipes.html#otras-herramientas-de-magrittr"><i class="fa fa-check"></i><b>18.4</b> Otras herramientas de magrittr</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="funciones.html"><a href="funciones.html"><i class="fa fa-check"></i><b>19</b> Funciones</a><ul>
+<li class="chapter" data-level="19.1" data-path="funciones.html"><a href="funciones.html#introducción-12"><i class="fa fa-check"></i><b>19.1</b> Introducción</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="funciones.html"><a href="funciones.html#prerrequisitos-7"><i class="fa fa-check"></i><b>19.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="funciones.html"><a href="funciones.html#cuándo-deberías-escribir-una-función"><i class="fa fa-check"></i><b>19.2</b> ¿Cuándo deberías escribir una función?</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="funciones.html"><a href="funciones.html#ejercicios-51"><i class="fa fa-check"></i><b>19.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="funciones.html"><a href="funciones.html#las-funciones-son-para-los-seres-humanos-y-para-las-computadoras"><i class="fa fa-check"></i><b>19.3</b> Las funciones son para los seres humanos y para las computadoras</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="funciones.html"><a href="funciones.html#ejercicios-52"><i class="fa fa-check"></i><b>19.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="funciones.html"><a href="funciones.html#ejecución-condicional"><i class="fa fa-check"></i><b>19.4</b> Ejecución condicional</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="funciones.html"><a href="funciones.html#condiciones"><i class="fa fa-check"></i><b>19.4.1</b> Condiciones</a></li>
+<li class="chapter" data-level="19.4.2" data-path="funciones.html"><a href="funciones.html#condiciones-múltiples"><i class="fa fa-check"></i><b>19.4.2</b> Condiciones múltiples</a></li>
+<li class="chapter" data-level="19.4.3" data-path="funciones.html"><a href="funciones.html#estilo-del-código"><i class="fa fa-check"></i><b>19.4.3</b> Estilo del código</a></li>
+<li class="chapter" data-level="19.4.4" data-path="funciones.html"><a href="funciones.html#ejercicios-53"><i class="fa fa-check"></i><b>19.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="funciones.html"><a href="funciones.html#argumentos-de-funciones"><i class="fa fa-check"></i><b>19.5</b> Argumentos de funciones</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="funciones.html"><a href="funciones.html#elección-de-nombres"><i class="fa fa-check"></i><b>19.5.1</b> Elección de nombres</a></li>
+<li class="chapter" data-level="19.5.2" data-path="funciones.html"><a href="funciones.html#chequear-valores"><i class="fa fa-check"></i><b>19.5.2</b> Chequear valores</a></li>
+<li class="chapter" data-level="19.5.3" data-path="funciones.html"><a href="funciones.html#punto-punto-punto"><i class="fa fa-check"></i><b>19.5.3</b> Punto-punto-punto (…)</a></li>
+<li class="chapter" data-level="19.5.4" data-path="funciones.html"><a href="funciones.html#evaluación-diferida"><i class="fa fa-check"></i><b>19.5.4</b> Evaluación diferida</a></li>
+<li class="chapter" data-level="19.5.5" data-path="funciones.html"><a href="funciones.html#ejercicios-54"><i class="fa fa-check"></i><b>19.5.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="19.6" data-path="funciones.html"><a href="funciones.html#valores-de-retorno"><i class="fa fa-check"></i><b>19.6</b> Valores de retorno</a><ul>
+<li class="chapter" data-level="19.6.1" data-path="funciones.html"><a href="funciones.html#sentencias-de-retorno-explícitas"><i class="fa fa-check"></i><b>19.6.1</b> Sentencias de retorno explícitas</a></li>
+<li class="chapter" data-level="19.6.2" data-path="funciones.html"><a href="funciones.html#escribir-funciones-aptas-para-un-pipe"><i class="fa fa-check"></i><b>19.6.2</b> Escribir funciones aptas para un pipe</a></li>
+</ul></li>
+<li class="chapter" data-level="19.7" data-path="funciones.html"><a href="funciones.html#entorno"><i class="fa fa-check"></i><b>19.7</b> Entorno</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="vectores.html"><a href="vectores.html"><i class="fa fa-check"></i><b>20</b> Vectores</a><ul>
+<li class="chapter" data-level="20.1" data-path="vectores.html"><a href="vectores.html#introducción-13"><i class="fa fa-check"></i><b>20.1</b> Introducción</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="vectores.html"><a href="vectores.html#prerrequisitos-8"><i class="fa fa-check"></i><b>20.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="vectores.html"><a href="vectores.html#vectores-básicos"><i class="fa fa-check"></i><b>20.2</b> Vectores básicos</a></li>
+<li class="chapter" data-level="20.3" data-path="vectores.html"><a href="vectores.html#tipos-importantes-de-vectores-atómicos"><i class="fa fa-check"></i><b>20.3</b> Tipos importantes de vectores atómicos</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="vectores.html"><a href="vectores.html#lógico"><i class="fa fa-check"></i><b>20.3.1</b> Lógico</a></li>
+<li class="chapter" data-level="20.3.2" data-path="vectores.html"><a href="vectores.html#numérico"><i class="fa fa-check"></i><b>20.3.2</b> Numérico</a></li>
+<li class="chapter" data-level="20.3.3" data-path="vectores.html"><a href="vectores.html#caracter"><i class="fa fa-check"></i><b>20.3.3</b> Caracter</a></li>
+<li class="chapter" data-level="20.3.4" data-path="vectores.html"><a href="vectores.html#valores-faltantes-4"><i class="fa fa-check"></i><b>20.3.4</b> Valores faltantes</a></li>
+<li class="chapter" data-level="20.3.5" data-path="vectores.html"><a href="vectores.html#ejercicios-55"><i class="fa fa-check"></i><b>20.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="vectores.html"><a href="vectores.html#usando-vectores-atómicos"><i class="fa fa-check"></i><b>20.4</b> Usando vectores atómicos</a><ul>
+<li class="chapter" data-level="20.4.1" data-path="vectores.html"><a href="vectores.html#coerción"><i class="fa fa-check"></i><b>20.4.1</b> Coerción</a></li>
+<li class="chapter" data-level="20.4.2" data-path="vectores.html"><a href="vectores.html#funciones-de-prueba"><i class="fa fa-check"></i><b>20.4.2</b> Funciones de prueba</a></li>
+<li class="chapter" data-level="20.4.3" data-path="vectores.html"><a href="vectores.html#escalares-y-reglas-de-reciclado"><i class="fa fa-check"></i><b>20.4.3</b> Escalares y reglas de reciclado</a></li>
+<li class="chapter" data-level="20.4.4" data-path="vectores.html"><a href="vectores.html#nombrar-vectores"><i class="fa fa-check"></i><b>20.4.4</b> Nombrar vectores</a></li>
+<li class="chapter" data-level="20.4.5" data-path="vectores.html"><a href="vectores.html#vector-subsetting"><i class="fa fa-check"></i><b>20.4.5</b> Creación de subconjuntos (<em>subsetting</em>)</a></li>
+<li class="chapter" data-level="20.4.6" data-path="vectores.html"><a href="vectores.html#ejercicios-56"><i class="fa fa-check"></i><b>20.4.6</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="vectores.html"><a href="vectores.html#vectores-recursivos-listas"><i class="fa fa-check"></i><b>20.5</b> Vectores Recursivos (listas)</a><ul>
+<li class="chapter" data-level="20.5.1" data-path="vectores.html"><a href="vectores.html#visualizando-listas"><i class="fa fa-check"></i><b>20.5.1</b> Visualizando listas</a></li>
+<li class="chapter" data-level="20.5.2" data-path="vectores.html"><a href="vectores.html#subconjuntos-subsetting"><i class="fa fa-check"></i><b>20.5.2</b> Subconjuntos (<em>Subsetting</em>)</a></li>
+<li class="chapter" data-level="20.5.3" data-path="vectores.html"><a href="vectores.html#listas-de-condimentos"><i class="fa fa-check"></i><b>20.5.3</b> Listas de Condimentos</a></li>
+<li class="chapter" data-level="20.5.4" data-path="vectores.html"><a href="vectores.html#ejercicios-57"><i class="fa fa-check"></i><b>20.5.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="20.6" data-path="vectores.html"><a href="vectores.html#atributos"><i class="fa fa-check"></i><b>20.6</b> Atributos</a></li>
+<li class="chapter" data-level="20.7" data-path="vectores.html"><a href="vectores.html#vectores-aumentados"><i class="fa fa-check"></i><b>20.7</b> Vectores aumentados</a><ul>
+<li class="chapter" data-level="20.7.1" data-path="vectores.html"><a href="vectores.html#factores-1"><i class="fa fa-check"></i><b>20.7.1</b> Factores</a></li>
+<li class="chapter" data-level="20.7.2" data-path="vectores.html"><a href="vectores.html#fechas-y-fechas-hora"><i class="fa fa-check"></i><b>20.7.2</b> Fechas y fechas-hora</a></li>
+<li class="chapter" data-level="20.7.3" data-path="vectores.html"><a href="vectores.html#tibbles-1"><i class="fa fa-check"></i><b>20.7.3</b> Tibbles</a></li>
+<li class="chapter" data-level="20.7.4" data-path="vectores.html"><a href="vectores.html#ejercicios-58"><i class="fa fa-check"></i><b>20.7.4</b> Ejercicios:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="iteración.html"><a href="iteración.html"><i class="fa fa-check"></i><b>21</b> Iteración</a><ul>
+<li class="chapter" data-level="21.1" data-path="iteración.html"><a href="iteración.html#introducción-14"><i class="fa fa-check"></i><b>21.1</b> Introducción</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="iteración.html"><a href="iteración.html#prerrequisitos-9"><i class="fa fa-check"></i><b>21.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="iteración.html"><a href="iteración.html#bucles-for"><i class="fa fa-check"></i><b>21.2</b> Bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.2.1" data-path="iteración.html"><a href="iteración.html#ejercicios-59"><i class="fa fa-check"></i><b>21.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="iteración.html"><a href="iteración.html#variaciones-de-bucles-for"><i class="fa fa-check"></i><b>21.3</b> Variaciones de bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.3.1" data-path="iteración.html"><a href="iteración.html#modificar-un-objeto-existente"><i class="fa fa-check"></i><b>21.3.1</b> Modificar un objeto existente</a></li>
+<li class="chapter" data-level="21.3.2" data-path="iteración.html"><a href="iteración.html#patrones-de-bucle"><i class="fa fa-check"></i><b>21.3.2</b> Patrones de bucle</a></li>
+<li class="chapter" data-level="21.3.3" data-path="iteración.html"><a href="iteración.html#longitud-de-output-desconocida"><i class="fa fa-check"></i><b>21.3.3</b> Longitud de <em>output</em> desconocida</a></li>
+<li class="chapter" data-level="21.3.4" data-path="iteración.html"><a href="iteración.html#longitud-de-secuencia-desconocida"><i class="fa fa-check"></i><b>21.3.4</b> Longitud de secuencia desconocida</a></li>
+<li class="chapter" data-level="21.3.5" data-path="iteración.html"><a href="iteración.html#ejercicios-60"><i class="fa fa-check"></i><b>21.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="iteración.html"><a href="iteración.html#bucles-for-vs.funcionales"><i class="fa fa-check"></i><b>21.4</b> Bucles <em>for</em> vs. funcionales</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="iteración.html"><a href="iteración.html#ejercicios-61"><i class="fa fa-check"></i><b>21.4.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="iteración.html"><a href="iteración.html#las-funciones-map"><i class="fa fa-check"></i><b>21.5</b> Las funciones <em>map</em></a><ul>
+<li class="chapter" data-level="21.5.1" data-path="iteración.html"><a href="iteración.html#atajos"><i class="fa fa-check"></i><b>21.5.1</b> Atajos</a></li>
+<li class="chapter" data-level="21.5.2" data-path="iteración.html"><a href="iteración.html#r-base"><i class="fa fa-check"></i><b>21.5.2</b> R Base</a></li>
+<li class="chapter" data-level="21.5.3" data-path="iteración.html"><a href="iteración.html#ejercicios-62"><i class="fa fa-check"></i><b>21.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="iteración.html"><a href="iteración.html#manejando-los-errores"><i class="fa fa-check"></i><b>21.6</b> Manejando los errores</a></li>
+<li class="chapter" data-level="21.7" data-path="iteración.html"><a href="iteración.html#usar-map-sobre-múltiples-argumentos"><i class="fa fa-check"></i><b>21.7</b> Usar <em>map</em> sobre múltiples argumentos</a><ul>
+<li class="chapter" data-level="21.7.1" data-path="iteración.html"><a href="iteración.html#invocando-distintas-funciones"><i class="fa fa-check"></i><b>21.7.1</b> Invocando distintas funciones</a></li>
+</ul></li>
+<li class="chapter" data-level="21.8" data-path="iteración.html"><a href="iteración.html#walk"><i class="fa fa-check"></i><b>21.8</b> Walk</a></li>
+<li class="chapter" data-level="21.9" data-path="iteración.html"><a href="iteración.html#otros-patrones-para-los-bucles-for"><i class="fa fa-check"></i><b>21.9</b> Otros patrones para los bucles <em>for</em></a><ul>
+<li class="chapter" data-level="21.9.1" data-path="iteración.html"><a href="iteración.html#funciones-predicativas"><i class="fa fa-check"></i><b>21.9.1</b> Funciones predicativas</a></li>
+<li class="chapter" data-level="21.9.2" data-path="iteración.html"><a href="iteración.html#reducir-y-acumular"><i class="fa fa-check"></i><b>21.9.2</b> Reducir y acumular</a></li>
+<li class="chapter" data-level="21.9.3" data-path="iteración.html"><a href="iteración.html#ejercicios-63"><i class="fa fa-check"></i><b>21.9.3</b> Ejercicios</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Modelar</b></span></li>
+<li class="chapter" data-level="22" data-path="model-intro.html"><a href="model-intro.html"><i class="fa fa-check"></i><b>22</b> Introducción</a><ul>
+<li class="chapter" data-level="22.1" data-path="model-intro.html"><a href="model-intro.html#generación-de-hipótesis-vs.confirmación-de-hipótesis"><i class="fa fa-check"></i><b>22.1</b> Generación de hipótesis vs. confirmación de hipótesis</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html"><i class="fa fa-check"></i><b>23</b> Modelos: conceptos básicos</a><ul>
+<li class="chapter" data-level="23.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#introducción-15"><i class="fa fa-check"></i><b>23.1</b> Introducción</a><ul>
+<li class="chapter" data-level="23.1.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#prerrequisitos-10"><i class="fa fa-check"></i><b>23.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="23.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#un-modelo-simple"><i class="fa fa-check"></i><b>23.2</b> Un modelo simple</a><ul>
+<li class="chapter" data-level="23.2.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-64"><i class="fa fa-check"></i><b>23.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#visualizando-modelos"><i class="fa fa-check"></i><b>23.3</b> Visualizando modelos</a><ul>
+<li class="chapter" data-level="23.3.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#predicciones"><i class="fa fa-check"></i><b>23.3.1</b> Predicciones</a></li>
+<li class="chapter" data-level="23.3.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#residuos"><i class="fa fa-check"></i><b>23.3.2</b> Residuos</a></li>
+<li class="chapter" data-level="23.3.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-65"><i class="fa fa-check"></i><b>23.3.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#fórmulas-y-familias-de-modelos"><i class="fa fa-check"></i><b>23.4</b> Fórmulas y familias de modelos</a><ul>
+<li class="chapter" data-level="23.4.1" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#variables-categóricas"><i class="fa fa-check"></i><b>23.4.1</b> Variables categóricas</a></li>
+<li class="chapter" data-level="23.4.2" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-continuas-y-categóricas"><i class="fa fa-check"></i><b>23.4.2</b> Interacciones (continuas y categóricas)</a></li>
+<li class="chapter" data-level="23.4.3" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#interacciones-dos-variables-continuas"><i class="fa fa-check"></i><b>23.4.3</b> Interacciones (dos variables continuas)</a></li>
+<li class="chapter" data-level="23.4.4" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#transformaciones"><i class="fa fa-check"></i><b>23.4.4</b> Transformaciones</a></li>
+<li class="chapter" data-level="23.4.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#ejercicios-66"><i class="fa fa-check"></i><b>23.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#valores-faltantes-5"><i class="fa fa-check"></i><b>23.5</b> Valores faltantes</a></li>
+<li class="chapter" data-level="23.6" data-path="modelos-conceptos-básicos.html"><a href="modelos-conceptos-básicos.html#otras-familias-de-modelos"><i class="fa fa-check"></i><b>23.6</b> Otras familias de modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html"><i class="fa fa-check"></i><b>24</b> Construcción de modelos</a><ul>
+<li class="chapter" data-level="24.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#introducción-16"><i class="fa fa-check"></i><b>24.1</b> Introducción</a><ul>
+<li class="chapter" data-level="24.1.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#prerrequisitos-11"><i class="fa fa-check"></i><b>24.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="24.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#diamond-prices"><i class="fa fa-check"></i><b>24.2</b> ¿Por qué los diamantes de baja calidad son más caros?</a><ul>
+<li class="chapter" data-level="24.2.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#precio-y-quilates"><i class="fa fa-check"></i><b>24.2.1</b> Precio y quilates</a></li>
+<li class="chapter" data-level="24.2.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#un-modelo-más-complicado"><i class="fa fa-check"></i><b>24.2.2</b> Un modelo más complicado</a></li>
+<li class="chapter" data-level="24.2.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-67"><i class="fa fa-check"></i><b>24.2.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#qué-afecta-el-número-de-vuelos-diarios"><i class="fa fa-check"></i><b>24.3</b> ¿Qué afecta el número de vuelos diarios?</a><ul>
+<li class="chapter" data-level="24.3.1" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#día-de-la-semana"><i class="fa fa-check"></i><b>24.3.1</b> Día de la semana</a></li>
+<li class="chapter" data-level="24.3.2" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#efecto-estacional-del-sábado"><i class="fa fa-check"></i><b>24.3.2</b> Efecto estacional del sábado</a></li>
+<li class="chapter" data-level="24.3.3" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#variables-calculadas"><i class="fa fa-check"></i><b>24.3.3</b> Variables calculadas</a></li>
+<li class="chapter" data-level="24.3.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#época-del-año-un-enfoque-alternativo"><i class="fa fa-check"></i><b>24.3.4</b> Época del año: un enfoque alternativo</a></li>
+<li class="chapter" data-level="24.3.5" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#ejercicios-68"><i class="fa fa-check"></i><b>24.3.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="24.4" data-path="construcción-de-modelos.html"><a href="construcción-de-modelos.html#aprende-más-sobre-los-modelos"><i class="fa fa-check"></i><b>24.4</b> Aprende más sobre los modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="muchos-modelos.html"><a href="muchos-modelos.html"><i class="fa fa-check"></i><b>25</b> Muchos modelos</a><ul>
+<li class="chapter" data-level="25.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#introducción-17"><i class="fa fa-check"></i><b>25.1</b> Introducción</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#prerrequisitos-12"><i class="fa fa-check"></i><b>25.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#gapminder"><i class="fa fa-check"></i><b>25.2</b> gapminder</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#datos-anidados"><i class="fa fa-check"></i><b>25.2.1</b> Datos anidados</a></li>
+<li class="chapter" data-level="25.2.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista"><i class="fa fa-check"></i><b>25.2.2</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.2.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando"><i class="fa fa-check"></i><b>25.2.3</b> Desanidando</a></li>
+<li class="chapter" data-level="25.2.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#calidad-del-modelo"><i class="fa fa-check"></i><b>25.2.4</b> Calidad del modelo</a></li>
+<li class="chapter" data-level="25.2.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-69"><i class="fa fa-check"></i><b>25.2.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#columnas-lista-1"><i class="fa fa-check"></i><b>25.3</b> Columnas-lista</a></li>
+<li class="chapter" data-level="25.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#creando-columnas-lista"><i class="fa fa-check"></i><b>25.4</b> Creando columnas-lista</a><ul>
+<li class="chapter" data-level="25.4.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#con-anidación"><i class="fa fa-check"></i><b>25.4.1</b> Con anidación</a></li>
+<li class="chapter" data-level="25.4.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-funciones-vectorizadas"><i class="fa fa-check"></i><b>25.4.2</b> A partir de funciones vectorizadas</a></li>
+<li class="chapter" data-level="25.4.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-medidas-de-resumen-con-más-de-un-valor"><i class="fa fa-check"></i><b>25.4.3</b> A partir de medidas de resumen con más de un valor</a></li>
+<li class="chapter" data-level="25.4.4" data-path="muchos-modelos.html"><a href="muchos-modelos.html#a-partir-de-una-lista-nombrada"><i class="fa fa-check"></i><b>25.4.4</b> A partir de una lista nombrada</a></li>
+<li class="chapter" data-level="25.4.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-70"><i class="fa fa-check"></i><b>25.4.5</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.5" data-path="muchos-modelos.html"><a href="muchos-modelos.html#simplificando-columnas-lista"><i class="fa fa-check"></i><b>25.5</b> Simplificando columnas-lista</a><ul>
+<li class="chapter" data-level="25.5.1" data-path="muchos-modelos.html"><a href="muchos-modelos.html#lista-a-vector"><i class="fa fa-check"></i><b>25.5.1</b> Lista a vector</a></li>
+<li class="chapter" data-level="25.5.2" data-path="muchos-modelos.html"><a href="muchos-modelos.html#desanidando-1"><i class="fa fa-check"></i><b>25.5.2</b> Desanidando</a></li>
+<li class="chapter" data-level="25.5.3" data-path="muchos-modelos.html"><a href="muchos-modelos.html#ejercicios-71"><i class="fa fa-check"></i><b>25.5.3</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="25.6" data-path="muchos-modelos.html"><a href="muchos-modelos.html#haciendo-datos-ordenados-con-broom"><i class="fa fa-check"></i><b>25.6</b> Haciendo datos ordenados con broom</a></li>
+</ul></li>
+<li class="part"><span><b>V Comunicar</b></span></li>
+<li class="chapter" data-level="26" data-path="introducción-18.html"><a href="introducción-18.html"><i class="fa fa-check"></i><b>26</b> Introducción</a></li>
+<li class="chapter" data-level="27" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>27</b> R Markdown</a><ul>
+<li class="chapter" data-level="27.1" data-path="r-markdown.html"><a href="r-markdown.html#introducción-19"><i class="fa fa-check"></i><b>27.1</b> Introducción</a><ul>
+<li class="chapter" data-level="27.1.1" data-path="r-markdown.html"><a href="r-markdown.html#prerequisitos-3"><i class="fa fa-check"></i><b>27.1.1</b> Prerequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="27.2" data-path="r-markdown.html"><a href="r-markdown.html#r-markdown-básico"><i class="fa fa-check"></i><b>27.2</b> R Markdown básico</a><ul>
+<li class="chapter" data-level="27.2.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-72"><i class="fa fa-check"></i><b>27.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.3" data-path="r-markdown.html"><a href="r-markdown.html#formateo-de-texto-con-markdown"><i class="fa fa-check"></i><b>27.3</b> Formateo de texto con Markdown</a><ul>
+<li class="chapter" data-level="27.3.1" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-73"><i class="fa fa-check"></i><b>27.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.4" data-path="r-markdown.html"><a href="r-markdown.html#bloques-de-código"><i class="fa fa-check"></i><b>27.4</b> Bloques de código</a><ul>
+<li class="chapter" data-level="27.4.1" data-path="r-markdown.html"><a href="r-markdown.html#nombres-en-bloques"><i class="fa fa-check"></i><b>27.4.1</b> Nombres en bloques</a></li>
+<li class="chapter" data-level="27.4.2" data-path="r-markdown.html"><a href="r-markdown.html#opciones-en-bloques"><i class="fa fa-check"></i><b>27.4.2</b> Opciones en bloques</a></li>
+<li class="chapter" data-level="27.4.3" data-path="r-markdown.html"><a href="r-markdown.html#tablas"><i class="fa fa-check"></i><b>27.4.3</b> Tablas</a></li>
+<li class="chapter" data-level="27.4.4" data-path="r-markdown.html"><a href="r-markdown.html#caching"><i class="fa fa-check"></i><b>27.4.4</b> Caching</a></li>
+<li class="chapter" data-level="27.4.5" data-path="r-markdown.html"><a href="r-markdown.html#opciones-globales"><i class="fa fa-check"></i><b>27.4.5</b> Opciones globales</a></li>
+<li class="chapter" data-level="27.4.6" data-path="r-markdown.html"><a href="r-markdown.html#código-en-la-línea"><i class="fa fa-check"></i><b>27.4.6</b> Código en la línea</a></li>
+<li class="chapter" data-level="27.4.7" data-path="r-markdown.html"><a href="r-markdown.html#ejercicios-74"><i class="fa fa-check"></i><b>27.4.7</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="27.5" data-path="r-markdown.html"><a href="r-markdown.html#solucionando-problemas"><i class="fa fa-check"></i><b>27.5</b> Solucionando problemas</a></li>
+<li class="chapter" data-level="27.6" data-path="r-markdown.html"><a href="r-markdown.html#encabezado-yaml"><i class="fa fa-check"></i><b>27.6</b> Encabezado YAML</a><ul>
+<li class="chapter" data-level="27.6.1" data-path="r-markdown.html"><a href="r-markdown.html#parámetros"><i class="fa fa-check"></i><b>27.6.1</b> Parámetros</a></li>
+<li class="chapter" data-level="27.6.2" data-path="r-markdown.html"><a href="r-markdown.html#bibliografías-y-citas"><i class="fa fa-check"></i><b>27.6.2</b> Bibliografías y citas</a></li>
+</ul></li>
+<li class="chapter" data-level="27.7" data-path="r-markdown.html"><a href="r-markdown.html#aprendiendo-más-3"><i class="fa fa-check"></i><b>27.7</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html"><i class="fa fa-check"></i><b>28</b> Comunicar con gráficos</a><ul>
+<li class="chapter" data-level="28.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#introducción-20"><i class="fa fa-check"></i><b>28.1</b> Introducción</a><ul>
+<li class="chapter" data-level="28.1.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#prerrequisitos-13"><i class="fa fa-check"></i><b>28.1.1</b> Prerrequisitos</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#etiquetas"><i class="fa fa-check"></i><b>28.2</b> Etiquetas</a><ul>
+<li class="chapter" data-level="28.2.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-75"><i class="fa fa-check"></i><b>28.2.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#anotaciones"><i class="fa fa-check"></i><b>28.3</b> Anotaciones</a><ul>
+<li class="chapter" data-level="28.3.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-76"><i class="fa fa-check"></i><b>28.3.1</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#escalas"><i class="fa fa-check"></i><b>28.4</b> Escalas</a><ul>
+<li class="chapter" data-level="28.4.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#marcas-de-los-ejes-y-leyendas"><i class="fa fa-check"></i><b>28.4.1</b> Marcas de los ejes y leyendas</a></li>
+<li class="chapter" data-level="28.4.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#diseño-de-leyendas"><i class="fa fa-check"></i><b>28.4.2</b> Diseño de leyendas</a></li>
+<li class="chapter" data-level="28.4.3" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#reemplazando-una-escala"><i class="fa fa-check"></i><b>28.4.3</b> Reemplazando una escala</a></li>
+<li class="chapter" data-level="28.4.4" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#ejercicios-77"><i class="fa fa-check"></i><b>28.4.4</b> Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#haciendo-zoom"><i class="fa fa-check"></i><b>28.5</b> Haciendo Zoom</a></li>
+<li class="chapter" data-level="28.6" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#temas"><i class="fa fa-check"></i><b>28.6</b> Temas</a></li>
+<li class="chapter" data-level="28.7" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#guardando-tus-gráficos"><i class="fa fa-check"></i><b>28.7</b> Guardando tus gráficos</a><ul>
+<li class="chapter" data-level="28.7.1" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#redimensionar-una-figura"><i class="fa fa-check"></i><b>28.7.1</b> Redimensionar una figura</a></li>
+<li class="chapter" data-level="28.7.2" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#otras-opciones-importantes"><i class="fa fa-check"></i><b>28.7.2</b> Otras opciones importantes</a></li>
+</ul></li>
+<li class="chapter" data-level="28.8" data-path="comunicar-con-gráficos.html"><a href="comunicar-con-gráficos.html#aprendiendo-más-4"><i class="fa fa-check"></i><b>28.8</b> Aprendiendo más</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html"><i class="fa fa-check"></i><b>29</b> Formatos de R Markdown</a><ul>
+<li class="chapter" data-level="29.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#introducción-21"><i class="fa fa-check"></i><b>29.1</b> Introducción</a></li>
+<li class="chapter" data-level="29.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#opciones-de-salida"><i class="fa fa-check"></i><b>29.2</b> Opciones de salida</a></li>
+<li class="chapter" data-level="29.3" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#documentos"><i class="fa fa-check"></i><b>29.3</b> Documentos</a></li>
+<li class="chapter" data-level="29.4" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#notebooks"><i class="fa fa-check"></i><b>29.4</b> Notebooks</a></li>
+<li class="chapter" data-level="29.5" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#presentaciones"><i class="fa fa-check"></i><b>29.5</b> Presentaciones</a></li>
+<li class="chapter" data-level="29.6" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#dashboards"><i class="fa fa-check"></i><b>29.6</b> Dashboards</a></li>
+<li class="chapter" data-level="29.7" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#interactividad"><i class="fa fa-check"></i><b>29.7</b> Interactividad</a><ul>
+<li class="chapter" data-level="29.7.1" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#htmlwidgets"><i class="fa fa-check"></i><b>29.7.1</b> htmlwidgets</a></li>
+<li class="chapter" data-level="29.7.2" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#shiny"><i class="fa fa-check"></i><b>29.7.2</b> Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="29.8" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#sitios-web"><i class="fa fa-check"></i><b>29.8</b> Sitios Web</a></li>
+<li class="chapter" data-level="29.9" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#otros-formatos"><i class="fa fa-check"></i><b>29.9</b> Otros Formatos</a></li>
+<li class="chapter" data-level="29.10" data-path="formatos-de-r-markdown.html"><a href="formatos-de-r-markdown.html#aprende-más"><i class="fa fa-check"></i><b>29.10</b> Aprende más</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="flujo-de-trabajo-en-r-markdown.html"><a href="flujo-de-trabajo-en-r-markdown.html"><i class="fa fa-check"></i><b>30</b> Flujo de trabajo en R Markdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R para Ciencia de Datos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="fechas-y-horas" class="section level1">
+<h1><span class="header-section-number">16</span> Fechas y horas</h1>
+<div id="introducción-10" class="section level2">
+<h2><span class="header-section-number">16.1</span> Introducción</h2>
+<p>Este capítulo te mostrará cómo trabajar con fechas y horas en R. A primera vista, esto parece sencillo. Las usas en todo momento en tu vida regular y no parecen causar demasiada confusión. Sin embargo, cuanto más aprendes de fechas y horas, más complicadas se vuelven. Para prepararnos, intenta estas preguntas sencillas:</p>
+<ul>
+<li>¿Todos los años tienen 365 días?</li>
+<li>¿Todos los días tienen 24 horas?</li>
+<li>¿Cada minuto tiene 60 segundos?</li>
+</ul>
+<p>Estamos seguros que sabes que no todos los años tienen 365 días, ¿pero acaso conoces la regla entera para determinar si un año es bisiesto? (Tiene tres partes, de hecho). Puedes recordar que muchas partes del mundo usan horarios de verano, así que algunos días tienen 23 horas y otros tienen 25. Puede ser que no supieras que algunos minutos tienen 61 segundos, porque de vez en cuando se agregan segundos adicionales ya que la rotación de la tierra se hace cada vez más lenta.</p>
+<p>Las fechas y las horas son complicadas porque tienen que reconciliar dos fenómenos físicos (la rotación de la Tierra y su órbita alrededor del sol), con todo un conjunto de fenómenos geopolíticos que incluyen a los meses, los husos horarios y los horarios de verano. Este capítulo no te enseñará cada detalle sobre fechas y horas, pero te dará un sólido fundamento de habilidades prácticas que te ayudarán con los desafíos más comunes de análisis de datos.</p>
+<div id="requisitos-previos" class="section level3">
+<h3><span class="header-section-number">16.1.1</span> Requisitos previos</h3>
+<p>Este capítulo se centra en el paquete <strong>lubridate</strong>, que simplifica el trabajo con fechas y horas en R. <strong>lubridate</strong> no es parte de los paquetes centrales de <strong>tidyverse</strong> porque solo se necesita al trabajar con fechas/horas. A su vez, necesitaremos los datos sobre <code>vuelos</code> contenidos en el paquete <strong>datos</strong>.</p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb395-2" data-line-number="2"><span class="kw">library</span>(lubridate)</a>
+<a class="sourceLine" id="cb395-3" data-line-number="3"><span class="kw">library</span>(datos)</a></code></pre></div>
+</div>
+</div>
+<div id="creando-fechashoras" class="section level2">
+<h2><span class="header-section-number">16.2</span> Creando fechas/horas</h2>
+<p>Hay tres tipos de datos de fechas/horas que se refieren a un instante en el tiempo:</p>
+<ul>
+<li><p>Una fecha o <code>date</code>. Un <em>tibble</em> lo imprime como <code>&lt;date&gt;</code>.</p></li>
+<li><p>Una hora o <code>time</code> dentro de un día. Los <em>tibbles</em> lo imprimen como <code>&lt;time&gt;</code>.</p></li>
+<li><p>Una fecha-hora o <code>date-time</code> es una fecha con una hora adjunta: identifica de forma única un instante en el tiempo (típicamente al segundo más cercano). Los <em>tibbles</em> imprimen esto como <code>&lt;dttm&gt;</code>. En otras partes de R se les llama POSIXct, pero no creemos que sea un nombre muy útil.</p></li>
+</ul>
+<p>En este capítulo solo nos concentraremos en fechas (<em>dates</em>) y fechas-horas (<em>date-times</em>), ya que R no tiene una clase nativa para almacenar horas. Si necesitas una, puedes usar el paquete <strong>hms</strong>.</p>
+<p>Siempre deberías usar el tipo de datos más sencillo que se ajuste a tus necesidades. Esto significa que si puedes usar <code>date</code> en lugar de <code>date-time</code>, deberías hacerlo. Las fechas-horas son sustancialmente más complicadas porque necesitas gestionar los husos horarios, a los que volveremos al final del capítulo.</p>
+<p>Para obtener la fecha o fecha-hora actual, puedes usar <code>today()</code> (<em>hoy</em>) o <code>now()</code> (<em>ahora</em>):</p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1"><span class="kw">today</span>()</a>
+<a class="sourceLine" id="cb396-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2020-04-14&quot;</span></a>
+<a class="sourceLine" id="cb396-3" data-line-number="3"><span class="kw">now</span>()</a>
+<a class="sourceLine" id="cb396-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2020-04-14 20:29:31 UTC&quot;</span></a></code></pre></div>
+<p>Hay tres modos en los que puedes crear una fecha/hora:</p>
+<ul>
+<li>Desde una cadena de caracteres (o <em>string</em>, en inglés).</li>
+<li>Desde componentes de fecha-hora individuales.</li>
+<li>Desde un objeto fecha-hora existente.</li>
+</ul>
+<p>Estos funcionan de la siguiente manera.</p>
+<div id="desde-cadenas-de-caracteres" class="section level3">
+<h3><span class="header-section-number">16.2.1</span> Desde cadenas de caracteres</h3>
+<p>Los datos de fecha/hora a menudo vienen como cadenas de caracteres. Ya has visto una forma de segmentarlas como <code>date-times</code> en el capítulo sobre <a href="importación-de-datos.html#readr-datetimes">importación de datos</a>. Otra forma es usar las ayudas provistas por <strong>lubridate</strong>. Estas trabajan automáticamente el formato una vez que especificas el orden de los componentes. Para usarlas, identifica el orden en el que el año, mes y día aparecen en tus fechas, y luego ordena “y” (del inglés <em>year</em>), “m” (mes) y “d” (día) en el mismo orden. Esto te dará el nombre de la función <strong>lubridate</strong> que segmetará tu fecha. Por ejemplo:</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" data-line-number="1"><span class="kw">ymd</span>(<span class="st">&quot;2017-01-31&quot;</span>)</a>
+<a class="sourceLine" id="cb397-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2017-01-31&quot;</span></a>
+<a class="sourceLine" id="cb397-3" data-line-number="3"><span class="kw">mdy</span>(<span class="st">&quot;Enero 31, 2017&quot;</span>)</a>
+<a class="sourceLine" id="cb397-4" data-line-number="4"><span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span></a>
+<a class="sourceLine" id="cb397-5" data-line-number="5"><span class="co">#&gt; [1] NA</span></a>
+<a class="sourceLine" id="cb397-6" data-line-number="6"><span class="kw">dmy</span>(<span class="st">&quot;31-Ene-2017&quot;</span>)</a>
+<a class="sourceLine" id="cb397-7" data-line-number="7"><span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span></a>
+<a class="sourceLine" id="cb397-8" data-line-number="8"><span class="co">#&gt; [1] NA</span></a></code></pre></div>
+<p>Estas funciones también reciben números sin comillas. Esta es la forma más concisa de crear un único objeto fecha-hora, tal como podrías necesitarla cuando filtras datos temporales. <code>ymd()</code> (<em>año-mes-día</em>) es corta y no ambigüa:</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1"><span class="kw">ymd</span>(<span class="dv">20170131</span>)</a>
+<a class="sourceLine" id="cb398-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2017-01-31&quot;</span></a></code></pre></div>
+<p><code>ymd()</code> y sus funciones amigas crean fechas (<code>date</code>). Para generar una fecha-hora, agrega un guión bajo y al menos un “h”, “m” y “s” al nombre de la función de segmentación:</p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1"><span class="kw">ymd_hms</span>(<span class="st">&quot;2017-01-31 20:11:59&quot;</span>)</a>
+<a class="sourceLine" id="cb399-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2017-01-31 20:11:59 UTC&quot;</span></a>
+<a class="sourceLine" id="cb399-3" data-line-number="3"><span class="kw">mdy_hm</span>(<span class="st">&quot;01/31/2017 08:01&quot;</span>)</a>
+<a class="sourceLine" id="cb399-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2017-01-31 08:01:00 UTC&quot;</span></a></code></pre></div>
+<p>También puedes forzar la creación de una fecha-hora desde una fecha, al proveer un huso horario:</p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" data-line-number="1"><span class="kw">ymd</span>(<span class="dv">20170131</span>, <span class="dt">tz =</span> <span class="st">&quot;UTC&quot;</span>)</a>
+<a class="sourceLine" id="cb400-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2017-01-31 UTC&quot;</span></a></code></pre></div>
+</div>
+<div id="desde-componentes-individuales" class="section level3">
+<h3><span class="header-section-number">16.2.2</span> Desde componentes individuales</h3>
+<p>En lugar de una cadena de caracteres simple, a veces tienes los componentes individuales de una fecha-hora repartidos en múltiples columnas. Esto es lo que tenemos en los datos de vuelos:</p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb401-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(anio, mes, dia, hora, minuto)</a>
+<a class="sourceLine" id="cb401-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
+<a class="sourceLine" id="cb401-4" data-line-number="4"><span class="co">#&gt;    anio   mes   dia  hora minuto</span></a>
+<a class="sourceLine" id="cb401-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb401-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1     5     15</span></a>
+<a class="sourceLine" id="cb401-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5     29</span></a>
+<a class="sourceLine" id="cb401-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5     40</span></a>
+<a class="sourceLine" id="cb401-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1     5     45</span></a>
+<a class="sourceLine" id="cb401-10" data-line-number="10"><span class="co">#&gt; 5  2013     1     1     6      0</span></a>
+<a class="sourceLine" id="cb401-11" data-line-number="11"><span class="co">#&gt; 6  2013     1     1     5     58</span></a>
+<a class="sourceLine" id="cb401-12" data-line-number="12"><span class="co">#&gt; # … with 336,770 more rows</span></a></code></pre></div>
+<p>Para crear una fecha-hora desde este tipo de input, usa <code>make_date()</code> (<em>crear fecha</em>) para las fechas, o <code>make_datetime()</code> (<em>crear fecha-hora</em>) para las fechas-horas:</p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb402-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(anio, mes, dia, hora, minuto) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb402-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">salida =</span> <span class="kw">make_datetime</span>(anio, mes, dia, hora, minuto))</a>
+<a class="sourceLine" id="cb402-4" data-line-number="4"><span class="co">#&gt; # A tibble: 336,776 x 6</span></a>
+<a class="sourceLine" id="cb402-5" data-line-number="5"><span class="co">#&gt;    anio   mes   dia  hora minuto salida             </span></a>
+<a class="sourceLine" id="cb402-6" data-line-number="6"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb402-7" data-line-number="7"><span class="co">#&gt; 1  2013     1     1     5     15 2013-01-01 05:15:00</span></a>
+<a class="sourceLine" id="cb402-8" data-line-number="8"><span class="co">#&gt; 2  2013     1     1     5     29 2013-01-01 05:29:00</span></a>
+<a class="sourceLine" id="cb402-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     1     5     40 2013-01-01 05:40:00</span></a>
+<a class="sourceLine" id="cb402-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     1     5     45 2013-01-01 05:45:00</span></a>
+<a class="sourceLine" id="cb402-11" data-line-number="11"><span class="co">#&gt; 5  2013     1     1     6      0 2013-01-01 06:00:00</span></a>
+<a class="sourceLine" id="cb402-12" data-line-number="12"><span class="co">#&gt; 6  2013     1     1     5     58 2013-01-01 05:58:00</span></a>
+<a class="sourceLine" id="cb402-13" data-line-number="13"><span class="co">#&gt; # … with 336,770 more rows</span></a></code></pre></div>
+<p>Hagamos esto mismo para cada una de las cuatro columnas de tiempo en <code>vuelos</code>. Las horas están representadas en un formato ligeramente más extraño, así que usaremos el módulo aritmético para extraer los componentes de horas y minutos. Una vez que hayamos creado las variables fecha-hora, nos centraremos en las variables que usaremos por el resto del capítulo.</p>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1">hacer_fechahora_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="cf">function</span>(anio, mes, dia, tiempo) {</a>
+<a class="sourceLine" id="cb403-2" data-line-number="2">  <span class="kw">make_datetime</span>(anio, mes, dia, tiempo <span class="op">%/%</span><span class="st"> </span><span class="dv">100</span>, tiempo <span class="op">%%</span><span class="st"> </span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb403-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb403-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb403-5" data-line-number="5">vuelos_dt &lt;-<span class="st"> </span>vuelos <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb403-6" data-line-number="6"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(horario_salida), <span class="op">!</span><span class="kw">is.na</span>(horario_llegada)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb403-7" data-line-number="7"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb403-8" data-line-number="8">    <span class="dt">horario_salida =</span> <span class="kw">hacer_fechahora_100</span>(anio, mes, dia, horario_salida),</a>
+<a class="sourceLine" id="cb403-9" data-line-number="9">    <span class="dt">horario_llegada =</span> <span class="kw">hacer_fechahora_100</span>(anio, mes, dia, horario_llegada),</a>
+<a class="sourceLine" id="cb403-10" data-line-number="10">    <span class="dt">salida_programada =</span> <span class="kw">hacer_fechahora_100</span>(anio, mes, dia, salida_programada),</a>
+<a class="sourceLine" id="cb403-11" data-line-number="11">    <span class="dt">llegada_programada =</span> <span class="kw">hacer_fechahora_100</span>(anio, mes, dia, llegada_programada)</a>
+<a class="sourceLine" id="cb403-12" data-line-number="12">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb403-13" data-line-number="13"><span class="st">  </span><span class="kw">select</span>(origen, destino, <span class="kw">starts_with</span>(<span class="st">&quot;atraso&quot;</span>), <span class="kw">starts_with</span>(<span class="st">&quot;horario&quot;</span>), <span class="kw">ends_with</span>(<span class="st">&quot;programada&quot;</span>), tiempo_vuelo)</a>
+<a class="sourceLine" id="cb403-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb403-15" data-line-number="15">vuelos_dt</a>
+<a class="sourceLine" id="cb403-16" data-line-number="16"><span class="co">#&gt; # A tibble: 328,063 x 9</span></a>
+<a class="sourceLine" id="cb403-17" data-line-number="17"><span class="co">#&gt;   origen destino atraso_salida atraso_llegada horario_salida     </span></a>
+<a class="sourceLine" id="cb403-18" data-line-number="18"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;          &lt;dbl&gt; &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb403-19" data-line-number="19"><span class="co">#&gt; 1 EWR    IAH                 2             11 2013-01-01 05:17:00</span></a>
+<a class="sourceLine" id="cb403-20" data-line-number="20"><span class="co">#&gt; 2 LGA    IAH                 4             20 2013-01-01 05:33:00</span></a>
+<a class="sourceLine" id="cb403-21" data-line-number="21"><span class="co">#&gt; 3 JFK    MIA                 2             33 2013-01-01 05:42:00</span></a>
+<a class="sourceLine" id="cb403-22" data-line-number="22"><span class="co">#&gt; 4 JFK    BQN                -1            -18 2013-01-01 05:44:00</span></a>
+<a class="sourceLine" id="cb403-23" data-line-number="23"><span class="co">#&gt; 5 LGA    ATL                -6            -25 2013-01-01 05:54:00</span></a>
+<a class="sourceLine" id="cb403-24" data-line-number="24"><span class="co">#&gt; 6 EWR    ORD                -4             12 2013-01-01 05:54:00</span></a>
+<a class="sourceLine" id="cb403-25" data-line-number="25"><span class="co">#&gt; # … with 328,057 more rows, and 4 more variables: horario_llegada &lt;dttm&gt;,</span></a>
+<a class="sourceLine" id="cb403-26" data-line-number="26"><span class="co">#&gt; #   salida_programada &lt;dttm&gt;, llegada_programada &lt;dttm&gt;, tiempo_vuelo &lt;dbl&gt;</span></a></code></pre></div>
+<p>Con estos datos, podemos visualizar la distribución de las horas de salida a lo largo del año:</p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb404-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(horario_salida)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb404-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="dv">86400</span>) <span class="co"># 86400 segundos = 1 día</span></a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>O para un solo día:</p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb405-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(horario_salida <span class="op">&lt;</span><span class="st"> </span><span class="kw">ymd</span>(<span class="dv">20130102</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb405-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(horario_salida)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb405-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="dv">600</span>) <span class="co"># 600 segundos = 10 minutos</span></a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Ten en cuenta que cuando usas fechas-hora en un contexto numérico (como en un histograma), 1 significa un segundo, por lo tanto, un <code>binwidth</code> (<em>ancho del contenedor</em>) de 86400 significa un día. Para las fechas, 1 significa un día.</p>
+</div>
+<div id="desde-otros-tipos" class="section level3">
+<h3><span class="header-section-number">16.2.3</span> Desde otros tipos</h3>
+<p>Puedes querer cambiar entre una fecha-hora y una fecha. Ese es el trabajo de <code>as_datetime()</code> (<em>como fecha-hora</em>) y <code>as_date()</code> (<em>como fecha</em>):</p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1"><span class="kw">as_datetime</span>(<span class="kw">today</span>())</a>
+<a class="sourceLine" id="cb406-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2020-04-14 UTC&quot;</span></a>
+<a class="sourceLine" id="cb406-3" data-line-number="3"><span class="kw">as_date</span>(<span class="kw">now</span>())</a>
+<a class="sourceLine" id="cb406-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2020-04-14&quot;</span></a></code></pre></div>
+<p>A veces tendrás fechas/horas como desfases numéricos de la “Época Unix” similares a 1970-01-01. Si el desfase es en segundos, usa <code>as_datetime()</code>; si es en días, usa <code>as_date()</code>.</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="kw">as_datetime</span>(<span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">*</span><span class="st"> </span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb407-2" data-line-number="2"><span class="co">#&gt; [1] &quot;1970-01-01 10:00:00 UTC&quot;</span></a>
+<a class="sourceLine" id="cb407-3" data-line-number="3"><span class="kw">as_date</span>(<span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb407-4" data-line-number="4"><span class="co">#&gt; [1] &quot;1980-01-01&quot;</span></a></code></pre></div>
+</div>
+<div id="ejercicios-48" class="section level3">
+<h3><span class="header-section-number">16.2.4</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>¿Qué sucede si analizas una cadena de caracteres que contiene fechas inválidas?</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb408-1" data-line-number="1">  <span class="kw">ymd</span>(<span class="kw">c</span>(<span class="st">&quot;2010-10-10&quot;</span>, <span class="st">&quot;bananas&quot;</span>))</a></code></pre></div></li>
+<li><p>¿Qué hace el argumento <code>tzone</code> (<em>time zone</em> = <em>huso horario</em>) para <code>today()</code>? ¿Por qué es importante?</p></li>
+<li><p>Utiliza la función de <strong>lubridate</strong> apropiada para analizar las siguientes fechas:</p></li>
+</ol>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1">d1 &lt;-<span class="st"> &quot;Enero 1, 2010&quot;</span></a>
+<a class="sourceLine" id="cb409-2" data-line-number="2">d2 &lt;-<span class="st"> &quot;2015-Mar-07&quot;</span></a>
+<a class="sourceLine" id="cb409-3" data-line-number="3">d3 &lt;-<span class="st"> &quot;06-Jun-2017&quot;</span></a>
+<a class="sourceLine" id="cb409-4" data-line-number="4">d4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Agosto 19 (2015)&quot;</span>, <span class="st">&quot;Julio 1 (2015)&quot;</span>)</a>
+<a class="sourceLine" id="cb409-5" data-line-number="5">d5 &lt;-<span class="st"> &quot;12/30/14&quot;</span> <span class="co"># Diciembre 30, 2014</span></a></code></pre></div>
+</div>
+</div>
+<div id="componentes-de-fecha-hora" class="section level2">
+<h2><span class="header-section-number">16.3</span> Componentes de fecha-hora</h2>
+<p>Ahora que ya conoces cómo tener datos de fechas y horas en las estructuras de datos de R, vamos a explorar qué puedes hacer con ellos. Esta sección se concentrará en las funciones de acceso (<em>accessor functions</em>) que te permiten obtener y configurar componentes individuales. La siguiente sección se centrará en cómo funciona el trabajo con fechas-horas.</p>
+<div id="obteniendo-los-componentes" class="section level3">
+<h3><span class="header-section-number">16.3.1</span> Obteniendo los componentes</h3>
+<p>Puedes obtener las partes individuales de una fecha con las funciones de acceso <code>year()</code> (<em>año</em>), <code>month()</code> (<em>mes</em>), <code>mday()</code> (<em>día del mes</em>), <code>yday()</code> (<em>día del año</em>), <code>wday()</code> (<em>día de la semana</em>), <code>hour()</code> (<em>hora</em>), <code>minute()</code> (<em>minuto</em>), y <code>second()</code> (<em>segundo</em>).</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" data-line-number="1">fechahora &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2016-07-08 12:34:56&quot;</span>)</a>
+<a class="sourceLine" id="cb410-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb410-3" data-line-number="3"><span class="kw">year</span>(fechahora)</a>
+<a class="sourceLine" id="cb410-4" data-line-number="4"><span class="co">#&gt; [1] 2016</span></a>
+<a class="sourceLine" id="cb410-5" data-line-number="5"><span class="kw">month</span>(fechahora)</a>
+<a class="sourceLine" id="cb410-6" data-line-number="6"><span class="co">#&gt; [1] 7</span></a>
+<a class="sourceLine" id="cb410-7" data-line-number="7"><span class="kw">mday</span>(fechahora)</a>
+<a class="sourceLine" id="cb410-8" data-line-number="8"><span class="co">#&gt; [1] 8</span></a>
+<a class="sourceLine" id="cb410-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb410-10" data-line-number="10"><span class="kw">yday</span>(fechahora)</a>
+<a class="sourceLine" id="cb410-11" data-line-number="11"><span class="co">#&gt; [1] 190</span></a>
+<a class="sourceLine" id="cb410-12" data-line-number="12"><span class="kw">wday</span>(fechahora)</a>
+<a class="sourceLine" id="cb410-13" data-line-number="13"><span class="co">#&gt; [1] 6</span></a></code></pre></div>
+<p>Para <code>month()</code> y <code>wday()</code> puedes configurar <code>label = TRUE</code> para retornar el nombre abreviado del mes o del día de la semana. Usa <code>abbr = FALSE</code> para retornar el nombre completo.</p>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb411-1" data-line-number="1"><span class="kw">month</span>(fechahora, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb411-2" data-line-number="2"><span class="co">#&gt; [1] Jul</span></a>
+<a class="sourceLine" id="cb411-3" data-line-number="3"><span class="co">#&gt; 12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</span></a>
+<a class="sourceLine" id="cb411-4" data-line-number="4"><span class="kw">wday</span>(fechahora, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb411-5" data-line-number="5"><span class="co">#&gt; [1] Friday</span></a>
+<a class="sourceLine" id="cb411-6" data-line-number="6"><span class="co">#&gt; 7 Levels: Sunday &lt; Monday &lt; Tuesday &lt; Wednesday &lt; Thursday &lt; ... &lt; Saturday</span></a></code></pre></div>
+<p>Podemos usar <code>wday()</code> para ver que son más los vuelos que salen durante la semana que durante el fin de semana:</p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb412-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dia_semana =</span> <span class="kw">wday</span>(horario_salida, <span class="dt">label =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb412-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> dia_semana)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb412-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_bar</span>()</a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Hay un patrón interesante si miramos la demora promedio por minuto dentro de la hora. ¡Parece que los vuelos que salen en los minutos 20-30 y 50-60 tienen mucho menos demora que en el resto de la hora!</p>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb413-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb413-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">minuto =</span> <span class="kw">minute</span>(horario_salida)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb413-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(minuto) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb413-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb413-5" data-line-number="5">    <span class="dt">atraso_promedio =</span> <span class="kw">mean</span>(atraso_llegada, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb413-6" data-line-number="6">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb413-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb413-8" data-line-number="8"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(minuto, atraso_promedio)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb413-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Es interesante que si miramos el horario <em>programado</em> de salida, no vemos un patrón tan prominente:</p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1">salida_programada &lt;-<span class="st"> </span>vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb414-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">minuto =</span> <span class="kw">minute</span>(salida_programada)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb414-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(minuto) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb414-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb414-5" data-line-number="5">    <span class="dt">atraso_promedio =</span> <span class="kw">mean</span>(atraso_llegada, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb414-6" data-line-number="6">    <span class="dt">n =</span> <span class="kw">n</span>()</a>
+<a class="sourceLine" id="cb414-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb414-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb414-9" data-line-number="9"><span class="kw">ggplot</span>(salida_programada, <span class="kw">aes</span>(minuto, atraso_promedio)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb414-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-19-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Entonces, ¿por qué vemos ese patrón con los horarios reales de salida? Bueno, como muchos datos recolectados por los humanos, hay un sesgo importante hacia los vuelos que salen en horas “agradables”. ¡Mantente siempre alerta respecto a este tipo de patrón cada vez que trabajes con datos que involucran juicio humano!</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb415-1" data-line-number="1"><span class="kw">ggplot</span>(salida_programada, <span class="kw">aes</span>(minuto, n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb415-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="redondeo" class="section level3">
+<h3><span class="header-section-number">16.3.2</span> Redondeo</h3>
+<p>Un método alternativo para graficar los componentes individuales es redondear la fecha a una unidad de tiempo cercana, con <code>floor_date()</code> (<em>fecha hacia abajo</em>), <code>round_date()</code> (<em>redondear fecha</em>), y <code>ceiling_date()</code> (<em>fecha hacia arriba</em>). Cada función toma un vector de fechas a ajustar y luego el nombre de la unidad redondeada (con <em>round</em>), redondeada hacia abajo (con <em>floor</em>) o hacia arriba (con <em>ceiling</em>). Esto, por ejemplo, nos permite graficar el número de vuelos por semana:</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb416-2" data-line-number="2"><span class="st">  </span><span class="kw">count</span>(<span class="dt">semana =</span> <span class="kw">floor_date</span>(horario_salida, <span class="st">&quot;week&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb416-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(semana, n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb416-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Calcular la diferencia entre una fecha redondeada y una sin redondear puede ser particularmente útil.</p>
+</div>
+<div id="configurando-componentes" class="section level3">
+<h3><span class="header-section-number">16.3.3</span> Configurando componentes</h3>
+<p>También puedes usar las funciones de acceso para darle un valor a los componentes de las fechas/horas:</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1">(fechahora &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2016-07-08 12:34:56&quot;</span>))</a>
+<a class="sourceLine" id="cb417-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2016-07-08 12:34:56 UTC&quot;</span></a>
+<a class="sourceLine" id="cb417-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb417-4" data-line-number="4"><span class="kw">year</span>(fechahora) &lt;-<span class="st"> </span><span class="dv">2020</span></a>
+<a class="sourceLine" id="cb417-5" data-line-number="5">fechahora</a>
+<a class="sourceLine" id="cb417-6" data-line-number="6"><span class="co">#&gt; [1] &quot;2020-07-08 12:34:56 UTC&quot;</span></a>
+<a class="sourceLine" id="cb417-7" data-line-number="7"><span class="kw">month</span>(fechahora) &lt;-<span class="st"> </span><span class="dv">01</span></a>
+<a class="sourceLine" id="cb417-8" data-line-number="8">fechahora</a>
+<a class="sourceLine" id="cb417-9" data-line-number="9"><span class="co">#&gt; [1] &quot;2020-01-08 12:34:56 UTC&quot;</span></a>
+<a class="sourceLine" id="cb417-10" data-line-number="10"><span class="kw">hour</span>(fechahora) &lt;-<span class="st"> </span><span class="kw">hour</span>(fechahora) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb417-11" data-line-number="11">fechahora</a>
+<a class="sourceLine" id="cb417-12" data-line-number="12"><span class="co">#&gt; [1] &quot;2020-01-08 13:34:56 UTC&quot;</span></a></code></pre></div>
+<p>Alternativamente, en lugar de modificar en un solo lugar, puedes crear una nueva fecha-hora con <code>update()</code> (<em>actualizar</em>). Esto también te permite configurar múltiples valores al mismo tiempo.</p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">update</span>(fechahora, <span class="dt">year =</span> <span class="dv">2020</span>, <span class="dt">month =</span> <span class="dv">2</span>, <span class="dt">mday =</span> <span class="dv">2</span>, <span class="dt">hour =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb418-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2020-02-02 02:34:56 UTC&quot;</span></a></code></pre></div>
+<p>Si los valores son demasiado grandes, darán la vuelta:</p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1"><span class="kw">ymd</span>(<span class="st">&quot;2015-02-01&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">update</span>(<span class="dt">mday =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb419-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2015-03-02&quot;</span></a>
+<a class="sourceLine" id="cb419-3" data-line-number="3"><span class="kw">ymd</span>(<span class="st">&quot;2015-02-01&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">update</span>(<span class="dt">hour =</span> <span class="dv">400</span>)</a>
+<a class="sourceLine" id="cb419-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2015-02-17 16:00:00 UTC&quot;</span></a></code></pre></div>
+<p>Puedes utilizar <code>update()</code> para mostrar la distribución de los vuelos a lo largo del día para cada día del año:</p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb420-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">horario_salida =</span> <span class="kw">update</span>(horario_salida, <span class="dt">yday =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb420-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(horario_salida)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb420-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth =</span> <span class="dv">300</span>)</a></code></pre></div>
+<p><img src="16-datetimes_files/figure-html/unnamed-chunk-25-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Fijar los componentes más grandes de una fecha con una constante es una técnica que te permite explorar patrones en los componentes más pequeños.</p>
+</div>
+<div id="ejercicios-49" class="section level3">
+<h3><span class="header-section-number">16.3.4</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>¿Cómo cambia la distribución de las horas de los vuelos dentro de un día a lo largo del año?</p></li>
+<li><p>Compara <code>horario_salida</code>, <code>salida_programada</code> y <code>atraso_salida</code>. ¿Son consistentes? Explica tus hallazgos.</p></li>
+<li><p>Compara <code>tiempo_vuelo</code> con la duración entre la salida y la llegada. Explica tus hallazgos. (Pista: considera la ubicación del aeropuerto).</p></li>
+<li><p>¿Cómo cambia la demora promedio durante el curso de un día? ¿Deberías usar <code>horario_salida</code> o <code>salida_programada</code>? ¿Por qué?</p></li>
+<li><p>¿En qué día de la semana deberías salir si quieres minimizar las posibilidades de una demora?</p></li>
+<li><p>¿Qué hace que la distribución de <code>diamantes$quilate</code> y <code>vuelos$salida_programada</code> sea similar?</p></li>
+<li><p>Confirma nuestra hipótesis de que las salidas programadas en los minutos 20-30 y 50-60 están casuadas por los vuelos programados que salen más temprano. Pista: crea una variable binaria que te diga si un vuelo tuvo o no demora.</p></li>
+</ol>
+</div>
+</div>
+<div id="lapsos-de-tiempo" class="section level2">
+<h2><span class="header-section-number">16.4</span> Lapsos de tiempo</h2>
+<p>Ahora, aprenderás cómo trabaja la aritmética con fechas, incluyendo la sustracción, adición y división. En el camino, aprenderás sobre tres importantes clases que representan períodos de tiempo:</p>
+<ul>
+<li><strong>durations</strong> (<em>duraciones</em>), que representa un número exacto de segundos.</li>
+<li><strong>periods</strong> (<em>períodos</em>), que representan unidades humanas como semanas o meses.</li>
+<li><strong>intervals</strong> (<em>intervalos</em>), que representan un punto de inicio y uno de finalización.</li>
+</ul>
+<div id="duraciones" class="section level3">
+<h3><span class="header-section-number">16.4.1</span> Duraciones</h3>
+<p>Cuando restas dos fechas en R obtienes un objeto de diferencia temporal (en inglés, <em>difftimes</em>):</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1"><span class="co"># ¿Qué edad tiene Hadley?</span></a>
+<a class="sourceLine" id="cb421-2" data-line-number="2">edad_h &lt;-<span class="st"> </span><span class="kw">today</span>() <span class="op">-</span><span class="st"> </span><span class="kw">ymd</span>(<span class="dv">19791014</span>)</a>
+<a class="sourceLine" id="cb421-3" data-line-number="3">edad_h</a>
+<a class="sourceLine" id="cb421-4" data-line-number="4"><span class="co">#&gt; Time difference of 14793 days</span></a></code></pre></div>
+<p>Un objeto de clase <em>difftime</em> registra un lapso de tiempo de segundos, minutos, horas, días o semanas. Esta ambiguedad hace que los <em>difftimes</em> sean un poco complicados de trabajar, por lo que <strong>lubridate</strong> provee una alternativa que siempre usa segundos: la <strong>duración</strong>.</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">as.duration</span>(edad_h)</a>
+<a class="sourceLine" id="cb422-2" data-line-number="2"><span class="co">#&gt; [1] &quot;1278115200s (~40.5 years)&quot;</span></a></code></pre></div>
+<p>Las duraciones traen un conveniente grupo de constructores:</p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb423-1" data-line-number="1"><span class="kw">dseconds</span>(<span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb423-2" data-line-number="2"><span class="co">#&gt; [1] &quot;15s&quot;</span></a>
+<a class="sourceLine" id="cb423-3" data-line-number="3"><span class="kw">dminutes</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb423-4" data-line-number="4"><span class="co">#&gt; [1] &quot;600s (~10 minutes)&quot;</span></a>
+<a class="sourceLine" id="cb423-5" data-line-number="5"><span class="kw">dhours</span>(<span class="kw">c</span>(<span class="dv">12</span>, <span class="dv">24</span>))</a>
+<a class="sourceLine" id="cb423-6" data-line-number="6"><span class="co">#&gt; [1] &quot;43200s (~12 hours)&quot; &quot;86400s (~1 days)&quot;</span></a>
+<a class="sourceLine" id="cb423-7" data-line-number="7"><span class="kw">ddays</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb423-8" data-line-number="8"><span class="co">#&gt; [1] &quot;0s&quot;                &quot;86400s (~1 days)&quot;  &quot;172800s (~2 days)&quot;</span></a>
+<a class="sourceLine" id="cb423-9" data-line-number="9"><span class="co">#&gt; [4] &quot;259200s (~3 days)&quot; &quot;345600s (~4 days)&quot; &quot;432000s (~5 days)&quot;</span></a>
+<a class="sourceLine" id="cb423-10" data-line-number="10"><span class="kw">dweeks</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb423-11" data-line-number="11"><span class="co">#&gt; [1] &quot;1814400s (~3 weeks)&quot;</span></a>
+<a class="sourceLine" id="cb423-12" data-line-number="12"><span class="kw">dyears</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb423-13" data-line-number="13"><span class="co">#&gt; [1] &quot;31557600s (~1 years)&quot;</span></a></code></pre></div>
+<p>Las duraciones siempre registran el lapso de tiempo en segundos. Las unidades más grandes se crean al convertir minutos, horas, días, semanas y años a segundos, mediante una conversión estándar (60 segundos en un minuto, 60 minutos en una hora, 24 horas en un día, 7 días en una semana, 365 días en un año).</p>
+<p>Puedes agregar y multiplicar duraciones:</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1"><span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">dyears</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb424-2" data-line-number="2"><span class="co">#&gt; [1] &quot;63115200s (~2 years)&quot;</span></a>
+<a class="sourceLine" id="cb424-3" data-line-number="3"><span class="kw">dyears</span>(<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">dweeks</span>(<span class="dv">12</span>) <span class="op">+</span><span class="st"> </span><span class="kw">dhours</span>(<span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb424-4" data-line-number="4"><span class="co">#&gt; [1] &quot;38869200s (~1.23 years)&quot;</span></a></code></pre></div>
+<p>Puedes sumar y restar duraciones a días:</p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb425-1" data-line-number="1">ayer &lt;-<span class="st"> </span><span class="kw">today</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ddays</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb425-2" data-line-number="2">anio_pasado &lt;-<span class="st"> </span><span class="kw">today</span>() <span class="op">-</span><span class="st"> </span><span class="kw">dyears</span>(<span class="dv">1</span>)</a></code></pre></div>
+<p>Sin embargo, como las duraciones representan un número exacto de segundos, a veces puedes obtener un resultado inesperado:</p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1">una_pm &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2016-03-12 13:00:00&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;America/New_York&quot;</span>)</a>
+<a class="sourceLine" id="cb426-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb426-3" data-line-number="3">una_pm</a>
+<a class="sourceLine" id="cb426-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2016-03-12 13:00:00 EST&quot;</span></a>
+<a class="sourceLine" id="cb426-5" data-line-number="5">una_pm <span class="op">+</span><span class="st"> </span><span class="kw">ddays</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb426-6" data-line-number="6"><span class="co">#&gt; [1] &quot;2016-03-13 14:00:00 EDT&quot;</span></a></code></pre></div>
+<p>¡¿Por qué un día después de la 1 pm del 12 de marzo son las 2 pm del 13 de marzo!? Si miras con cuidado la fecha, te darás cuenta de que los husos horarios han cambiado. Debido al horario de verano (EDT es el horario de verano de la Costa Este de EE. UU.), el 12 de marzo solo tiene 23 horas, por lo que si agregamos un día entero de segundos terminamos con una hora diferente.</p>
+</div>
+<div id="períodos" class="section level3">
+<h3><span class="header-section-number">16.4.2</span> Períodos</h3>
+<p>Para resolver este problema, <strong>lubridate</strong> provee <strong>periodos</strong>. Estos son plazos de tiempo que no tienen un largo fijo en segundos, sino que funcionan con tiempos “humanos”, como días o meses. Esto les permite trabajar en una forma más intuitiva:</p>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1">una_pm</a>
+<a class="sourceLine" id="cb427-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2016-03-12 13:00:00 EST&quot;</span></a>
+<a class="sourceLine" id="cb427-3" data-line-number="3">una_pm <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb427-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2016-03-13 13:00:00 EDT&quot;</span></a></code></pre></div>
+<p>Al igual que las duraciones, los períodos pueden ser creados mediante un número de funciones constructoras amigables.</p>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1"><span class="kw">seconds</span>(<span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb428-2" data-line-number="2"><span class="co">#&gt; [1] &quot;15S&quot;</span></a>
+<a class="sourceLine" id="cb428-3" data-line-number="3"><span class="kw">minutes</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb428-4" data-line-number="4"><span class="co">#&gt; [1] &quot;10M 0S&quot;</span></a>
+<a class="sourceLine" id="cb428-5" data-line-number="5"><span class="kw">hours</span>(<span class="kw">c</span>(<span class="dv">12</span>, <span class="dv">24</span>))</a>
+<a class="sourceLine" id="cb428-6" data-line-number="6"><span class="co">#&gt; [1] &quot;12H 0M 0S&quot; &quot;24H 0M 0S&quot;</span></a>
+<a class="sourceLine" id="cb428-7" data-line-number="7"><span class="kw">days</span>(<span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb428-8" data-line-number="8"><span class="co">#&gt; [1] &quot;7d 0H 0M 0S&quot;</span></a>
+<a class="sourceLine" id="cb428-9" data-line-number="9"><span class="kw">months</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb428-10" data-line-number="10"><span class="co">#&gt; [1] &quot;1m 0d 0H 0M 0S&quot; &quot;2m 0d 0H 0M 0S&quot; &quot;3m 0d 0H 0M 0S&quot; &quot;4m 0d 0H 0M 0S&quot;</span></a>
+<a class="sourceLine" id="cb428-11" data-line-number="11"><span class="co">#&gt; [5] &quot;5m 0d 0H 0M 0S&quot; &quot;6m 0d 0H 0M 0S&quot;</span></a>
+<a class="sourceLine" id="cb428-12" data-line-number="12"><span class="kw">weeks</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb428-13" data-line-number="13"><span class="co">#&gt; [1] &quot;21d 0H 0M 0S&quot;</span></a>
+<a class="sourceLine" id="cb428-14" data-line-number="14"><span class="kw">years</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb428-15" data-line-number="15"><span class="co">#&gt; [1] &quot;1y 0m 0d 0H 0M 0S&quot;</span></a></code></pre></div>
+<p>Puedes sumar y multiplicar períodos:</p>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1"><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">months</span>(<span class="dv">6</span>) <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb429-2" data-line-number="2"><span class="co">#&gt; [1] &quot;60m 10d 0H 0M 0S&quot;</span></a>
+<a class="sourceLine" id="cb429-3" data-line-number="3"><span class="kw">days</span>(<span class="dv">50</span>) <span class="op">+</span><span class="st"> </span><span class="kw">hours</span>(<span class="dv">25</span>) <span class="op">+</span><span class="st"> </span><span class="kw">minutes</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb429-4" data-line-number="4"><span class="co">#&gt; [1] &quot;50d 25H 2M 0S&quot;</span></a></code></pre></div>
+<p>Y, por supuesto, puedes sumarlos a las fechas. Comparados con las duraciones, los períodos son más propensos a hacer lo que esperas que hagan:</p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1"><span class="co"># Un año bisiesto</span></a>
+<a class="sourceLine" id="cb430-2" data-line-number="2"><span class="kw">ymd</span>(<span class="st">&quot;2016-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">dyears</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb430-3" data-line-number="3"><span class="co">#&gt; [1] &quot;2016-12-31 06:00:00 UTC&quot;</span></a>
+<a class="sourceLine" id="cb430-4" data-line-number="4"><span class="kw">ymd</span>(<span class="st">&quot;2016-01-01&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb430-5" data-line-number="5"><span class="co">#&gt; [1] &quot;2017-01-01&quot;</span></a>
+<a class="sourceLine" id="cb430-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb430-7" data-line-number="7"><span class="co"># Horarios de verano</span></a>
+<a class="sourceLine" id="cb430-8" data-line-number="8">una_pm <span class="op">+</span><span class="st"> </span><span class="kw">ddays</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb430-9" data-line-number="9"><span class="co">#&gt; [1] &quot;2016-03-13 14:00:00 EDT&quot;</span></a>
+<a class="sourceLine" id="cb430-10" data-line-number="10">una_pm <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb430-11" data-line-number="11"><span class="co">#&gt; [1] &quot;2016-03-13 13:00:00 EDT&quot;</span></a></code></pre></div>
+<p>Usemos los períodos para arreglar una rareza relacionada a nuestras fechas de vuelos. Algunos aviones parecen arribar a su destino <em>antes</em> de salir de la ciudad de Nueva York.</p>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb431-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(horario_llegada <span class="op">&lt;</span><span class="st"> </span>horario_salida)</a>
+<a class="sourceLine" id="cb431-3" data-line-number="3"><span class="co">#&gt; # A tibble: 10,633 x 9</span></a>
+<a class="sourceLine" id="cb431-4" data-line-number="4"><span class="co">#&gt;   origen destino atraso_salida atraso_llegada horario_salida     </span></a>
+<a class="sourceLine" id="cb431-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;          &lt;dbl&gt; &lt;dttm&gt;             </span></a>
+<a class="sourceLine" id="cb431-6" data-line-number="6"><span class="co">#&gt; 1 EWR    BQN                 9             -4 2013-01-01 19:29:00</span></a>
+<a class="sourceLine" id="cb431-7" data-line-number="7"><span class="co">#&gt; 2 JFK    DFW                59             NA 2013-01-01 19:39:00</span></a>
+<a class="sourceLine" id="cb431-8" data-line-number="8"><span class="co">#&gt; 3 EWR    TPA                -2              9 2013-01-01 20:58:00</span></a>
+<a class="sourceLine" id="cb431-9" data-line-number="9"><span class="co">#&gt; 4 EWR    SJU                -6            -12 2013-01-01 21:02:00</span></a>
+<a class="sourceLine" id="cb431-10" data-line-number="10"><span class="co">#&gt; 5 EWR    SFO                11            -14 2013-01-01 21:08:00</span></a>
+<a class="sourceLine" id="cb431-11" data-line-number="11"><span class="co">#&gt; 6 LGA    FLL               -10             -2 2013-01-01 21:20:00</span></a>
+<a class="sourceLine" id="cb431-12" data-line-number="12"><span class="co">#&gt; # … with 10,627 more rows, and 4 more variables: horario_llegada &lt;dttm&gt;,</span></a>
+<a class="sourceLine" id="cb431-13" data-line-number="13"><span class="co">#&gt; #   salida_programada &lt;dttm&gt;, llegada_programada &lt;dttm&gt;, tiempo_vuelo &lt;dbl&gt;</span></a></code></pre></div>
+<p>Estos son vuelos nocturnos. Usamos la misma información de fecha para los horarios de salida y llegada, pero estos vuelos llegaron al día siguiente. Podemos arreglarlo al sumar <code>days(1)</code> a la fecha de llegada de cada vuelo nocturno.</p>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1">vuelos_dt &lt;-<span class="st"> </span>vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb432-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb432-3" data-line-number="3">    <span class="dt">nocturno =</span> horario_llegada <span class="op">&lt;</span><span class="st"> </span>horario_salida,</a>
+<a class="sourceLine" id="cb432-4" data-line-number="4">    <span class="dt">horario_llegada =</span> horario_llegada <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(nocturno <span class="op">*</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb432-5" data-line-number="5">    <span class="dt">llegada_programada =</span> llegada_programada <span class="op">+</span><span class="st"> </span><span class="kw">days</span>(nocturno <span class="op">*</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb432-6" data-line-number="6">  )</a></code></pre></div>
+<p>Ahora todos los vuelos obedecen a las leyes de la física.</p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1">vuelos_dt <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb433-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(nocturno, horario_llegada <span class="op">&lt;</span><span class="st"> </span>horario_salida)</a>
+<a class="sourceLine" id="cb433-3" data-line-number="3"><span class="co">#&gt; # A tibble: 0 x 10</span></a>
+<a class="sourceLine" id="cb433-4" data-line-number="4"><span class="co">#&gt; # … with 10 variables: origen &lt;chr&gt;, destino &lt;chr&gt;, atraso_salida &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb433-5" data-line-number="5"><span class="co">#&gt; #   atraso_llegada &lt;dbl&gt;, horario_salida &lt;dttm&gt;, horario_llegada &lt;dttm&gt;,</span></a>
+<a class="sourceLine" id="cb433-6" data-line-number="6"><span class="co">#&gt; #   salida_programada &lt;dttm&gt;, llegada_programada &lt;dttm&gt;, tiempo_vuelo &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb433-7" data-line-number="7"><span class="co">#&gt; #   nocturno &lt;lgl&gt;</span></a></code></pre></div>
+</div>
+<div id="intervalos" class="section level3">
+<h3><span class="header-section-number">16.4.3</span> Intervalos</h3>
+<p>Resulta obvio lo que <code>dyears(1) / ddays(365)</code> debería retornar: uno, porque las duraciones siempre se representan por un número de segundos y la duración de un año se define como 365 días convertidos a segundos.</p>
+<p>¿Qué debería devolver <code>years(1) / days(1)</code>? Bueno, si el año fuera 2015 debería retornar 365, ¡pero si fuera 2016 debería retornar 366! No hay suficiente información para que <strong>lubridate</strong> nos dé una sola respuesta sencilla. Por ello, lo que hace es darnos una estimación con una advertencia:</p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1"><span class="kw">years</span>(<span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb434-2" data-line-number="2"><span class="co">#&gt; [1] 365</span></a></code></pre></div>
+<p>Si quieres una medida más precisa, tendrás que usar un <strong>intervalo</strong>. Un intervalo es una duración con un punto de partida: eso lo hace preciso, por lo que puedes determinar exactamente cuán largo es:</p>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb435-1" data-line-number="1">siguiente_anio &lt;-<span class="st"> </span><span class="kw">today</span>() <span class="op">+</span><span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb435-2" data-line-number="2">(<span class="kw">today</span>() <span class="op">%--%</span><span class="st"> </span>siguiente_anio) <span class="op">/</span><span class="st"> </span><span class="kw">ddays</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb435-3" data-line-number="3"><span class="co">#&gt; [1] 365</span></a></code></pre></div>
+<p>Para encontrar cuántos períodos caen dentro de un intervalo, tienes que usar la división entera:</p>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" data-line-number="1">(<span class="kw">today</span>() <span class="op">%--%</span><span class="st"> </span>siguiente_anio) <span class="op">%/%</span><span class="st"> </span><span class="kw">days</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb436-2" data-line-number="2"><span class="co">#&gt; [1] 365</span></a></code></pre></div>
+</div>
+<div id="resumen-1" class="section level3">
+<h3><span class="header-section-number">16.4.4</span> Resumen</h3>
+<p>¿Cómo eliges entre duraciones, períodos e intervalos? Como siempre, selecciona la estructura de datos más sencilla que resuelva tu problema. Si solo te interesa el tiempo físico, usa una duración; si necesitas agregar tiempos humanos, usa un período; si tienes que deducir cuán largo es un lapso de tiempo en unidades humanas, usa un intervalo.</p>
+<p>La figura <a href="fechas-y-horas.html#fig:dt-algebra">16.1</a> resume las operaciones artiméticas permitidas entre los tipos de datos.</p>
+<div class="figure" style="text-align: center"><span id="fig:dt-algebra"></span>
+<img src="diagrams_w_text_as_path/es/datetimes-arithmetic.svg" alt="Las operaciones artiméticas permitidas entre pares de clases fecha/hora." width="70%" />
+<p class="caption">
+Figure 16.1: Las operaciones artiméticas permitidas entre pares de clases fecha/hora.
+</p>
+</div>
+</div>
+<div id="ejercicios-50" class="section level3">
+<h3><span class="header-section-number">16.4.5</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>¿Por qué hay <code>months()</code> pero no <code>dmonths()</code> (<em>días del mes</em>)?</p></li>
+<li><p>Explica <code>days(nocturno * 1)</code> a alguien que apenas comienza a aprender R. ¿Cómo funciona?</p></li>
+<li><p>Crea un vector de fechas dando el primer día de cada mes de 2015. Crea un vector de fechas dando el primer día de cada mes del año <em>actual</em>.</p></li>
+<li><p>Crea una función en la que, dado tu cumpleaños (como una fecha), retorne qué edad tienes en años.</p></li>
+<li><p>¿Por qué no funciona <code>(today() %--% (today() + years(1)) / months(1)</code> ?</p></li>
+</ol>
+</div>
+</div>
+<div id="husos-horarios" class="section level2">
+<h2><span class="header-section-number">16.5</span> Husos horarios</h2>
+<p>Los husos horarios son un tema enormemente complicado debido a su interacción con entidades geopolíticas. Afortunadamente, no necesitamos escarbar en todos los detalles, ya que no todos son necesarios para el análisis de datos. Sin embargo, hay algunos desafíos que tendremos que enfrentar.</p>
+<p>El primer desafío es que los nombres comunes de los husos horarios tienden a ser ambiguos. Por ejemplo, si eres estadounidense, probablemente te sea familiar la sigla EST, (del inglés de <em>Tiempo Este Estándar</em>). Sin embargo, ¡Canadá y Australia también tienen EST! Para evitar la confusión, R usa el estándar internacional IANA para husos horarios. Estos tienen un esquema de nombres que sigue el formato “<área>/<ubicación>”, típicamente escrito como “&lt;continente&gt;/&lt;ciudad&gt;”, en idioma inglés (hay algunas pocas excepciones porque no todos los países están sobre un continente). Algunos ejemplos: “America/New_York”, “Europe/Paris”, “Pacific/Auckland”, “America/Bogota”.</p>
+<p>Puede que te preguntes por qué un huso horario usa una ciudad, cuando típicamente piensas en ellos como asociados a un país o a una región dentro de un país. Esto se debe a que la base de datos de IANA tiene que registrar décadas de reglamentos sobre husos horarios. En el curso de las décadas, los países cambian nombres (o desaparecen) de forma bastante frecuente, pero los nombres de las ciudades tienden a mantenerse igual. Otro problema es que los nombres tienen que reflejar no solo el comportamiento actual, sino también la historia completa. Por ejemplo, hay husos horarios tanto para “America/New_York” como para “America/Detroit”. Actualmente, ambas ciudades usan el EST, pero entre 1969 y 1972, Michigan (el estado en el que está ubicado Detroit), no empleaba el horario de verano, así que necesita un nombre diferente. ¡Vale la pena leer la base de datos sobre husos horarios (disponible en <a href="http://www.iana.org/time-zones" class="uri">http://www.iana.org/time-zones</a>) solo para enterarse de algunas de estas historias!</p>
+<p>Puedes encontrar cuál es tu huso horario actual para R, usando <code>Sys.timezone()</code>:</p>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb437-1" data-line-number="1"><span class="kw">Sys.timezone</span>()</a>
+<a class="sourceLine" id="cb437-2" data-line-number="2"><span class="co">#&gt; [1] &quot;UTC&quot;</span></a></code></pre></div>
+<p>(Si R no lo sabe, obtendrás un <code>NA</code>.)</p>
+<p>Y puedes ver la lista completa de todos los husos horarios con <code>OlsonNames()</code>:</p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb438-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">OlsonNames</span>())</a>
+<a class="sourceLine" id="cb438-2" data-line-number="2"><span class="co">#&gt; [1] 607</span></a>
+<a class="sourceLine" id="cb438-3" data-line-number="3"><span class="kw">head</span>(<span class="kw">OlsonNames</span>())</a>
+<a class="sourceLine" id="cb438-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Africa/Abidjan&quot;     &quot;Africa/Accra&quot;       &quot;Africa/Addis_Ababa&quot;</span></a>
+<a class="sourceLine" id="cb438-5" data-line-number="5"><span class="co">#&gt; [4] &quot;Africa/Algiers&quot;     &quot;Africa/Asmara&quot;      &quot;Africa/Asmera&quot;</span></a></code></pre></div>
+<p>En R, el huso horario es un atributo de la fecha-hora (<code>date-time</code>) que solo controla la impresión. Por ejemplo, estos tres objetos representan el mismo instante en el tiempo:</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb439-1" data-line-number="1">(x1 &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2015-06-01 12:00:00&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;America/New_York&quot;</span>))</a>
+<a class="sourceLine" id="cb439-2" data-line-number="2"><span class="co">#&gt; [1] &quot;2015-06-01 12:00:00 EDT&quot;</span></a>
+<a class="sourceLine" id="cb439-3" data-line-number="3">(x2 &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2015-06-01 18:00:00&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;Europe/Copenhagen&quot;</span>))</a>
+<a class="sourceLine" id="cb439-4" data-line-number="4"><span class="co">#&gt; [1] &quot;2015-06-01 18:00:00 CEST&quot;</span></a>
+<a class="sourceLine" id="cb439-5" data-line-number="5">(x3 &lt;-<span class="st"> </span><span class="kw">ymd_hms</span>(<span class="st">&quot;2015-06-02 04:00:00&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;Pacific/Auckland&quot;</span>))</a>
+<a class="sourceLine" id="cb439-6" data-line-number="6"><span class="co">#&gt; [1] &quot;2015-06-02 04:00:00 NZST&quot;</span></a></code></pre></div>
+<p>Puedes verificar que son lo mismo al usar una resta:</p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb440-1" data-line-number="1">x1 <span class="op">-</span><span class="st"> </span>x2</a>
+<a class="sourceLine" id="cb440-2" data-line-number="2"><span class="co">#&gt; Time difference of 0 secs</span></a>
+<a class="sourceLine" id="cb440-3" data-line-number="3">x1 <span class="op">-</span><span class="st"> </span>x3</a>
+<a class="sourceLine" id="cb440-4" data-line-number="4"><span class="co">#&gt; Time difference of 0 secs</span></a></code></pre></div>
+<p>Excepto que se especifique otra cosa, <strong>lubridate</strong> siempre usa UTC. UTC (<em>Tiempo Universal Coordinado</em>) es el huso horario estándar empleado por la comunidad científica y es aproximadamente equivalente a su predecesor GMT (siglas en inglés de <em>Tiempo del Meridiano de Greenwich</em>). UTC no tiene horario de verano, por lo que resulta una representación conveniente para la computación. Las operaciones que combinan fechas y horas, como <code>c()</code>, a menudo descartan el huso horario. En ese caso, las fechas y horas se muestran en tu huso local:</p>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1">x4 &lt;-<span class="st"> </span><span class="kw">c</span>(x1, x2, x3)</a>
+<a class="sourceLine" id="cb441-2" data-line-number="2">x4</a>
+<a class="sourceLine" id="cb441-3" data-line-number="3"><span class="co">#&gt; [1] &quot;2015-06-01 12:00:00 EDT&quot; &quot;2015-06-01 12:00:00 EDT&quot;</span></a>
+<a class="sourceLine" id="cb441-4" data-line-number="4"><span class="co">#&gt; [3] &quot;2015-06-01 12:00:00 EDT&quot;</span></a></code></pre></div>
+<p>Puedes cambiar el huso horario de dos formas:</p>
+<ul>
+<li><p>Mantener el instante en el tiempo igual y cambiar solo cómo se representa. Usa esto cuando el instante es correcto, pero quieres una visualización más natural.</p>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1">  x4a &lt;-<span class="st"> </span><span class="kw">with_tz</span>(x4, <span class="dt">tzone =</span> <span class="st">&quot;Australia/Lord_Howe&quot;</span>)</a>
+<a class="sourceLine" id="cb442-2" data-line-number="2">  x4a</a>
+<a class="sourceLine" id="cb442-3" data-line-number="3"><span class="co">#&gt; [1] &quot;2015-06-02 02:30:00 +1030&quot; &quot;2015-06-02 02:30:00 +1030&quot;</span></a>
+<a class="sourceLine" id="cb442-4" data-line-number="4"><span class="co">#&gt; [3] &quot;2015-06-02 02:30:00 +1030&quot;</span></a>
+<a class="sourceLine" id="cb442-5" data-line-number="5">  x4a <span class="op">-</span><span class="st"> </span>x4</a>
+<a class="sourceLine" id="cb442-6" data-line-number="6"><span class="co">#&gt; Time differences in secs</span></a>
+<a class="sourceLine" id="cb442-7" data-line-number="7"><span class="co">#&gt; [1] 0 0 0</span></a></code></pre></div>
+<p>(Esto también ilustra otro desafío de los husos horarios: ¡no todos los desfasajes son horas como números enteros!)</p></li>
+<li><p>Cambia el instante en el tiempo subyacente. Usa esto cuando tienes un instante que ha sido etiquetado con un huso horario incorrecto y necesitas arreglarlo.</p>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1">  x4b &lt;-<span class="st"> </span><span class="kw">force_tz</span>(x4, <span class="dt">tzone =</span> <span class="st">&quot;Australia/Lord_Howe&quot;</span>)</a>
+<a class="sourceLine" id="cb443-2" data-line-number="2">  x4b</a>
+<a class="sourceLine" id="cb443-3" data-line-number="3"><span class="co">#&gt; [1] &quot;2015-06-01 12:00:00 +1030&quot; &quot;2015-06-01 12:00:00 +1030&quot;</span></a>
+<a class="sourceLine" id="cb443-4" data-line-number="4"><span class="co">#&gt; [3] &quot;2015-06-01 12:00:00 +1030&quot;</span></a>
+<a class="sourceLine" id="cb443-5" data-line-number="5">  x4b <span class="op">-</span><span class="st"> </span>x4</a>
+<a class="sourceLine" id="cb443-6" data-line-number="6"><span class="co">#&gt; Time differences in hours</span></a>
+<a class="sourceLine" id="cb443-7" data-line-number="7"><span class="co">#&gt; [1] -14.5 -14.5 -14.5</span></a></code></pre></div></li>
+</ul>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="factores.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="programar-intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cienciadedatos/r4ds/edit/master/16-datetimes.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
